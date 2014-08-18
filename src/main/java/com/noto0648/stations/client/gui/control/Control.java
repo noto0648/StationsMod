@@ -16,6 +16,7 @@ public abstract class Control
     public int height;
 
     public boolean isFocus;
+    protected boolean isEnable = true;
 
     public Control(IGui gui)
     {
@@ -52,8 +53,8 @@ public abstract class Control
 
     public void mouseClickMove(int mouseX, int mouseY, int button, long time) {}
     public void mouseMovedOrUp(int mouseX, int mouseY, int mode) {}
-
     public void keyTyped(char par1, int par2) {}
+    public void onGuiClosed() {}
 
     public void focusCheck(int mouseX, int mouseY, int button)
     {
@@ -71,16 +72,28 @@ public abstract class Control
     {
         width = w;
         height = h;
+        initGui();
     }
 
     public void setLocation(int x, int y)
     {
         locationX = x;
         locationY = y;
+        initGui();
     }
 
     public boolean onTheMouse(int mouseX, int mouseY)
     {
         return mouseX >= locationX && mouseY >= locationY && locationX + width >= mouseX && locationY + height >= mouseY;
+    }
+
+    protected IGui getGui()
+    {
+        return  gui;
+    }
+
+    public void setEnabled(boolean par1)
+    {
+        isEnable = par1;
     }
 }

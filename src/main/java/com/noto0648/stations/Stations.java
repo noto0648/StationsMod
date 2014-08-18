@@ -140,19 +140,6 @@ public class Stations
         GameRegistry.registerItem(staff_armor[1], "NotoMod.armorStaffChestPlate");
         GameRegistry.registerItem(staff_armor[2], "NotoMod.armorStaffLeg");
         GameRegistry.registerItem(staff_armor[3], "NotoMod.armorStaffBoots");
-    }
 
-    @Deprecated
-    public void appRun(Canvas c)
-    {
-        Frame frm = (new Frame("Test")
-        {
-
-        });
-        frm.setLayout(new BorderLayout());
-        frm.add(new TextField(), BorderLayout.CENTER);
-        frm.setFocusable(true);
-        frm.setSize(Display.getWidth() , 70);
-        frm.setVisible(true);
     }
 }

@@ -1,6 +1,7 @@
 package com.noto0648.stations.client.gui;
 
 import com.noto0648.stations.*;
+import com.noto0648.stations.client.gui.control.ControlButton;
 import com.noto0648.stations.client.gui.control.ControlListBox;
 import com.noto0648.stations.client.gui.control.ControlTextBox;
 import com.noto0648.stations.client.texture.NewFontRenderer;
@@ -28,8 +29,10 @@ public class GuiNamePlate extends GuiScreenBase implements IGui
 {
     private ControlListBox plateList;
     private ControlListBox textList;
+    private ControlTextBox field;
+    private ControlButton textureButton;
+    private ControlButton doneButton;
 
-    private GuiTextField field;
     private TileEntityNamePlate tile;
     private Map<String, String> strMaps = new HashMap<String, String>();
 
@@ -41,8 +44,22 @@ public class GuiNamePlate extends GuiScreenBase implements IGui
     {
         tile = tileEntityNamePlate;
 
-        //controlList.add(new ControlButton(this, 220, 100, 200, 20, "Done"));
-        controlList.add(new ControlTextBox(this, 220, 100, 200, 20));
+        field = (new ControlTextBox(this, 220, 100, 200, 20)
+        {
+            @Override
+            public void textChanged()
+            {
+                List<String> strs = new ArrayList();
+                if(plateList.selectedIndex != -1 && textList.selectedIndex != -1)
+                {
+                    NamePlateRegister.INSTANCE.getNamePlates().get(plateList.selectedIndex).init(strs);
+                    strMaps.put(strs.get(textList.selectedIndex), field.getText());
+                }
+            }
+        }
+        );
+        field.setEnabled(false);
+        controlList.add(field);
 
         plateList = (new ControlListBox(this, 10, 10, width / 2 - 20, height / 2 - 15)
         {
@@ -68,7 +85,7 @@ public class GuiNamePlate extends GuiScreenBase implements IGui
                 }
             }
         });
-
+        controlList.add(plateList);
         textList = (new ControlListBox(this, 10, height / 2 + 10, width / 2 - 20, height / 2 - 15)
         {
             @Override
@@ -88,7 +105,7 @@ public class GuiNamePlate extends GuiScreenBase implements IGui
                 }
             }
         });
-
+        controlList.add(textList);
         List<NamePlateBase> plates = NamePlateRegister.INSTANCE.getNamePlates();
         for(int i = 0; i < plates.size(); i++)
         {
@@ -123,142 +140,55 @@ public class GuiNamePlate extends GuiScreenBase implements IGui
             }
         }
 
+        textureButton = (new ControlButton(this, width / 2 + 10, 10, 200, 20, "TEX:" + new File(textures.get(textureIndex)).getName())
+        {
+            @Override
+            public void onButtonClick(int button)
+            {
+                playClickSound();
+                if(button == 0)
+                {
+                    textureIndex++;
+                    textureIndex = textureIndex % textures.size();
+
+                }
+                else if(button == 1)
+                {
+                    textureIndex += (textures.size() - 1);
+                    textureIndex = textureIndex % textures.size();
+                }
+                textureButton.setText("TEX:" +  new File(textures.get(textureIndex)).getName());
+            }
+        });
+        controlList.add(textureButton);
+        doneButton = (new ControlButton(this, width / 2 + 10, height / 2 + 30, 200, 20, "Done")
+        {
+            @Override
+            public void onButtonClick(int button)
+            {
+                playClickSound();
+                Stations.packetDispatcher.sendToServer(new PacketSendPlate(tile.xCoord, tile.yCoord, tile.zCoord, plateList.getText(), strMaps, textures.get(textureIndex)));
+                mc.displayGuiScreen((GuiScreen)null);
+            }
+        });
+        controlList.add(doneButton);
     }
 
 
     @Override
-    public void initGui()
+    protected void resize()
     {
-        super.initGui();
-        Keyboard.enableRepeatEvents(true);
-        if(field == null)
-        {
-            field = new GuiTextField(this.fontRendererObj, width / 2 + 10, 60, 200, 20);
-            field.setEnabled(false);
-        }
-        else
-        {
-            field = new GuiTextField(this.fontRendererObj, width / 2 + 10, 60, 200, 20);
-        }
-        buttonList.add(new GuiButton(0, width / 2 + 10, 10, 200, 20, "TEX:" + new File(textures.get(textureIndex)).getName())
-        {
-            @Override
-            public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_, int p_146116_3_)
-            {
-                if(this.enabled && this.visible && p_146116_2_ >= this.xPosition && p_146116_3_ >= this.yPosition && p_146116_2_ < this.xPosition + this.width && p_146116_3_ < this.yPosition + this.height)
-                {
-                    return true;
-                }
-                return false;
-            }
-        });
-        buttonList.add(new GuiButton(1, width / 2 + 10, height / 2 + 30, 200, 20, "Done"));
-
+        field.setLocation(width / 2 + 10, 60);
+        textureButton.setLocation(width / 2 + 10, 10);
+        doneButton.setLocation(width / 2 + 10, height / 2 + 30);
         plateList.setSize(width / 2 -20, height / 2 - 15);
         textList.locationY = height / 2 + 10;
         textList.setSize(width / 2 - 20, height / 2 - 15);
     }
 
-
     @Override
-    public void updateScreen()
-    {
-        super.updateScreen();
-        //plateList.width = width / 2 - 20;
-        //plateList.height = height / 2 - 15;
+    protected void paint(int mouseX, int mouseY) {}
 
 
 
-        plateList.update();
-        textList.update();
-    }
-
-    @Override
-    protected void paint(int mouseX, int mouseY) {
-
-    }
-
-    @Override
-    public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_)
-    {
-        this.drawDefaultBackground();
-        super.drawScreen(p_73863_1_, p_73863_2_, p_73863_3_);
-        plateList.draw(p_73863_1_, p_73863_2_);
-        textList.draw(p_73863_1_, p_73863_2_);
-        field.drawTextBox();
-    }
-
-    @Override
-    protected void actionPerformed(GuiButton button)
-    {
-        if(button.id == 0)
-        {
-            textureIndex++;
-            textureIndex = textureIndex % textures.size();
-
-            button.displayString = "TEX:" +  new File(textures.get(textureIndex)).getName();
-        }
-        if(button.id == 1)
-        {
-            Stations.packetDispatcher.sendToServer(new PacketSendPlate(tile.xCoord, tile.yCoord, tile.zCoord, plateList.getText(), strMaps, textures.get(textureIndex)));
-            this.mc.displayGuiScreen((GuiScreen)null);
-        }
-    }
-
-
-    @Override
-    protected void mouseMovedOrUp(int p_146286_1_, int p_146286_2_, int p_146286_3_)
-    {
-        super.mouseMovedOrUp(p_146286_1_, p_146286_2_, p_146286_3_);
-        plateList.mouseMovedOrUp(p_146286_1_, p_146286_2_, p_146286_3_);
-        textList.mouseMovedOrUp(p_146286_1_, p_146286_2_, p_146286_3_);
-    }
-
-    @Override
-    protected void mouseClickMove(int p_146273_1_, int p_146273_2_, int p_146273_3_, long p_146273_4_)
-    {
-        super.mouseClickMove(p_146273_1_, p_146273_2_, p_146273_3_, p_146273_4_);
-        plateList.mouseClickMove(p_146273_1_, p_146273_2_, p_146273_3_, p_146273_4_);
-        textList.mouseClickMove(p_146273_1_, p_146273_2_, p_146273_3_, p_146273_4_);
-    }
-
-    @Override
-    protected void mouseClicked(int p_73864_1_, int p_73864_2_, int p_73864_3_)
-    {
-        super.mouseClicked(p_73864_1_, p_73864_2_, p_73864_3_);
-        plateList.mouseClicked(p_73864_1_, p_73864_2_, p_73864_3_);
-        textList.mouseClicked(p_73864_1_, p_73864_2_, p_73864_3_);
-        field.mouseClicked(p_73864_1_, p_73864_2_, p_73864_3_);
-    }
-
-    @Override
-    protected void keyTyped(char p_73869_1_, int p_73869_2_)
-    {
-        super.keyTyped(p_73869_1_, p_73869_2_);
-        field.textboxKeyTyped(p_73869_1_, p_73869_2_);
-        List<String> strs = new ArrayList();
-        if(plateList.selectedIndex != -1 && textList.selectedIndex != -1)
-        {
-            NamePlateRegister.INSTANCE.getNamePlates().get(plateList.selectedIndex).init(strs);
-            strMaps.put(strs.get(textList.selectedIndex), field.getText());
-        }
-    }
-
-    @Override
-    public boolean doesGuiPauseGame()
-    {
-        return false;
-    }
-
-    @Override
-    public void drawRect(int x, int y, int x2, int y2, int color, int color2)
-    {
-        drawGradientRect(x, y, x2, y2, color, color2);
-    }
-
-    @Override
-    public FontRenderer getFontRenderer()
-    {
-        return this.fontRendererObj;
-    }
 }

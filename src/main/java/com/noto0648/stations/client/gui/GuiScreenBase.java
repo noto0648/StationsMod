@@ -2,7 +2,9 @@ package com.noto0648.stations.client.gui;
 
 import com.noto0648.stations.client.gui.control.Control;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +17,14 @@ public abstract class GuiScreenBase extends GuiScreen implements IGui
     protected List<Control> controlList = new ArrayList();
 
     protected abstract void paint(int mouseX, int mouseY);
+    protected abstract void resize();
 
     @Override
     public void initGui()
     {
+        Keyboard.enableRepeatEvents(true);
         super.initGui();
+        resize();
         for(int i = 0; i < controlList.size(); i++)
         {
             controlList.get(i).initGui();
@@ -104,6 +109,16 @@ public abstract class GuiScreenBase extends GuiScreen implements IGui
         return null;
     }
 
+    @Override
+    public void onGuiClosed()
+    {
+        Keyboard.enableRepeatEvents(false);
+        for(int i = 0; i < controlList.size(); i++)
+        {
+            controlList.get(i).onGuiClosed();
+        }
+    }
+
     public boolean doesDrawDarkScreen()
     {
         return true;
@@ -114,6 +129,10 @@ public abstract class GuiScreenBase extends GuiScreen implements IGui
     {
         return false;
     }
+
+    @Override
+    @Deprecated
+    protected void actionPerformed(GuiButton button) {}
 
     @Override
     public void drawRect(int x, int y, int x2, int y2, int color, int color2)

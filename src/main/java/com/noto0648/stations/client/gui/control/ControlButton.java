@@ -1,6 +1,9 @@
 package com.noto0648.stations.client.gui.control;
 
 import com.noto0648.stations.client.gui.IGui;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.util.ResourceLocation;
 
 /**
  * Created by Noto on 14/08/16.
@@ -52,7 +55,7 @@ public class ControlButton extends Control
     @Override
     public void mouseClicked(int mouseX, int mouseY, int button)
     {
-        if(onTheMouse(mouseX, mouseY))
+        if(onTheMouse(mouseX, mouseY) && isEnable)
         {
             onButtonClick(button);
         }
@@ -62,8 +65,15 @@ public class ControlButton extends Control
      *
      * @param button 0 = left, 1 = right
      */
-    public void onButtonClick(int button)
-    {
+    public void onButtonClick(int button) {}
 
+    public void playClickSound()
+    {
+        Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+    }
+
+    public void setText(String par1)
+    {
+        text = par1;
     }
 }

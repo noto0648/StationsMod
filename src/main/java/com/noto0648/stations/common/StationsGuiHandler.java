@@ -2,9 +2,11 @@ package com.noto0648.stations.common;
 
 import com.noto0648.stations.client.gui.GuiMarkMachine;
 import com.noto0648.stations.client.gui.GuiNamePlate;
+import com.noto0648.stations.client.gui.GuiNumberPlate;
 import com.noto0648.stations.client.gui.GuiTicketMachine;
 import com.noto0648.stations.tile.TileEntityMarkMachine;
 import com.noto0648.stations.tile.TileEntityNamePlate;
+import com.noto0648.stations.tile.TileEntityNumberPlate;
 import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -27,7 +29,6 @@ public class StationsGuiHandler implements IGuiHandler
         {
             return new GuiMarkMachine((TileEntityMarkMachine)world.getTileEntity(x, y, z));
         }
-
         if(ID == 1)
         {
             return new GuiNamePlate((TileEntityNamePlate)world.getTileEntity(x, y, z));
@@ -35,6 +36,10 @@ public class StationsGuiHandler implements IGuiHandler
         if(ID == 2)
         {
             return new GuiTicketMachine();
+        }
+        if(ID == 3)
+        {
+            return new GuiNumberPlate((TileEntityNumberPlate)world.getTileEntity(x, y, z));
         }
         return null;
     }

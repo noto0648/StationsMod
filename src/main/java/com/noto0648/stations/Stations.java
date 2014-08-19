@@ -83,6 +83,8 @@ public class Stations
         packetDispatcher.registerMessage(PacketCaptionPlate.class, PacketSendPlate.class, 1, Side.SERVER);
         packetDispatcher.registerMessage(PacketCaptionTicket.class, PacketSendTicket.class, 2, Side.SERVER);
 
+        packetDispatcher.registerMessage(PacketCaptionTile.class, PacketSendTile.class, 32, Side.SERVER);
+
         NewFontRenderer.INSTANCE.init();
 
         NamePlateRegister.INSTANCE.registerNamePlate(new NamePlateDefault());
@@ -104,8 +106,9 @@ public class Stations
         stationFence = new BlockFence();
         GameRegistry.registerBlock(stationFence, ItemBlockBase.class,"NotoMod.stationFence");
 
-        numberPlates = new BlockNumberPlate();
-        GameRegistry.registerBlock(numberPlates, ItemBlockBase.class, "NotoMod.numberPlates");
+
+        //numberPlates = new BlockNumberPlate();
+        //GameRegistry.registerBlock(numberPlates, ItemBlockBase.class, "NotoMod.numberPlates");
 
         pillarBlock = new BlockPillar();
         GameRegistry.registerBlock(pillarBlock, ItemBlockBase.class, "NotoMod.blockPillar");

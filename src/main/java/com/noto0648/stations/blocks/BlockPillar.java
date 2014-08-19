@@ -1,14 +1,17 @@
 package com.noto0648.stations.blocks;
 
 import com.noto0648.stations.Stations;
+import com.noto0648.stations.client.render.TileEntityNumberPlateRender;
 import com.noto0648.stations.tile.TileEntityMarkMachine;
 import com.noto0648.stations.common.Utils;
+import com.noto0648.stations.tile.TileEntityNumberPlate;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -43,6 +46,19 @@ public class BlockPillar extends BlockContainer implements ISimpleBlockRendering
         setBlockName("NotoMod.stationPillar");
         //setBlockTextureName("iron_block");
         setCreativeTab(Stations.tab);
+    }
+
+    @Override
+    public int getLightValue(IBlockAccess world, int x, int y, int z)
+    {
+        Block block = world.getBlock(x, y, z);
+        if (block != this)
+        {
+            return block.getLightValue(world, x, y, z);
+        }
+        int meta = world.getBlockMetadata(x, y, z);
+        if(meta == 7 || meta == 8) return 14;
+        return 0;
     }
 
     @Override
@@ -100,10 +116,15 @@ public class BlockPillar extends BlockContainer implements ISimpleBlockRendering
             if(l == 2) p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, 4, 2);
             if(l == 3) p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, 5, 2);
         }
+        else if(p_149689_6_.getItemDamage() == 7 || p_149689_6_.getItemDamage() == 8)
+        {
+            if(l == 2 || l == 0) p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, 7, 2);
+            if(l == 1 || l == 3) p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, 8, 2);
+        }
         else
         {
-        p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, p_149689_6_.getItemDamage(), 2);
-    }
+            p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, p_149689_6_.getItemDamage(), 2);
+        }
     }
 
     @Override
@@ -173,6 +194,7 @@ public class BlockPillar extends BlockContainer implements ISimpleBlockRendering
         p_149666_3_.add(new ItemStack(p_149666_1_, 1, 1));
         p_149666_3_.add(new ItemStack(p_149666_1_, 1, 2));
         p_149666_3_.add(new ItemStack(p_149666_1_, 1, 6));
+        p_149666_3_.add(new ItemStack(p_149666_1_, 1, 7));
     }
 
     @Override
@@ -184,6 +206,11 @@ public class BlockPillar extends BlockContainer implements ISimpleBlockRendering
             p_149727_5_.openGui(Stations.instance, 0, p_149727_1_, p_149727_2_, p_149727_3_, p_149727_4_);
             return true;
         }
+        if((meta == 7 || meta == 8) && Utils.INSTANCE.haveWrench(p_149727_5_))
+        {
+            p_149727_5_.openGui(Stations.instance, 3, p_149727_1_, p_149727_2_, p_149727_3_, p_149727_4_);
+            return true;
+        }
         return false;
     }
 
@@ -192,6 +219,8 @@ public class BlockPillar extends BlockContainer implements ISimpleBlockRendering
     {
         if(p_149692_1_ <= 5 && p_149692_1_ >= 2)
             return 2;
+        if(p_149692_1_ == 7 || p_149692_1_ == 8)
+            return 7;
         return p_149692_1_;
     }
 
@@ -206,6 +235,14 @@ public class BlockPillar extends BlockContainer implements ISimpleBlockRendering
     {
         if(modelId == getRenderId())
         {
+            if(metadata == 7 || metadata == 8)
+            {
+                GL11.glPushMatrix();
+                Minecraft.getMinecraft().renderEngine.bindTexture(TileEntityNumberPlateRender.newTexture);
+                TileEntityNumberPlateRender.plate.renderAll();
+                GL11.glPopMatrix();
+                return;
+            }
             Tessellator tessellator = Tessellator.instance;
 
             if(metadata == 0 || metadata == 6) renderer.setRenderBounds(0.4F, 0F, 0.4F, 0.6F, 1F, 0.6F);
@@ -278,6 +315,10 @@ public class BlockPillar extends BlockContainer implements ISimpleBlockRendering
             return true;
 
         }
+        else if(meta == 7 || meta == 8)
+        {
+            return false;
+        }
         else if(getRenderId() == modelId)
         {
             renderer.setRenderBounds(0F, 0F, 0F, 1F, 1F, 1F);
@@ -308,6 +349,10 @@ public class BlockPillar extends BlockContainer implements ISimpleBlockRendering
         if(meta == 1)
         {
             return new TileEntityMarkMachine();
+        }
+        if(meta == 7 || meta == 8)
+        {
+            return new TileEntityNumberPlate();
         }
         return null;
     }

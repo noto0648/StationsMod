@@ -355,6 +355,8 @@ public class ControlTextBox extends Control
 
     public void setText(String par1)
     {
+        if(par1 == null) par1 = "";
+
         text = par1;
 
         if(inputLimit != null && inputLimit.length() != 0)
@@ -379,6 +381,7 @@ public class ControlTextBox extends Control
             }
             text = result;
         }
+        cursorPosition = 0;
         textChanged();
     }
 

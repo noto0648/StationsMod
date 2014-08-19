@@ -23,7 +23,7 @@ public class ClientProxy extends ServerProxy
         Stations.instance.tickerMachineRenderId = RenderingRegistry.getNextAvailableRenderId();
 
         RenderingRegistry.registerBlockHandler((ISimpleBlockRenderingHandler)Stations.instance.stationFence);
-        RenderingRegistry.registerBlockHandler((ISimpleBlockRenderingHandler)Stations.instance.numberPlates);
+        //RenderingRegistry.registerBlockHandler((ISimpleBlockRenderingHandler)Stations.instance.numberPlates);
         RenderingRegistry.registerBlockHandler((ISimpleBlockRenderingHandler)Stations.instance.pillarBlock);
         RenderingRegistry.registerBlockHandler((ISimpleBlockRenderingHandler)Stations.instance.namePlate);
         RenderingRegistry.registerBlockHandler((ISimpleBlockRenderingHandler)Stations.instance.ticketMachine);

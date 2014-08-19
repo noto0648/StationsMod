@@ -18,6 +18,7 @@ tile.NotoMod.stationPillar0.name=Pillar
 tile.NotoMod.stationPillar1.name=Departure mark editor
 tile.NotoMod.stationPillar2.name=Tactile paving
 tile.NotoMod.stationPillar6.name=Pillar
+tile.NotoMod.stationPillar7.name=Guidance standard
 tile.NotoMod.namePlate0.name=Station name plate
 tile.NotoMod.ticketMachine0.name=Ticket machine
 tile.NotoMod.ticketMachine4.name=Turnstile

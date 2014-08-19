@@ -1,7 +1,10 @@
 package com.noto0648.stations.client.gui.control;
 
 import com.noto0648.stations.client.gui.IGui;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.util.ResourceLocation;
 
 /**
  * Created by Noto on 14/08/06.
@@ -95,5 +98,10 @@ public abstract class Control
     public void setEnabled(boolean par1)
     {
         isEnable = par1;
+    }
+
+    public void playClickSound()
+    {
+        Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
     }
 }

@@ -28,6 +28,7 @@ public class PacketCaptionPlate implements IMessageHandler<PacketSendPlate, IMes
         {
             ((TileEntityNamePlate)te).currentType = message.currentType;
             ((TileEntityNamePlate)te).texture = message.texture;
+            ((TileEntityNamePlate)te).light = message.light;
 
             List<String> result = new ArrayList();
             List<String> keyMap = new ArrayList();

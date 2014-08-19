@@ -9,6 +9,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.EnumSkyBlock;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,6 +25,7 @@ public class TileEntityNamePlate extends TileEntity
     public String texture;
     public List<String> stringList;
     public List<String> keyList;
+    public boolean light;
 
     public TileEntityNamePlate()
     {
@@ -49,6 +51,7 @@ public class TileEntityNamePlate extends TileEntity
         super.readFromNBT(p_145839_1_);
         currentType = p_145839_1_.getString("currentType");
         texture = p_145839_1_.getString("texture");
+        light = p_145839_1_.getBoolean("light");
 
         NBTTagList tagList = (NBTTagList)p_145839_1_.getTag("stringList");
         stringList.clear();
@@ -71,6 +74,7 @@ public class TileEntityNamePlate extends TileEntity
         super.writeToNBT(p_145841_1_);
         p_145841_1_.setString("currentType", currentType);
         p_145841_1_.setString("texture", texture);
+        p_145841_1_.setBoolean("light", light);
 
         NBTTagList tagList = new NBTTagList();
         for(int i = 0; i < stringList.size(); i++)

@@ -35,6 +35,23 @@ public class BlockNamePlate extends BlockContainer implements ISimpleBlockRender
     }
 
     @Override
+    public int getLightValue(IBlockAccess world, int x, int y, int z)
+    {
+        Block block = world.getBlock(x, y, z);
+        if (block != this)
+        {
+            return block.getLightValue(world, x, y, z);
+        }
+        TileEntity te = world.getTileEntity(x, y, z);
+        if(te != null && te instanceof TileEntityNamePlate)
+        {
+            return ((TileEntityNamePlate)te).light ? 15 : 0;
+        }
+        //if(meta == 7 || meta == 8) return 14;
+        return 0;
+    }
+
+    @Override
     public boolean isOpaqueCube()
     {
         return false;

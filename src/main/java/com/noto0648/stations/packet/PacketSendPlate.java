@@ -15,10 +15,11 @@ public class PacketSendPlate implements IMessage
     public String texture;
     public Map<String, String> strMap;
     public int x, y, z;
+    public boolean light;
 
     public PacketSendPlate() {}
 
-    public PacketSendPlate(int _x, int _y, int _z, String type, Map<String, String> strings, String tex)
+    public PacketSendPlate(int _x, int _y, int _z, String type, Map<String, String> strings, String tex, boolean r)
     {
         currentType = type;
         strMap = strings;
@@ -26,6 +27,7 @@ public class PacketSendPlate implements IMessage
         y = _y;
         z = _z;
         texture = tex;
+        light = r;
     }
 
     @Override
@@ -36,8 +38,11 @@ public class PacketSendPlate implements IMessage
             x = buf.readInt();
             y = buf.readInt();
             z = buf.readInt();
+            light = buf.readBoolean();
+
             currentType = readString(buf);
             texture = readString(buf);
+
 
             int size = buf.readInt();
             strMap = new HashMap<String, String>(size);
@@ -63,6 +68,7 @@ public class PacketSendPlate implements IMessage
             buf.writeInt(x);
             buf.writeInt(y);
             buf.writeInt(z);
+            buf.writeBoolean(light);
             writeString(buf, currentType);
             writeString(buf, texture);
 

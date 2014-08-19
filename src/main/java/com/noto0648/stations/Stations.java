@@ -25,9 +25,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
-import org.lwjgl.opengl.Display;
-
-import java.awt.*;
 
 /**
  * Created by Noto on 14/08/04.

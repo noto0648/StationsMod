@@ -2,6 +2,7 @@ package com.noto0648.stations.client.gui;
 
 import com.noto0648.stations.*;
 import com.noto0648.stations.client.gui.control.ControlButton;
+import com.noto0648.stations.client.gui.control.ControlCheckBox;
 import com.noto0648.stations.client.gui.control.ControlListBox;
 import com.noto0648.stations.client.gui.control.ControlTextBox;
 import com.noto0648.stations.client.texture.NewFontRenderer;
@@ -32,6 +33,7 @@ public class GuiNamePlate extends GuiScreenBase implements IGui
     private ControlTextBox field;
     private ControlButton textureButton;
     private ControlButton doneButton;
+    private ControlCheckBox lightCheck;
 
     private TileEntityNamePlate tile;
     private Map<String, String> strMaps = new HashMap<String, String>();
@@ -161,17 +163,21 @@ public class GuiNamePlate extends GuiScreenBase implements IGui
             }
         });
         controlList.add(textureButton);
-        doneButton = (new ControlButton(this, width / 2 + 10, height / 2 + 30, 200, 20, "Done")
+        doneButton = (new ControlButton(this, width / 2 + 10, height / 2 + 60, 200, 20, "Done")
         {
             @Override
             public void onButtonClick(int button)
             {
                 playClickSound();
-                Stations.packetDispatcher.sendToServer(new PacketSendPlate(tile.xCoord, tile.yCoord, tile.zCoord, plateList.getText(), strMaps, textures.get(textureIndex)));
+                Stations.packetDispatcher.sendToServer(new PacketSendPlate(tile.xCoord, tile.yCoord, tile.zCoord, plateList.getText(), strMaps, textures.get(textureIndex), lightCheck.getCheck()));
                 mc.displayGuiScreen((GuiScreen)null);
             }
         });
         controlList.add(doneButton);
+
+        lightCheck = (new ControlCheckBox(this, width / 2 + 10, height / 2 + 10, "Shining"));
+        lightCheck.setCheck(tile.light);
+        controlList.add(lightCheck);
     }
 
 
@@ -180,10 +186,11 @@ public class GuiNamePlate extends GuiScreenBase implements IGui
     {
         field.setLocation(width / 2 + 10, 60);
         textureButton.setLocation(width / 2 + 10, 10);
-        doneButton.setLocation(width / 2 + 10, height / 2 + 30);
+        doneButton.setLocation(width / 2 + 10, height / 2 + 60);
         plateList.setSize(width / 2 -20, height / 2 - 15);
         textList.locationY = height / 2 + 10;
         textList.setSize(width / 2 - 20, height / 2 - 15);
+        lightCheck.setLocation(width / 2 + 10, height / 2 + 10);
     }
 
     @Override

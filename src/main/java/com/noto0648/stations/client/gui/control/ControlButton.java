@@ -67,11 +67,6 @@ public class ControlButton extends Control
      */
     public void onButtonClick(int button) {}
 
-    public void playClickSound()
-    {
-        Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-    }
-
     public void setText(String par1)
     {
         text = par1;

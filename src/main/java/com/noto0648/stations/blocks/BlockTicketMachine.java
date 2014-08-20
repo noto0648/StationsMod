@@ -1,6 +1,7 @@
 package com.noto0648.stations.blocks;
 
 import com.noto0648.stations.*;
+import com.noto0648.stations.client.render.TileEntityTicketGateRender;
 import com.noto0648.stations.client.render.TileEntityTicketMachineRender;
 import com.noto0648.stations.common.Utils;
 import com.noto0648.stations.tile.TileEntityTicketGate;
@@ -60,6 +61,18 @@ public class BlockTicketMachine extends BlockContainer implements ISimpleBlockRe
     }
 
     @Override
+    public int damageDropped(int p_149692_1_)
+    {
+        if(p_149692_1_ < 4)
+            return 0;
+
+        if(p_149692_1_ < 8)
+            return 4;
+
+        return 0;
+    }
+
+    @Override
     public boolean onBlockActivated(World p_149727_1_, int p_149727_2_, int p_149727_3_, int p_149727_4_, EntityPlayer p_149727_5_, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
     {
         int meta = p_149727_1_.getBlockMetadata(p_149727_2_, p_149727_3_, p_149727_4_);
@@ -67,6 +80,19 @@ public class BlockTicketMachine extends BlockContainer implements ISimpleBlockRe
         {
             p_149727_5_.openGui(Stations.instance, 2, p_149727_1_, p_149727_2_, p_149727_3_, p_149727_4_);
             return true;
+        }
+        else if(meta < 8 && Utils.INSTANCE.haveTicket(p_149727_5_))
+        {
+            TileEntity te = p_149727_1_.getTileEntity(p_149727_2_, p_149727_3_, p_149727_4_);
+            if(te != null && te instanceof TileEntityTicketGate)
+            {
+                ((TileEntityTicketGate)te).openGate(p_149727_5_.getEntityId());
+                p_149727_5_.setCurrentItemOrArmor(0, TileEntityTicketGate.cutTicket(p_149727_5_.getCurrentEquippedItem()));
+
+                p_149727_1_.playAuxSFXAtEntity(p_149727_5_, 1003, p_149727_2_, p_149727_3_, p_149727_4_, 0);
+                //p_149727_1_.markBlockRangeForRenderUpdate(p_149727_2_, p_149727_3_, p_149727_4_, p_149727_2_, p_149727_3_, p_149727_4_);
+                return true;
+            }
         }
         return false;
     }
@@ -89,10 +115,20 @@ public class BlockTicketMachine extends BlockContainer implements ISimpleBlockRe
         int meta = p_149668_1_.getBlockMetadata(par1, par2, par3);
         if(meta >= 4 && meta <= 7)
         {
+            TileEntity te = p_149668_1_.getTileEntity(par1, par2, par3);
+            if(te != null && te instanceof TileEntityTicketGate)
+            {
+                if(((TileEntityTicketGate)te).isGateOpen())
+                {
+                    return null;
+                }
+            }
             return AxisAlignedBB.getBoundingBox(par1, par2, par3, par1 + 1.0, par2 + 1.5, par3 + 1.0);
         }
+
         return AxisAlignedBB.getBoundingBox(par1, par2, par3, par1 + 1.0, par2 + 1.0, par3 + 1.0);
     }
+
 
     @Override
     public int getRenderType()
@@ -119,13 +155,25 @@ public class BlockTicketMachine extends BlockContainer implements ISimpleBlockRe
     {
         if(modelId == getRenderId())
         {
-            GL11.glPushMatrix();
-            Minecraft.getMinecraft().renderEngine.bindTexture(TileEntityTicketMachineRender.texture);
-            //GL11.glTranslatef(0.5F, 1.4F, 0.5F);
-            //GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
-            GL11.glScalef(0.5F, 0.5F, 0.5F);
-            TileEntityTicketMachineRender.model.renderAll();
-            GL11.glPopMatrix();
+            if(metadata < 4)
+            {
+                GL11.glPushMatrix();
+                Minecraft.getMinecraft().renderEngine.bindTexture(TileEntityTicketMachineRender.texture);
+                //GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
+                GL11.glScalef(0.5F, 0.5F, 0.5F);
+                TileEntityTicketMachineRender.model.renderAll();
+                GL11.glPopMatrix();
+            }
+            else
+            {
+                GL11.glPushMatrix();
+                Minecraft.getMinecraft().renderEngine.bindTexture(TileEntityTicketGateRender.texture);
+                GL11.glTranslatef(0F, 0F, 0.5F);
+                //GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
+                GL11.glScalef(0.5F, 0.5F, 0.5F);
+                TileEntityTicketGateRender.model.renderPart("machine_machine_cube");
+                GL11.glPopMatrix();
+            }
         }
     }
 

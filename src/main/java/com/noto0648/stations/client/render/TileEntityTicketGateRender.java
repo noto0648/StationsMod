@@ -1,5 +1,6 @@
 package com.noto0648.stations.client.render;
 
+import com.noto0648.stations.tile.TileEntityTicketGate;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -37,6 +38,13 @@ public class TileEntityTicketGateRender extends TileEntitySpecialRenderer
 
         bindTexture(texture);
         model.renderPart("machine_machine_cube");
+
+        if(!((TileEntityTicketGate)tile).isGateOpen())
+        {
+            bindTexture(textureDoor);
+            model.renderPart("door_right_door_right_cube");
+            model.renderPart("door_left_door_left_cube");
+        }
         /*
         bindTexture(textureDoor);
         GL11.glRotatef(180F, 0F, 1F, 0F);

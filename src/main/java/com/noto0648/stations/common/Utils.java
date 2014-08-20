@@ -22,6 +22,11 @@ public class Utils
         return ep.getCurrentEquippedItem() != null && ep.getCurrentEquippedItem().getItem() == Stations.instance.torqueWrench;
     }
 
+    public boolean haveTicket(EntityPlayer ep)
+    {
+        return ep.getCurrentEquippedItem() != null && ep.getCurrentEquippedItem().getItem() == Stations.instance.ticket;
+    }
+
     public void sendPacket(IPacketSender packet)
     {
         List<Object> result = new ArrayList();
@@ -30,4 +35,6 @@ public class Utils
 
         Stations.packetDispatcher.sendToServer(new PacketSendTile(result, te.xCoord, te.yCoord, te.zCoord));
     }
+
+
 }

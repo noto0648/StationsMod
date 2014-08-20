@@ -23,6 +23,7 @@ tile.NotoMod.namePlate0.name=Station name plate
 tile.NotoMod.ticketMachine0.name=Ticket machine
 tile.NotoMod.ticketMachine4.name=Turnstile
 item.NotoMod.ticket.name=Ticket
+item.NotoMod.usingTicket.name=Used Ticket
 item.NotoMod.icCard.name=IC card
 item.NotoMod.lanSetter.name=Wireless Setter
 item.NotoMod.torqueWrench.name=Torque Wrench

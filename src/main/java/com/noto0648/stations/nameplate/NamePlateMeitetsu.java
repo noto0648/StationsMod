@@ -9,6 +9,7 @@ import java.util.Map;
 /**
  * Created by Noto on 14/08/08.
  */
+@NamePlateAnnotation
 public class NamePlateMeitetsu extends NamePlateBase
 {
     @Override

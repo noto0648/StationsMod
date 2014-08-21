@@ -1,6 +1,5 @@
 package com.noto0648.stations.client.texture;
 
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.ITextureObject;
@@ -22,7 +21,7 @@ public class NewFontRenderer
     public static String defaultString = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-,.あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんがぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽっゃゅょぁぃぅぇぉ()";
     public static NewFontRenderer INSTANCE = new NewFontRenderer();
 
-    public static List<String> platesImages = new ArrayList();
+
 
     private NewFontRenderer() { }
 
@@ -38,23 +37,6 @@ public class NewFontRenderer
             Object[] objs = toImage(String.valueOf(c));
             images.put(c, (BufferedImage)objs[0]);
             widths.put(c, (Integer)objs[1]);
-        }
-
-        {
-            File modsDir = new File(Loader.instance().getConfigDir().getParentFile(), "mods");
-            File modDir = new File(modsDir, "stations_mod");
-            File platesDir = new File(modDir, "name_plates");
-            platesDir.mkdirs();
-
-            File[] images = platesDir.listFiles();
-            for(int i = 0; i < images.length; i++)
-            {
-                if(images[i].getPath().endsWith(".png"))
-                {
-                    platesImages.add(images[i].getPath());
-                    TextureImporter.INSTANCE.readTexture(images[i].getPath());
-                }
-            }
         }
     }
 

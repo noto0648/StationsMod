@@ -55,6 +55,7 @@ public class Stations
     public Item torqueWrench;
     public Item clock;
     public Item staff_armor[] = new Item[4];
+    public Item ticketCase;
 
     public int fenceRendererId;
     public int numberPlateId;
@@ -83,11 +84,7 @@ public class Stations
         packetDispatcher.registerMessage(PacketCaptionTile.class, PacketSendTile.class, 32, Side.SERVER);
 
         NewFontRenderer.INSTANCE.init();
-
-        NamePlateRegister.INSTANCE.registerNamePlate(new NamePlateDefault());
-        NamePlateRegister.INSTANCE.registerNamePlate(new NamePlateTokaido());
-        NamePlateRegister.INSTANCE.registerNamePlate(new NamePlateMeitetsu());
-        NamePlateRegister.INSTANCE.registerNamePlate(new NamePlateNagoyaSubway());
+        NamePlateManager.INSTANCE.init();
 
         isLoadedEconomy = Loader.isModLoaded("mceconomy2");
     }
@@ -130,6 +127,9 @@ public class Stations
 
         clock = new ItemClock();
         GameRegistry.registerItem(clock, "NotoMod.clock");
+
+        ticketCase = new ItemTicketCase();
+        GameRegistry.registerItem(ticketCase, "NotoMod.ticketCase");
 
         staff_armor[0] = new ItemStaffArmor(staffArmorMaterial, armorRenderId, 0).setUnlocalizedName("NotoMod.armorStaffHelmet").setTextureName("notomod:staff_helmet");
         staff_armor[1] = new ItemStaffArmor(staffArmorMaterial, armorRenderId, 1).setUnlocalizedName("NotoMod.armorStaffChestPlate").setTextureName("notomod:staff_chest_plate");

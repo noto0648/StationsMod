@@ -5,8 +5,10 @@ import org.lwjgl.opengl.GL11;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.zip.ZipEntry;
 
 /**
  * Created by Noto on 14/08/08.
@@ -39,6 +41,23 @@ public class TextureImporter
         }
         return false;
     }
+
+    public boolean readTexture(String key, InputStream stream)
+    {
+        try
+        {
+            BufferedImage bufferedImage = ImageIO.read(stream);
+            FontTexture ft = new FontTexture(bufferedImage);
+            ft.loadTexture(null);
+            textures.put(key, ft);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
 
     public boolean bindTexture(String path)
     {

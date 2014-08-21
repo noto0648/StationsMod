@@ -9,24 +9,34 @@ import io.netty.buffer.ByteBuf;
 public class PacketSendTicket implements IMessage
 {
     private int ID;
+    public int x, y, z;
 
     public PacketSendTicket() {}
 
-    public PacketSendTicket(int id)
+    public PacketSendTicket(int id, int x, int y, int z)
     {
         ID = id;
+        this.x = x;
+        this.y = y;
+        this.z = z;
     }
 
     @Override
     public void fromBytes(ByteBuf buf)
     {
         ID = buf.readInt();
+        x = buf.readInt();
+        y = buf.readInt();
+        z = buf.readInt();
     }
 
     @Override
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(ID);
+        buf.writeInt(x);
+        buf.writeInt(y);
+        buf.writeInt(z);
     }
 
     public int getIDValue()

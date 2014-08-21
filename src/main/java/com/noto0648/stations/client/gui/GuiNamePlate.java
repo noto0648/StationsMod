@@ -7,15 +7,10 @@ import com.noto0648.stations.client.gui.control.ControlListBox;
 import com.noto0648.stations.client.gui.control.ControlTextBox;
 import com.noto0648.stations.client.texture.NewFontRenderer;
 import com.noto0648.stations.nameplate.NamePlateBase;
-import com.noto0648.stations.nameplate.NamePlateRegister;
+import com.noto0648.stations.nameplate.NamePlateManager;
 import com.noto0648.stations.packet.PacketSendPlate;
 import com.noto0648.stations.tile.TileEntityNamePlate;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiTextField;
-import org.lwjgl.input.Keyboard;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -54,7 +49,7 @@ public class GuiNamePlate extends GuiScreenBase implements IGui
                 List<String> strs = new ArrayList();
                 if(plateList.selectedIndex != -1 && textList.selectedIndex != -1)
                 {
-                    NamePlateRegister.INSTANCE.getNamePlates().get(plateList.selectedIndex).init(strs);
+                    NamePlateManager.INSTANCE.getNamePlates().get(plateList.selectedIndex).init(strs);
                     strMaps.put(strs.get(textList.selectedIndex), field.getText());
                 }
             }
@@ -74,7 +69,7 @@ public class GuiNamePlate extends GuiScreenBase implements IGui
                 if(selectedIndex != -1)
                 {
                     List<String> strs = new ArrayList();
-                    NamePlateRegister.INSTANCE.getNamePlates().get(selectedIndex).init(strs);
+                    NamePlateManager.INSTANCE.getNamePlates().get(selectedIndex).init(strs);
                     for(int i = 0; i < strs.size(); i++)
                     {
                         textList.items.add(strs.get(i));
@@ -97,7 +92,7 @@ public class GuiNamePlate extends GuiScreenBase implements IGui
                 {
                     field.setEnabled(true);
                     List<String> strs = new ArrayList();
-                    NamePlateRegister.INSTANCE.getNamePlates().get(plateList.selectedIndex).init(strs);
+                    NamePlateManager.INSTANCE.getNamePlates().get(plateList.selectedIndex).init(strs);
 
                     field.setText(strMaps.get(strs.get(selectedIndex)));
                 }
@@ -108,7 +103,7 @@ public class GuiNamePlate extends GuiScreenBase implements IGui
             }
         });
         controlList.add(textList);
-        List<NamePlateBase> plates = NamePlateRegister.INSTANCE.getNamePlates();
+        List<NamePlateBase> plates = NamePlateManager.INSTANCE.getNamePlates();
         for(int i = 0; i < plates.size(); i++)
         {
             String plateName = plates.get(i).getName();
@@ -129,9 +124,9 @@ public class GuiNamePlate extends GuiScreenBase implements IGui
         }
 
         textures.add("DefaultTexture");
-        for(int i = 0; i < NewFontRenderer.platesImages.size(); i++)
+        for(int i = 0; i < NamePlateManager.platesImages.size(); i++)
         {
-            textures.add(NewFontRenderer.platesImages.get(i));
+            textures.add(NamePlateManager.platesImages.get(i));
         }
 
         for(int i = 0; i < textures.size(); i++)

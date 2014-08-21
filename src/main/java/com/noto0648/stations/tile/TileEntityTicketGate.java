@@ -29,7 +29,6 @@ public class TileEntityTicketGate extends TileEntity
             {
                 openInterval = -1;
 
-                //worldObj.playSound();
                 Entity e = worldObj.getEntityByID(lastEntityId);
                 if(e != null && e instanceof EntityPlayer)
                 {
@@ -88,6 +87,7 @@ public class TileEntityTicketGate extends TileEntity
         if(ticket.getItemDamage() == 0)
         {
             ItemStack result = new ItemStack(ticket.getItem(), 1, 1);
+            result.setTagCompound(ticket.getTagCompound());
             return result;
         }
         if(ticket.getItemDamage() == 2)

@@ -1,7 +1,7 @@
 package com.noto0648.stations.tile;
 
 import com.noto0648.stations.nameplate.NamePlateBase;
-import com.noto0648.stations.nameplate.NamePlateRegister;
+import com.noto0648.stations.nameplate.NamePlateManager;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
@@ -9,7 +9,6 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.EnumSkyBlock;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -110,12 +109,12 @@ public class TileEntityNamePlate extends TileEntity
     {
         NamePlateBase renderPlate = null;
 
-        for(int i = 0; i < NamePlateRegister.INSTANCE.getNamePlates().size(); i++)
+        for(int i = 0; i < NamePlateManager.INSTANCE.getNamePlates().size(); i++)
         {
-            String name = NamePlateRegister.INSTANCE.getNamePlates().get(i).getName();
+            String name = NamePlateManager.INSTANCE.getNamePlates().get(i).getName();
             if(name.equalsIgnoreCase(currentType))
             {
-                renderPlate = NamePlateRegister.INSTANCE.getNamePlates().get(i);
+                renderPlate = NamePlateManager.INSTANCE.getNamePlates().get(i);
             }
         }
         if(renderPlate != null)

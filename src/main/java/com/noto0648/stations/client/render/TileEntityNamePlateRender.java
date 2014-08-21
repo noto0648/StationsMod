@@ -1,7 +1,7 @@
 package com.noto0648.stations.client.render;
 
 import com.noto0648.stations.nameplate.NamePlateBase;
-import com.noto0648.stations.nameplate.NamePlateRegister;
+import com.noto0648.stations.nameplate.NamePlateManager;
 import com.noto0648.stations.tile.TileEntityNamePlate;
 import com.noto0648.stations.client.texture.TextureImporter;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -69,12 +69,12 @@ public class TileEntityNamePlateRender extends TileEntitySpecialRenderer
 
         NamePlateBase renderPlate = null;
 
-        for(int i = 0; i < NamePlateRegister.INSTANCE.getNamePlates().size(); i++)
+        for(int i = 0; i < NamePlateManager.INSTANCE.getNamePlates().size(); i++)
         {
-            String name = NamePlateRegister.INSTANCE.getNamePlates().get(i).getName();
+            String name = NamePlateManager.INSTANCE.getNamePlates().get(i).getName();
             if(name.equalsIgnoreCase(((TileEntityNamePlate)p_147500_1_).currentType))
             {
-                renderPlate = NamePlateRegister.INSTANCE.getNamePlates().get(i);
+                renderPlate = NamePlateManager.INSTANCE.getNamePlates().get(i);
             }
         }
         Map<String, String> strMap = ((TileEntityNamePlate)p_147500_1_).getHashMap();

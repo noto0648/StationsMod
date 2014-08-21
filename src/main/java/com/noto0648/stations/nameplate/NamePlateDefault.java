@@ -9,6 +9,7 @@ import java.util.Map;
 /**
  * Created by Noto on 14/08/07.
  */
+@NamePlateAnnotation
 public class NamePlateDefault extends NamePlateBase
 {
 

@@ -76,7 +76,7 @@ public class BlockTicketMachine extends BlockContainer implements ISimpleBlockRe
     public boolean onBlockActivated(World p_149727_1_, int p_149727_2_, int p_149727_3_, int p_149727_4_, EntityPlayer p_149727_5_, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
     {
         int meta = p_149727_1_.getBlockMetadata(p_149727_2_, p_149727_3_, p_149727_4_);
-        if(meta < 4 && (p_149727_5_.getCurrentEquippedItem() == null || Utils.INSTANCE.haveWrench(p_149727_5_)) && Stations.instance.isLoadedEconomy)
+        if(meta < 4 && Stations.instance.isLoadedEconomy)
         {
             p_149727_5_.openGui(Stations.instance, 2, p_149727_1_, p_149727_2_, p_149727_3_, p_149727_4_);
             return true;
@@ -90,7 +90,6 @@ public class BlockTicketMachine extends BlockContainer implements ISimpleBlockRe
                 p_149727_5_.setCurrentItemOrArmor(0, TileEntityTicketGate.cutTicket(p_149727_5_.getCurrentEquippedItem()));
 
                 p_149727_1_.playAuxSFXAtEntity(p_149727_5_, 1003, p_149727_2_, p_149727_3_, p_149727_4_, 0);
-                //p_149727_1_.markBlockRangeForRenderUpdate(p_149727_2_, p_149727_3_, p_149727_4_, p_149727_2_, p_149727_3_, p_149727_4_);
                 return true;
             }
         }
@@ -159,7 +158,6 @@ public class BlockTicketMachine extends BlockContainer implements ISimpleBlockRe
             {
                 GL11.glPushMatrix();
                 Minecraft.getMinecraft().renderEngine.bindTexture(TileEntityTicketMachineRender.texture);
-                //GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
                 GL11.glScalef(0.5F, 0.5F, 0.5F);
                 TileEntityTicketMachineRender.model.renderAll();
                 GL11.glPopMatrix();
@@ -169,7 +167,6 @@ public class BlockTicketMachine extends BlockContainer implements ISimpleBlockRe
                 GL11.glPushMatrix();
                 Minecraft.getMinecraft().renderEngine.bindTexture(TileEntityTicketGateRender.texture);
                 GL11.glTranslatef(0F, 0F, 0.5F);
-                //GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
                 GL11.glScalef(0.5F, 0.5F, 0.5F);
                 TileEntityTicketGateRender.model.renderPart("machine_machine_cube");
                 GL11.glPopMatrix();

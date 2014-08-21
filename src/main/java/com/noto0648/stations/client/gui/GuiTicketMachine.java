@@ -14,8 +14,9 @@ public class GuiTicketMachine extends GuiScreen implements IGui
 {
     String[] oneLine = new String[20];
     int[] twoLine = new int[20];
+    private int posX, posY, posZ;
 
-    public GuiTicketMachine()
+    public GuiTicketMachine(int x, int y, int z)
     {
 
         oneLine[0] = "片道きっぷ";
@@ -29,6 +30,10 @@ public class GuiTicketMachine extends GuiScreen implements IGui
 
         oneLine[3] = "入場券";
         twoLine[3] = 140;
+
+        posX = x;
+        posY = y;
+        posZ = z;
     }
 
     @Override
@@ -66,7 +71,7 @@ public class GuiTicketMachine extends GuiScreen implements IGui
             {
                 if(60 + x * 60 <= p_73864_1_ && 15 <= p_73864_2_ && (60 + x * 60) + 50 >= p_73864_1_ && 15 + 30 >= p_73864_2_)
                 {
-                    Stations.packetDispatcher.sendToServer(new PacketSendTicket(x));
+                    Stations.packetDispatcher.sendToServer(new PacketSendTicket(x, posX, posY, posZ));
                     Minecraft.getMinecraft().displayGuiScreen(null);
                     break;
                 }

@@ -1,5 +1,9 @@
 package com.noto0648.stations.tile;
 
+import com.noto0648.stations.Stations;
+import com.noto0648.stations.common.Utils;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -24,4 +28,5 @@ public class TileEntityTicketMachine extends TileEntity
         this.writeToNBT(tag);
         return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, tag);
     }
+
 }

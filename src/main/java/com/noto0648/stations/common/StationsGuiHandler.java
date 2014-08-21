@@ -1,9 +1,7 @@
 package com.noto0648.stations.common;
 
-import com.noto0648.stations.client.gui.GuiMarkMachine;
-import com.noto0648.stations.client.gui.GuiNamePlate;
-import com.noto0648.stations.client.gui.GuiNumberPlate;
-import com.noto0648.stations.client.gui.GuiTicketMachine;
+import com.noto0648.stations.client.gui.*;
+import com.noto0648.stations.container.ContainerTicketCase;
 import com.noto0648.stations.tile.TileEntityMarkMachine;
 import com.noto0648.stations.tile.TileEntityNamePlate;
 import com.noto0648.stations.tile.TileEntityNumberPlate;
@@ -19,6 +17,11 @@ public class StationsGuiHandler implements IGuiHandler
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
     {
+        if(ID == 30)
+        {
+            return new ContainerTicketCase(player.inventory, player.getCurrentEquippedItem(), world);
+        }
+
         return null;
     }
 
@@ -35,11 +38,15 @@ public class StationsGuiHandler implements IGuiHandler
         }
         if(ID == 2)
         {
-            return new GuiTicketMachine();
+            return new GuiTicketMachine(x, y, z);
         }
         if(ID == 3)
         {
             return new GuiNumberPlate((TileEntityNumberPlate)world.getTileEntity(x, y, z));
+        }
+        if(ID == 30)
+        {
+            return new GuiTicketCase(player);
         }
         return null;
     }

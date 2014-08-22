@@ -77,7 +77,6 @@ public class GuiNamePlate extends GuiScreenBase implements IGui
                         {
                             strMaps.put(strs.get(i), "");
                         }
-
                     }
                 }
             }
@@ -111,7 +110,6 @@ public class GuiNamePlate extends GuiScreenBase implements IGui
 
             if(plateName.equalsIgnoreCase(tile.currentType))
             {
-
                 List<String> strs = new ArrayList();
                 plates.get(i).init(strs);
 
@@ -137,7 +135,7 @@ public class GuiNamePlate extends GuiScreenBase implements IGui
             }
         }
 
-        textureButton = (new ControlButton(this, width / 2 + 10, 10, 200, 20, "TEX:" + new File(textures.get(textureIndex)).getName())
+        textureButton = (new ControlButton(this, width / 2 + 10, 10, 200, 20, new File(textures.get(textureIndex)).getName())
         {
             @Override
             public void onButtonClick(int button)
@@ -154,7 +152,7 @@ public class GuiNamePlate extends GuiScreenBase implements IGui
                     textureIndex += (textures.size() - 1);
                     textureIndex = textureIndex % textures.size();
                 }
-                textureButton.setText("TEX:" +  new File(textures.get(textureIndex)).getName());
+                textureButton.setText(new File(textures.get(textureIndex)).getName());
             }
         });
         controlList.add(textureButton);

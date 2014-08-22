@@ -18,4 +18,6 @@ public class ServerProxy
         GameRegistry.registerTileEntity(TileEntityShutter.class, "NotoMod.shutter");
         GameRegistry.registerTileEntity(TileEntityTicketGate.class, "NotoMod.ticketGate");
     }
+
+    public void preInit() {}
 }

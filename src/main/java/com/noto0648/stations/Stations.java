@@ -20,6 +20,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
@@ -66,7 +67,8 @@ public class Stations
     public boolean isLoadedEconomy;
 
     public static ItemArmor.ArmorMaterial staffArmorMaterial = EnumHelper.addArmorMaterial("station_staff", 18, new int[]{1, 1, 1, 1}, 0);
-    public int armorRenderId = RenderingRegistry.addNewArmourRendererPrefix("station_staff");
+
+    public int armorRenderId = -1;
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event)
@@ -92,17 +94,15 @@ public class Stations
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
-        MinecraftForge.EVENT_BUS.register(new RenderClockData());
+
+        proxy.preInit();
+
 
         stationMaterial = new BlockStation();
         GameRegistry.registerBlock(stationMaterial, ItemBlockBase.class, "NotoMod.stationMaterial");
 
         stationFence = new BlockFence();
         GameRegistry.registerBlock(stationFence, ItemBlockBase.class,"NotoMod.stationFence");
-
-
-        //numberPlates = new BlockNumberPlate();
-        //GameRegistry.registerBlock(numberPlates, ItemBlockBase.class, "NotoMod.numberPlates");
 
         pillarBlock = new BlockPillar();
         GameRegistry.registerBlock(pillarBlock, ItemBlockBase.class, "NotoMod.blockPillar");

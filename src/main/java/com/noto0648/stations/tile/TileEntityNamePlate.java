@@ -138,6 +138,7 @@ public class TileEntityNamePlate extends TileEntity
 
     public void reload()
     {
+        worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, getBlockMetadata(), 2);
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 }

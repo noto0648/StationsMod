@@ -67,16 +67,30 @@ public class NewFontRenderer
     @SideOnly(Side.CLIENT)
     public int drawString(String str)
     {
-        return drawString(str, true);
+        return drawString(0, 0, str, true);
     }
 
     @SideOnly(Side.CLIENT)
     public int drawString(String str, boolean draw)
     {
+        return drawString(0, 0, str, draw);
+    }
+
+    @SideOnly(Side.CLIENT)
+    public int drawString(int x, int y, String str)
+    {
+        return drawString(x, y, str, true);
+    }
+
+
+    @SideOnly(Side.CLIENT)
+    public int drawString(int x, int y, String str, boolean draw)
+    {
 
         if(str == null) return -1;
 
-        int offset = 0;
+        int offsetX = x;
+        int offsetY = y;
 
         if(draw)
             GL11.glEnable(GL11.GL_ALPHA_TEST);
@@ -99,20 +113,20 @@ public class NewFontRenderer
                 GL11.glPushMatrix();
                 GL11.glBegin(GL11.GL_TRIANGLE_STRIP);
                 GL11.glTexCoord2f(0F, 0F);
-                GL11.glVertex3f(0F + offset, 0F, 0F);
+                GL11.glVertex3f(0F + offsetX, 0F + offsetY, 0F);
                 GL11.glTexCoord2f(1F, 0F);
-                GL11.glVertex3f(32F + offset, 0F, 0F);
+                GL11.glVertex3f(32F + offsetX, 0F + offsetY, 0F);
                 GL11.glTexCoord2f(0F, -1F);
-                GL11.glVertex3f(0F + offset, 32F, 0F);
+                GL11.glVertex3f(0F + offsetX, 32F + offsetY, 0F);
                 GL11.glTexCoord2f(1F, -1F);
-                GL11.glVertex3f(32F + offset, 32F, 0F);
+                GL11.glVertex3f(32F + offsetX, 32F + offsetY, 0F);
 
                 GL11.glEnd();
                 GL11.glPopMatrix();
             }
-            offset += widths.get(c);
+            offsetX += widths.get(c);
         }
-        return offset;
+        return offsetX - x;
     }
 
     @SideOnly(Side.CLIENT)

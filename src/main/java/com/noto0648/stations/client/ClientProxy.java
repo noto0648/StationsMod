@@ -7,6 +7,7 @@ import com.noto0648.stations.tile.*;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.common.MinecraftForge;
 
 /**
  * Created by Noto on 14/08/04.
@@ -23,7 +24,6 @@ public class ClientProxy extends ServerProxy
         Stations.instance.tickerMachineRenderId = RenderingRegistry.getNextAvailableRenderId();
 
         RenderingRegistry.registerBlockHandler((ISimpleBlockRenderingHandler)Stations.instance.stationFence);
-        //RenderingRegistry.registerBlockHandler((ISimpleBlockRenderingHandler)Stations.instance.numberPlates);
         RenderingRegistry.registerBlockHandler((ISimpleBlockRenderingHandler)Stations.instance.pillarBlock);
         RenderingRegistry.registerBlockHandler((ISimpleBlockRenderingHandler)Stations.instance.namePlate);
         RenderingRegistry.registerBlockHandler((ISimpleBlockRenderingHandler)Stations.instance.ticketMachine);
@@ -35,5 +35,12 @@ public class ClientProxy extends ServerProxy
         ClientRegistry.registerTileEntity(TileEntityShutter.class, "NotoMod.shutter", new TileEntityShutterRender());
         ClientRegistry.registerTileEntity(TileEntityNumberPlate.class, "NotoMod.numberPlates", new TileEntityNumberPlateRender());
         ClientRegistry.registerTileEntity(TileEntityTicketGate.class, "NotoMod.ticketGate", new TileEntityTicketGateRender());
+    }
+
+    @Override
+    public void preInit()
+    {
+        MinecraftForge.EVENT_BUS.register(new RenderClockData());
+        Stations.instance.armorRenderId = RenderingRegistry.addNewArmourRendererPrefix("station_staff");
     }
 }

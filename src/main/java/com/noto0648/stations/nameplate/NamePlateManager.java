@@ -1,16 +1,13 @@
 package com.noto0648.stations.nameplate;
 
+import com.google.gson.Gson;
 import com.noto0648.stations.client.texture.TextureImporter;
 import cpw.mods.fml.common.Loader;
 
-import java.io.File;
-import java.lang.annotation.Annotation;
-import java.net.URL;
-import java.net.URLClassLoader;
+import javax.xml.stream.util.StreamReaderDelegate;
+import java.io.*;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -20,7 +17,7 @@ import java.util.zip.ZipFile;
 public class NamePlateManager
 {
     public static NamePlateManager INSTANCE = new NamePlateManager();
-
+    private static Gson gson = new Gson();
     private List<NamePlateBase> plates = new ArrayList();
     public static List<String> platesImages = new ArrayList();
 
@@ -64,6 +61,27 @@ public class NamePlateManager
                 platesImages.add(images[i].getPath());
                 TextureImporter.INSTANCE.readTexture(images[i].getPath());
             }
+            else if(images[i].getPath().endsWith(".json"))
+            {
+                try
+                {
+                    BufferedReader stream = new BufferedReader(new InputStreamReader(new FileInputStream(images[i])));
+                    String line;
+                    StringBuilder result = new StringBuilder();
+
+                    while((line = stream.readLine()) != null)
+                    {
+                        result.append(line);
+                    }
+                    NamePlateJson namePlateData = gson.fromJson(result.toString(), NamePlateJson.class);
+                    NamePlateManager.INSTANCE.registerNamePlate(new NamePlateJsonConverter(namePlateData.name, namePlateData.labels));
+                    stream.close();
+                }
+                catch(Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
             else if(images[i].getPath().endsWith(".zip"))
             {
                 zipPaths.add(images[i].getPath());
@@ -76,7 +94,6 @@ public class NamePlateManager
         {
             try
             {
-                URLClassLoader loader = new URLClassLoader(new URL[]{ (new File(zipPaths.get(i)).toURI().toURL())});
 
                 ZipFile zip = new ZipFile(zipPaths.get(i), Charset.forName("MS932"));
                 for (Enumeration<? extends ZipEntry> e = zip.entries(); e.hasMoreElements();)
@@ -84,19 +101,22 @@ public class NamePlateManager
                     ZipEntry entry = e.nextElement();
                     if(entry.getName().endsWith(".class"))
                     {
-                        Class cls = Class.forName(entry.getName().replace(".class", "").replace("/", "."), true, loader);
-                        if(cls != null)
+
+
+                    }
+                    else if(entry.getName().endsWith(".json"))
+                    {
+                        BufferedReader stream = new BufferedReader(new InputStreamReader(zip.getInputStream(entry)));
+                        String line;
+                        StringBuilder result = new StringBuilder();
+
+                        while((line = stream.readLine()) != null)
                         {
-                            Annotation[] as = cls.getDeclaredAnnotations();
-                            for(int j = 0; j < as.length; j++)
-                            {
-                                Object obj = cls.newInstance();
-
-                                    NamePlateManager.INSTANCE.registerNamePlate((NamePlateBase)cls.newInstance());
-
-                            }
+                            result.append(line);
                         }
-
+                        NamePlateJson namePlateData = gson.fromJson(result.toString(), NamePlateJson.class);
+                        NamePlateManager.INSTANCE.registerNamePlate(new NamePlateJsonConverter(namePlateData.name, namePlateData.labels));
+                        stream.close();
                     }
                     else if(entry.getName().endsWith(".png"))
                     {

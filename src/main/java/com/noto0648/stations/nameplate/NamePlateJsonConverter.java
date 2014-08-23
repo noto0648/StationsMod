@@ -1,8 +1,6 @@
 package com.noto0648.stations.nameplate;
 
-import com.google.gson.Gson;
 import com.noto0648.stations.client.texture.NewFontRenderer;
-import com.sun.javafx.scene.control.skin.LabelSkin;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;

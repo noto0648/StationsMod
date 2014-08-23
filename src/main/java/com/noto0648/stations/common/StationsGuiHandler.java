@@ -48,6 +48,10 @@ public class StationsGuiHandler implements IGuiHandler
         {
             return new GuiTicketCase(player);
         }
+        if(ID == 40)
+        {
+            return new GuiTetris();
+        }
         return null;
     }
 }

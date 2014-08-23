@@ -76,7 +76,12 @@ public class BlockTicketMachine extends BlockContainer implements ISimpleBlockRe
     public boolean onBlockActivated(World p_149727_1_, int p_149727_2_, int p_149727_3_, int p_149727_4_, EntityPlayer p_149727_5_, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
     {
         int meta = p_149727_1_.getBlockMetadata(p_149727_2_, p_149727_3_, p_149727_4_);
-        if(meta < 4 && Stations.instance.isLoadedEconomy)
+        if(meta < 4 && Utils.INSTANCE.haveWrench(p_149727_5_) && Stations.instance.isLoadedEconomy)
+        {
+            p_149727_5_.openGui(Stations.instance, 40, p_149727_1_, p_149727_2_, p_149727_3_, p_149727_4_);
+            return true;
+        }
+        else if(meta < 4 && Stations.instance.isLoadedEconomy)
         {
             p_149727_5_.openGui(Stations.instance, 2, p_149727_1_, p_149727_2_, p_149727_3_, p_149727_4_);
             return true;

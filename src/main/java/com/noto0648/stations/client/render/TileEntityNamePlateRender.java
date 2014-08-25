@@ -26,9 +26,19 @@ public class TileEntityNamePlateRender extends TileEntitySpecialRenderer
     {
         int meta = p_147500_1_.getBlockMetadata();
 
-        GL11.glPushMatrix();
-        GL11.glTranslatef((float) par2 + 0.5F, (float) par3 + 0.5F, (float) par4 + 0.5F);
+        NamePlateBase renderPlate = null;
+        for(int i = 0; i < NamePlateManager.INSTANCE.getNamePlates().size(); i++)
+        {
+            String name = NamePlateManager.INSTANCE.getNamePlates().get(i).getName();
+            if(name.equalsIgnoreCase(((TileEntityNamePlate)p_147500_1_).currentType))
+            {
+                renderPlate = NamePlateManager.INSTANCE.getNamePlates().get(i);
+            }
+        }
 
+        GL11.glPushMatrix();
+
+        GL11.glTranslatef((float) par2 + 0.5F, (float) par3 + 0.5F, (float) par4 + 0.5F);
 
         if(meta == 5) GL11.glTranslatef(-0.5F, 0F, 0F);
         if(meta == 4) GL11.glTranslatef(0.5F, 0F, 0F);
@@ -63,20 +73,17 @@ public class TileEntityNamePlateRender extends TileEntitySpecialRenderer
                 bindTexture(texture);
             }
         }
-
-        model.renderAll();
+        if(renderPlate != null && renderPlate.isUserRender())
+        {
+            renderPlate.userRender();
+        }
+        else
+        {
+            model.renderAll();
+        }
         GL11.glPopMatrix();
 
-        NamePlateBase renderPlate = null;
 
-        for(int i = 0; i < NamePlateManager.INSTANCE.getNamePlates().size(); i++)
-        {
-            String name = NamePlateManager.INSTANCE.getNamePlates().get(i).getName();
-            if(name.equalsIgnoreCase(((TileEntityNamePlate)p_147500_1_).currentType))
-            {
-                renderPlate = NamePlateManager.INSTANCE.getNamePlates().get(i);
-            }
-        }
         Map<String, String> strMap = ((TileEntityNamePlate)p_147500_1_).getHashMap();
 
         for(int i = 0; i < 2; i++)
@@ -97,47 +104,7 @@ public class TileEntityNamePlateRender extends TileEntitySpecialRenderer
             {
                 renderPlate.render(strMap, i == 0);
             }
-            /*
-            GL11.glTranslated(-0, 0, 0.1);
-            GL11.glScalef(0.01F, 0.01F, 0.01F);
-            GL11.glColor3f(0F, 0F, 0F);
-            int width = NewFontRenderer.INSTANCE.drawString(nowStation, false);
-            GL11.glTranslated(-width / 2, 0, 0);
-            NewFontRenderer.INSTANCE.drawString(nowStation);
-            GL11.glTranslated(width / 2, 0, 0);
 
-            String station = i == 0 ? prevStation : nextStation;
-
-            {
-                GL11.glPushMatrix();
-                GL11.glTranslated(-110, -43, 0);
-                GL11.glScaled(0.5F, 0.5F, 0.5F);
-                NewFontRenderer.INSTANCE.drawString(station);
-                GL11.glPopMatrix();
-            }
-
-            station = i == 1 ? prevStation : nextStation;
-
-            {
-                GL11.glPushMatrix();
-                GL11.glTranslated(110, -43, 0);
-                GL11.glScaled(0.5F, 0.5F, 0.5F);
-                int w = NewFontRenderer.INSTANCE.drawString(station, false);
-                GL11.glTranslated(-w, 0, 0);
-                NewFontRenderer.INSTANCE.drawString(station);
-                GL11.glPopMatrix();
-            }
-            {
-                GL11.glPushMatrix();
-                GL11.glColor3f(1F, 1F, 1F);
-                GL11.glTranslated(0, -25, 0);
-                GL11.glScaled(0.45F, 0.45F, 0.45F);
-                int w = NewFontRenderer.INSTANCE.drawString(englishStation, false);
-                GL11.glTranslated(-w / 2, 0, 0);
-                NewFontRenderer.INSTANCE.drawString(englishStation);
-                GL11.glPopMatrix();
-            }
-*/
             GL11.glPopMatrix();
         }
         GL11.glPopMatrix();

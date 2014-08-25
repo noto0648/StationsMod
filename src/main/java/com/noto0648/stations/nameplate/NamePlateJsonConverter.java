@@ -14,11 +14,13 @@ public class NamePlateJsonConverter extends NamePlateBase
 {
     private final List<NamePlateJson.LabelData> labels;
     private final String name;
+    private final NamePlateJson plateData;
 
-    public NamePlateJsonConverter(String str, List<NamePlateJson.LabelData> list)
+    public NamePlateJsonConverter(NamePlateJson plateJson, List<NamePlateJson.LabelData> list)
     {
         labels = list;
-        name = str;
+        name = plateJson.name;
+        plateData = plateJson;
     }
 
     @Override
@@ -26,6 +28,12 @@ public class NamePlateJsonConverter extends NamePlateBase
     {
         if(labels != null)
         {
+            if(plateData != null)
+            {
+                if(plateData.enableDepthMask) GL11.glDepthMask(false);
+                if(plateData.enableNormal) GL11.glNormal3f(0.0F, 0.0F, -1.0F);
+            }
+
             GL11.glTranslated(-0, 0, 0.1);
             GL11.glScalef(0.01F, 0.01F, 0.01F);
             GL11.glTranslated(-110, 20, 0);
@@ -57,6 +65,12 @@ public class NamePlateJsonConverter extends NamePlateBase
                 GL11.glPopMatrix();
             }
         }
+
+        if(plateData != null)
+        {
+            if(plateData.enableDepthMask) GL11.glDepthMask(true);
+        }
+        GL11.glColor3f(1F, 1F, 1F);
     }
 
     @Override
@@ -78,4 +92,20 @@ public class NamePlateJsonConverter extends NamePlateBase
     {
         return name == null ? "NAME IS NULL" : name;
     }
+
+    @Override
+    public boolean isUserRender()
+    {
+        return plateData == null ? false : plateData.modelId != 0;
+    }
+
+    @Override
+    public void userRender()
+    {
+        if(plateData.modelId == 1)
+        {
+            NamePlateAonamiLine.model.renderAll();
+        }
+    }
+
 }

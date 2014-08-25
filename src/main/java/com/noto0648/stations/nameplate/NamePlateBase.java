@@ -14,4 +14,11 @@ public abstract class NamePlateBase
     public abstract void init(List<String> list);
 
     public abstract String getName();
+
+    public boolean isUserRender()
+    {
+        return false;
+    }
+
+    public void userRender() {}
 }

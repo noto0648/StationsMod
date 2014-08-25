@@ -30,6 +30,7 @@ public class NamePlateManager
         NamePlateManager.INSTANCE.registerNamePlate(new NamePlateMeitetsu());
         NamePlateManager.INSTANCE.registerNamePlate(new NamePlateNagoyaSubway());
         NamePlateManager.INSTANCE.registerNamePlate(new NamePlateToyohashiLine());
+        NamePlateManager.INSTANCE.registerNamePlate(new NamePlateAonamiLine());
 
         scanningNamePlate();
     }
@@ -74,7 +75,7 @@ public class NamePlateManager
                         result.append(line);
                     }
                     NamePlateJson namePlateData = gson.fromJson(result.toString(), NamePlateJson.class);
-                    NamePlateManager.INSTANCE.registerNamePlate(new NamePlateJsonConverter(namePlateData.name, namePlateData.labels));
+                    NamePlateManager.INSTANCE.registerNamePlate(new NamePlateJsonConverter(namePlateData, namePlateData.labels));
                     stream.close();
                 }
                 catch(Exception e)
@@ -115,7 +116,7 @@ public class NamePlateManager
                             result.append(line);
                         }
                         NamePlateJson namePlateData = gson.fromJson(result.toString(), NamePlateJson.class);
-                        NamePlateManager.INSTANCE.registerNamePlate(new NamePlateJsonConverter(namePlateData.name, namePlateData.labels));
+                        NamePlateManager.INSTANCE.registerNamePlate(new NamePlateJsonConverter(namePlateData, namePlateData.labels));
                         stream.close();
                     }
                     else if(entry.getName().endsWith(".png"))

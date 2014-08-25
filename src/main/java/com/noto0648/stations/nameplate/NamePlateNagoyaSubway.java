@@ -23,6 +23,7 @@ public class NamePlateNagoyaSubway extends NamePlateBase
         GL11.glTranslated(-0, 0, 0.1);
         GL11.glScalef(0.01F, 0.01F, 0.01F);
         GL11.glColor3f(1F, 1F, 1F);
+        GL11.glNormal3f(-1.0F, 0.0F, 0.0F);
 
         int width = NewFontRenderer.INSTANCE.drawString(nowStation, false);
         GL11.glScalef(0.6F, 0.6F, 0.6F);

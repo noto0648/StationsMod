@@ -13,6 +13,11 @@ public class NamePlateJson
     public String author;
     public String comment;
 
+    public boolean enableDepthMask;
+    public boolean enableNormal;
+
+    public int modelId;
+
     public class LabelData
     {
         public int x;

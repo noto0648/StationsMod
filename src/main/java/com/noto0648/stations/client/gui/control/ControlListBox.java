@@ -76,7 +76,7 @@ public class ControlListBox extends Control
     @Override
     public void mouseClicked(int mouseX, int mouseY, int button)
     {
-        if(button == 0 && items.size() > 0)
+        if(button == 0 && items.size() > 0 && isEnable)
         {
             if(height / 12 < items.size())
             {
@@ -116,7 +116,7 @@ public class ControlListBox extends Control
     @Override
     public void mouseClickMove(int mouseX, int mouseY, int button, long time)
     {
-        if(button == 0 && scrollBerClicked)
+        if(button == 0 && scrollBerClicked && isEnable)
         {
             int top = (locationY + 12);
             int bottom = (locationY + height - 12);

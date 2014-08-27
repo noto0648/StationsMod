@@ -13,12 +13,14 @@ import java.util.Map;
 public class NamePlateNagoyaSubway extends NamePlateBase
 {
     @Override
-    public void render(Map<String, String> map, boolean rotate)
+    public void render(Map<String, String> map, boolean rotate, int plateFace)
     {
         String nowStation = map.get("kanjiName");
         String englishStation = map.get("englishName");
         String nextStation = map.get("nextStation");
         String prevStation = map.get("prevStation");
+
+        GL11.glNormal3f(-1.0F, 0.0F, 0.0F);
 
         GL11.glTranslated(-0, 0, 0.1);
         GL11.glScalef(0.01F, 0.01F, 0.01F);

@@ -24,7 +24,7 @@ public class NamePlateJsonConverter extends NamePlateBase
     }
 
     @Override
-    public void render(Map<String, String> map, boolean rotate)
+    public void render(Map<String, String> map, boolean rotate, int plateFace)
     {
         if(labels != null)
         {
@@ -32,6 +32,19 @@ public class NamePlateJsonConverter extends NamePlateBase
             {
                 if(plateData.enableDepthMask) GL11.glDepthMask(false);
                 if(plateData.enableNormal) GL11.glNormal3f(0.0F, 0.0F, -1.0F);
+            }
+
+            if(plateFace != 0)
+            {
+                if(plateData.modelId == 1)
+                {
+                    if(plateFace == 1) GL11.glTranslatef(0F, 0.25F, 0F);
+                    if(plateFace == 2) GL11.glTranslatef(0F, -0.25F, 0F);
+                }
+                if(plateData.modelId == 2)
+                {
+
+                }
             }
 
             GL11.glTranslated(-0, 0, 0.1);
@@ -100,11 +113,21 @@ public class NamePlateJsonConverter extends NamePlateBase
     }
 
     @Override
-    public void userRender()
+    public void userRender(int plateFace)
     {
         if(plateData.modelId == 1)
         {
+            if(plateFace == 1) GL11.glTranslatef(0F, 0.5F, 0F);
+            if(plateFace == 2) GL11.glTranslatef(0F, -0.5F, 0F);
             NamePlateAonamiLine.model.renderAll();
+        }
+        if(plateData.modelId == 2)
+        {
+            if(plateFace == 1) GL11.glTranslatef(0F, 0.5F, 0F);
+            if(plateFace == 2) GL11.glTranslatef(0F, -0.5F, 0F);
+
+            GL11.glScalef(1.5F, 1.5F, 1.5F);
+            NamePlateKokutetsu.model.renderAll();
         }
     }
 

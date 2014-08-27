@@ -26,6 +26,8 @@ public class TileEntityNamePlate extends TileEntity
     public List<String> keyList;
     public boolean light;
 
+    public int pasteFace;
+
     public TileEntityNamePlate()
     {
         currentType = "default";
@@ -51,6 +53,7 @@ public class TileEntityNamePlate extends TileEntity
         currentType = p_145839_1_.getString("currentType");
         texture = p_145839_1_.getString("texture");
         light = p_145839_1_.getBoolean("light");
+        pasteFace = p_145839_1_.getInteger("pasteFace");
 
         NBTTagList tagList = (NBTTagList)p_145839_1_.getTag("stringList");
         stringList.clear();
@@ -74,6 +77,7 @@ public class TileEntityNamePlate extends TileEntity
         p_145841_1_.setString("currentType", currentType);
         p_145841_1_.setString("texture", texture);
         p_145841_1_.setBoolean("light", light);
+        p_145841_1_.setInteger("pasteFace", pasteFace);
 
         NBTTagList tagList = new NBTTagList();
         for(int i = 0; i < stringList.size(); i++)
@@ -138,7 +142,7 @@ public class TileEntityNamePlate extends TileEntity
 
     public void reload()
     {
-        worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, getBlockMetadata(), 2);
+        //worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, getBlockMetadata(), 2);
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 }

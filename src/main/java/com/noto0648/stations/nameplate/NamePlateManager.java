@@ -31,6 +31,7 @@ public class NamePlateManager
         NamePlateManager.INSTANCE.registerNamePlate(new NamePlateNagoyaSubway());
         NamePlateManager.INSTANCE.registerNamePlate(new NamePlateToyohashiLine());
         NamePlateManager.INSTANCE.registerNamePlate(new NamePlateAonamiLine());
+        NamePlateManager.INSTANCE.registerNamePlate(new NamePlateKokutetsu());
 
         scanningNamePlate();
     }

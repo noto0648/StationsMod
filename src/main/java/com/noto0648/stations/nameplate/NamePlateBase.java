@@ -9,7 +9,7 @@ import java.util.Map;
 
 public abstract class NamePlateBase
 {
-    public abstract void render(Map<String, String> map, boolean rotate);
+    public abstract void render(Map<String, String> map, boolean rotate, int plateFace);
 
     public abstract void init(List<String> list);
 
@@ -20,5 +20,5 @@ public abstract class NamePlateBase
         return false;
     }
 
-    public void userRender() {}
+    public void userRender(int plateFace) {}
 }

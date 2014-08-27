@@ -12,25 +12,33 @@ import java.util.Map;
 /**
  * Created by Noto on 14/08/25.
  */
+@NamePlateAnnotation
 public class NamePlateAonamiLine extends NamePlateBase
 {
     public static IModelCustom model = AdvancedModelLoader.loadModel(new ResourceLocation("notomod", "objs/name_plate_subway.obj"));
 
 
     @Override
-    public void render(Map<String, String> map, boolean rotate)
+    public void render(Map<String, String> map, boolean rotate, int plateFace)
     {
         String nowStation = map.get("stationName");
         String nowEnglish = map.get("englishName");
+
+
 
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glDepthMask(false);
         GL11.glNormal3f(-1.0F, 0.0F, 0.0F);
 
+        if(plateFace == 1) GL11.glTranslatef(0F, 0.25F, 0F);
+        if(plateFace == 2) GL11.glTranslatef(0F, -0.25F, 0F);
+
         GL11.glTranslated(-0, 0, 0.07);
         GL11.glScalef(0.01F, 0.01F, 0.01F);
         GL11.glColor3f(0.9999999999F, 0.9999999999F, 0.9999999999F);
+
+
 
         GL11.glPushMatrix();
         GL11.glScaled(0.4D, 0.4D, 0.4D);
@@ -122,8 +130,11 @@ public class NamePlateAonamiLine extends NamePlateBase
     }
 
     @Override
-    public void userRender()
+    public void userRender(int plateFace)
     {
+        if(plateFace == 1) GL11.glTranslatef(0F, 0.5F, 0F);
+        if(plateFace == 2) GL11.glTranslatef(0F, -0.5F, 0F);
+
         model.renderAll();
     }
 }

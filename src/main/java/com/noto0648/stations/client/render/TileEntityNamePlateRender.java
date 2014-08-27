@@ -75,7 +75,7 @@ public class TileEntityNamePlateRender extends TileEntitySpecialRenderer
         }
         if(renderPlate != null && renderPlate.isUserRender())
         {
-            renderPlate.userRender();
+            renderPlate.userRender(((TileEntityNamePlate)p_147500_1_).pasteFace);
         }
         else
         {
@@ -89,6 +89,8 @@ public class TileEntityNamePlateRender extends TileEntitySpecialRenderer
         for(int i = 0; i < 2; i++)
         {
             GL11.glPushMatrix();
+
+
             if(meta == 0 || meta == 3 || meta == 2 || meta == 5 || meta == 4)
             {
                 if(i == 0) GL11.glRotatef(-90F, 0, 1, 0);
@@ -102,7 +104,7 @@ public class TileEntityNamePlateRender extends TileEntitySpecialRenderer
 
             if(renderPlate != null && strMap != null)
             {
-                renderPlate.render(strMap, i == 0);
+                renderPlate.render(strMap, i == 0, ((TileEntityNamePlate)p_147500_1_).pasteFace);
             }
 
             GL11.glPopMatrix();

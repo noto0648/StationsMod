@@ -14,7 +14,7 @@ public class NamePlateDefault extends NamePlateBase
 {
 
     @Override
-    public void render(Map<String, String> map, boolean rotate)
+    public void render(Map<String, String> map, boolean rotate, int plateFace)
     {
         String nowStation = map.get("stationName");
         String englishStation = map.get("englishName");

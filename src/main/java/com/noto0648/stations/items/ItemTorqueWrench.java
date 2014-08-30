@@ -23,7 +23,7 @@ public class ItemTorqueWrench extends Item
     }
 
     @Override
-    public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
+    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
     {
         if(player.isSneaking())
         {
@@ -32,8 +32,8 @@ public class ItemTorqueWrench extends Item
             {
                 ((TileEntityNamePlate)te).pasteFace++;
                 ((TileEntityNamePlate)te).pasteFace %= 3;
-                return true;
             }
+            return true;
         }
         return false;
     }

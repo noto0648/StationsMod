@@ -9,7 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 /**
  * Created by Noto on 14/08/07.
  */
-public class TileEntityMark extends TileEntity
+public class TileEntityMark extends TileBase
 {
     private boolean parentRegistered;
 
@@ -35,20 +35,6 @@ public class TileEntityMark extends TileEntity
         p_145841_1_.setInteger("parentY", parentY);
         p_145841_1_.setInteger("parentZ", parentZ);
         p_145841_1_.setBoolean("parReg", parentRegistered);
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
-    {
-        this.readFromNBT(pkt.func_148857_g());
-    }
-
-    @Override
-    public Packet getDescriptionPacket()
-    {
-        NBTTagCompound tag = new NBTTagCompound();
-        this.writeToNBT(tag);
-        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, tag);
     }
 
     public int getParentX()

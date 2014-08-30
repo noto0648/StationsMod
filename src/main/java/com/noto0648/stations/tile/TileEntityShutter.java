@@ -12,7 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 /**
  * Created by Noto on 14/08/12.
  */
-public class TileEntityShutter extends TileEntity
+public class TileEntityShutter extends TileBase
 {
     private int count;
     private boolean undoFlag;
@@ -84,12 +84,6 @@ public class TileEntityShutter extends TileEntity
         p_145841_1_.setBoolean("fin", finish);
     }
 
-    @Override
-    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
-    {
-        this.readFromNBT(pkt.func_148857_g());
-    }
-
     public void setUndoFlag(boolean par1)
     {
         undoFlag = par1;
@@ -99,11 +93,4 @@ public class TileEntityShutter extends TileEntity
         }
     }
 
-    @Override
-    public Packet getDescriptionPacket()
-    {
-        NBTTagCompound tag = new NBTTagCompound();
-        this.writeToNBT(tag);
-        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, tag);
-    }
 }

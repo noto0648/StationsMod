@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by Noto on 14/08/04.
  */
-public class TileEntityNumberPlate extends TileEntity implements IPacketReceiver
+public class TileEntityNumberPlate extends TileBase implements IPacketReceiver
 {
     private String drawStr = "";
 
@@ -30,19 +30,6 @@ public class TileEntityNumberPlate extends TileEntity implements IPacketReceiver
         p_145841_1_.setString("number", drawStr);
     }
 
-    @Override
-    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
-    {
-        this.readFromNBT(pkt.func_148857_g());
-    }
-
-    @Override
-    public Packet getDescriptionPacket()
-    {
-        NBTTagCompound tag = new NBTTagCompound();
-        this.writeToNBT(tag);
-        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, tag);
-    }
 
     public String getDrawStr()
     {

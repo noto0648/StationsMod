@@ -13,7 +13,7 @@ import net.minecraft.tileentity.TileEntity;
 /**
  * Created by Noto on 14/08/13.
  */
-public class TileEntityTicketGate extends TileEntity
+public class TileEntityTicketGate extends TileBase
 {
     public static final int OPEN_INTERVAL = 20 * 3;
     private int openInterval = -1;
@@ -52,20 +52,6 @@ public class TileEntityTicketGate extends TileEntity
         super.writeToNBT(p_145841_1_);
         p_145841_1_.setInteger("interval", openInterval);
         p_145841_1_.setInteger("playerId", lastEntityId);
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
-    {
-        this.readFromNBT(pkt.func_148857_g());
-    }
-
-    @Override
-    public Packet getDescriptionPacket()
-    {
-        NBTTagCompound tag = new NBTTagCompound();
-        this.writeToNBT(tag);
-        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, tag);
     }
 
     public void openGate(int playerId)

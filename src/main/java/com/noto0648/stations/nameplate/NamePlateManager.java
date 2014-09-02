@@ -3,9 +3,11 @@ package com.noto0648.stations.nameplate;
 import com.google.gson.Gson;
 import com.noto0648.stations.client.texture.TextureImporter;
 import cpw.mods.fml.common.Loader;
+import scala.reflect.api.Annotations;
 
 import javax.xml.stream.util.StreamReaderDelegate;
 import java.io.*;
+import java.lang.annotation.Annotation;
 import java.nio.charset.Charset;
 import java.util.*;
 import java.util.zip.ZipEntry;
@@ -26,13 +28,14 @@ public class NamePlateManager
     public void init()
     {
         NamePlateManager.INSTANCE.registerNamePlate(new NamePlateDefault());
+        /*
         NamePlateManager.INSTANCE.registerNamePlate(new NamePlateTokaido());
         NamePlateManager.INSTANCE.registerNamePlate(new NamePlateMeitetsu());
         NamePlateManager.INSTANCE.registerNamePlate(new NamePlateNagoyaSubway());
         NamePlateManager.INSTANCE.registerNamePlate(new NamePlateToyohashiLine());
         NamePlateManager.INSTANCE.registerNamePlate(new NamePlateAonamiLine());
         NamePlateManager.INSTANCE.registerNamePlate(new NamePlateKokutetsu());
-
+*/
         scanningNamePlate();
     }
 
@@ -84,7 +87,7 @@ public class NamePlateManager
                     e.printStackTrace();
                 }
             }
-            else if(images[i].getPath().endsWith(".zip"))
+            else if(images[i].getPath().endsWith(".zip") || images[i].getPath().endsWith(".jar"))
             {
                 zipPaths.add(images[i].getPath());
             }
@@ -96,15 +99,28 @@ public class NamePlateManager
         {
             try
             {
-
                 ZipFile zip = new ZipFile(zipPaths.get(i), Charset.forName("MS932"));
                 for (Enumeration<? extends ZipEntry> e = zip.entries(); e.hasMoreElements();)
                 {
                     ZipEntry entry = e.nextElement();
                     if(entry.getName().endsWith(".class"))
                     {
+                        if(entry.getName().contains("$"))
+                        {
+                            continue;
+                        }
+                        ClassLoader clsLoader = this.getClass().getClassLoader();
+                        Class cls = clsLoader.loadClass(entry.getName().replace(".class", "").replace("/", "."));
 
-
+                        for(int k = 0; k < cls.getAnnotations().length; k++)
+                        {
+                            Annotation annotation = cls.getAnnotations()[k];
+                            if(annotation instanceof NamePlateAnnotation)
+                            {
+                                Object inst = cls.newInstance();
+                                NamePlateManager.INSTANCE.registerNamePlate((NamePlateBase)inst);
+                            }
+                        }
                     }
                     else if(entry.getName().endsWith(".json"))
                     {

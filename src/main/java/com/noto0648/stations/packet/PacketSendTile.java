@@ -138,7 +138,7 @@ public class PacketSendTile implements IMessage
             int destLength = buf.readInt();
             byte[] destChars = new byte[destLength];
             buf.readBytes(destChars);
-            str = new String(destChars);
+            str = new String(destChars, "UTF-8");
         }
         catch(Exception e)
         {

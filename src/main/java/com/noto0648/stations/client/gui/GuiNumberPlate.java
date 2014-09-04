@@ -37,6 +37,7 @@ public class GuiNumberPlate extends GuiScreenBase implements IPacketSender
                 if(button == 0)
                 {
                     playClickSound();
+                    tile.setDrawStr(textBox.getText());
                     Utils.INSTANCE.sendPacket(instance);
                     Minecraft.getMinecraft().displayGuiScreen(null);
                 }

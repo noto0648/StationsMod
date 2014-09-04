@@ -13,7 +13,7 @@ public class ControlComboBox extends Control
     private ControlListBox listBox;
 
     public List<String> items = new ArrayList();
-    public int comboSelectedIndex = -1;
+    public int selectedIndex = -1;
 
     private boolean showListBox;
 
@@ -36,7 +36,7 @@ public class ControlComboBox extends Control
             public void selectChanged()
             {
                 showListBox = false;
-                comboSelectedIndex = this.selectedIndex;
+                ControlComboBox.this.selectedIndex = this.selectedIndex;
             }
 
         });
@@ -72,9 +72,9 @@ public class ControlComboBox extends Control
         drawRect(locationX + 1, locationY + height - 1, locationX + width, locationY + height, bottomColor);
         drawRect(locationX + width - 1, locationY, locationX + width, locationY + height, bottomColor);
 
-        if(items.get(comboSelectedIndex) != null)
+        if(items.get(selectedIndex) != null)
         {
-            getFont().drawStringWithShadow(items.get(comboSelectedIndex), width / 2 - getFont().getStringWidth(items.get(comboSelectedIndex)) / 2 + locationX, height / 2 - 4 + locationY, fontColor);
+            getFont().drawStringWithShadow(items.get(selectedIndex), width / 2 - getFont().getStringWidth(items.get(selectedIndex)) / 2 + locationX, height / 2 - 4 + locationY, fontColor);
         }
 
         if(showListBox)
@@ -94,7 +94,7 @@ public class ControlComboBox extends Control
             {
                 listBox.items.clear();
                 listBox.items.addAll(items);
-                listBox.selectedIndex = (comboSelectedIndex);
+                listBox.selectedIndex = (selectedIndex);
             }
         }
 
@@ -127,7 +127,7 @@ public class ControlComboBox extends Control
 
     public void setSelectedIndex(int par1)
     {
-        comboSelectedIndex = par1;
+        selectedIndex = par1;
 
     }
 }

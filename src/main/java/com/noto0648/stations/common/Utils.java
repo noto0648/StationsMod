@@ -3,8 +3,10 @@ package com.noto0648.stations.common;
 import com.noto0648.stations.Stations;
 import com.noto0648.stations.packet.IPacketSender;
 import com.noto0648.stations.packet.PacketSendTile;
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -75,6 +77,26 @@ public class Utils
                 {
                     entityitem.getEntityItem().setTagCompound((NBTTagCompound)itemstack.getTagCompound().copy());
                 }
+            }
+        }
+    }
+
+    public void sendToPlayers(IMessage mes, TileEntity te)
+    {
+        sendToPlayers(mes, te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord, 192);
+    }
+
+    public void sendToPlayers(IMessage mes, World world, int x, int y, int z, int maxDistance)
+    {
+        if ((!world.isRemote) && (mes != null))
+        {
+            for (int j = 0; j < world.playerEntities.size(); j++)
+            {
+                EntityPlayerMP player = (EntityPlayerMP)world.playerEntities.get(j);
+
+                if ((Math.abs(player.posX - x) > maxDistance) || (Math.abs(player.posY - y) > maxDistance) || (Math.abs(player.posZ - z) > maxDistance))
+                    continue;
+                player.playerNetServerHandler.sendPacket(Stations.packetDispatcher.getPacketFrom(mes));
             }
         }
     }

@@ -1,7 +1,9 @@
 package com.noto0648.stations.tile;
 
+import com.noto0648.stations.common.Utils;
 import com.noto0648.stations.nameplate.NamePlateBase;
 import com.noto0648.stations.nameplate.NamePlateManager;
+import com.noto0648.stations.packet.PacketSendPlate;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
@@ -130,5 +132,22 @@ public class TileEntityNamePlate extends TileBase
     {
         //worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, getBlockMetadata(), 2);
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+    }
+
+    public void setNamePlateData(String type, String tex, boolean l, List<String> r, List<String> k)
+    {
+        currentType = type;
+        texture = tex;
+        light = l;
+        stringList = r;
+        keyList = k;
+        Map<String, String> ms = new HashMap();
+
+        for(int i = 0; i < stringList.size(); i++)
+        {
+            ms.put(keyList.get(i), stringList.get(i));
+        }
+
+        Utils.INSTANCE.sendToPlayers(new PacketSendPlate(xCoord, yCoord, zCoord, currentType, ms, texture, light), this);
     }
 }

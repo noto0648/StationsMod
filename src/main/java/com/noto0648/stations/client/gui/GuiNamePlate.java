@@ -164,21 +164,6 @@ public class GuiNamePlate extends GuiScreenBase implements IGui
             {
                 playClickSound();
 
-                tile.currentType = plateList.getText();
-                tile.texture = textures.get(textureComboBox.selectedIndex);
-                tile.light = lightCheck.getCheck();
-
-                List<String> result = new ArrayList();
-                List<String> keyMap = new ArrayList();
-                String[] keys = strMaps.keySet().toArray(new String[0]);
-                for(int i = 0; i < keys.length; i++)
-                {
-                    keyMap.add(keys[i]);
-                    result.add(strMaps.get(keys[i]));
-                }
-                tile.stringList = result;
-                tile.keyList = keyMap;
-
                 Stations.packetDispatcher.sendToServer(new PacketSendPlate(tile.xCoord, tile.yCoord, tile.zCoord, plateList.getText(), strMaps, textures.get(textureComboBox.selectedIndex), lightCheck.getCheck()));
                 mc.displayGuiScreen((GuiScreen)null);
             }

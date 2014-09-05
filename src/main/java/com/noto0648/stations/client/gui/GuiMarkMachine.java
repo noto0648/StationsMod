@@ -63,8 +63,6 @@ public class GuiMarkMachine extends GuiScreenBase implements IGui
                     markDataList.remove(listBox.selectedIndex);
                     listBox.items.remove(listBox.selectedIndex);
                     listReload();
-                    tile.setMarkDataList(markDataList);
-                    Stations.packetDispatcher.sendToServer(new PacketSendMarkData(markDataList, tile.xCoord, tile.yCoord, tile.zCoord));
                 }
             }
         });
@@ -84,8 +82,6 @@ public class GuiMarkMachine extends GuiScreenBase implements IGui
                     MarkData md = new MarkData(hour, mins, whereText.getText(), typeText.getText());
                     markDataList.add(md);
                     listReload();
-                    tile.setMarkDataList(markDataList);
-                    Stations.packetDispatcher.sendToServer(new PacketSendMarkData(markDataList, tile.xCoord, tile.yCoord, tile.zCoord));
                     timeText.setText("");
                     typeText.setText("");
                     whereText.setText("");
@@ -100,6 +96,13 @@ public class GuiMarkMachine extends GuiScreenBase implements IGui
         controlList.add(removeButton);
         controlList.add(addButton);
 
+    }
+
+    @Override
+    public void onGuiClosed()
+    {
+        super.onGuiClosed();
+        Stations.packetDispatcher.sendToServer(new PacketSendMarkData(markDataList, tile.xCoord, tile.yCoord, tile.zCoord));
     }
 
     @Override

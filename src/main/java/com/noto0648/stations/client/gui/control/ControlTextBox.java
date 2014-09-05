@@ -25,6 +25,7 @@ public class ControlTextBox extends Control
     private int selectEnd = -1;
 
     private ControlButton buttonEdit;
+    private ControlContextMenu menu;
 
     private Frame inputWindow;
     private String inputLimit = "";
@@ -53,12 +54,45 @@ public class ControlTextBox extends Control
                 }
             }
         });
+        menu = (new ControlContextMenu(getGui(), new String[]{"Cut", "Copy", "Paste", "Select All"})
+        {
+            @Override
+            public void dataClick(int id)
+            {
+                if(id == 1)
+                {
+                    if(getSelectText() != null)
+                    {
+                        GuiScreen.setClipboardString(getSelectText());
+                    }
+                }
+                else if(id == 2)
+                {
+                    setText(GuiScreen.getClipboardString());
+                }
+                else if(id == 0)
+                {
+                    if(getSelectText() != null)
+                    {
+                        GuiScreen.setClipboardString(getSelectText());
+                        setText("");
+                    }
+                }
+                else if(id == 3)
+                {
+                    selectStart = 0;
+                    selectEnd = text.length();
+                    cursorPositionCheck();
+                }
+            }
+        });
     }
 
     @Override
     public void initGui()
     {
         buttonEdit.initGui();
+        menu.initGui();
         buttonEdit.setLocation(locationX + width - height, locationY);
         buttonEdit.setSize(height, height);
     }
@@ -76,6 +110,7 @@ public class ControlTextBox extends Control
             closeWindow();
         }
         buttonEdit.update();
+        menu.update();
     }
 
     @Override
@@ -101,6 +136,13 @@ public class ControlTextBox extends Control
             drawRect(locationX + 5 + txtWidth, locationY + 5, locationX + 6 + txtWidth, locationY + 16, 0xFFE0E0E0);
         }
         buttonEdit.draw(mouseX, mouseY);
+        menu.draw(mouseX, mouseY);
+    }
+
+    @Override
+    public void drawTopLayer(int mouseX, int mouseY)
+    {
+        menu.drawTopLayer(mouseX, mouseY);
     }
 
     @Override
@@ -216,13 +258,38 @@ public class ControlTextBox extends Control
                 }
                 cursorPositionCheck();
             }
-            else if(par2 == Keyboard.KEY_LSHIFT || par2 == Keyboard.KEY_LSHIFT)
+            if(GuiScreen.isCtrlKeyDown())
             {
-
+                if(par1 == 'C')
+                {
+                    if(getSelectText() != null)
+                    {
+                        GuiScreen.setClipboardString(getSelectText());
+                    }
+                }
+                else if(par1 == 'V')
+                {
+                    setText(GuiScreen.getClipboardString());
+                }
+                else if(par1 == 'X')
+                {
+                    if(getSelectText() != null)
+                    {
+                        GuiScreen.setClipboardString(getSelectText());
+                        setText("");
+                    }
+                }
+                else if(par1 == 'A')
+                {
+                    selectStart = 0;
+                    selectEnd = text.length();
+                    cursorPositionCheck();
+                }
+                return;
             }
             else if(!ChatAllowedCharacters.isAllowedCharacter(par1) || (par2 >= 59 && par2 <= 68) || par2 == 88 || par2 == 87 || par2 == 210)
             {
-
+                return;
             }
             else
             {
@@ -266,38 +333,51 @@ public class ControlTextBox extends Control
     @Override
     public void mouseClicked(int mouseX, int mouseY, int button)
     {
+        if(isEnable)
+        {
+            menu.mouseClicked(mouseX, mouseY, button);
+        }
         if(onTheMouse(mouseX, mouseY) && isEnable)
         {
             buttonEdit.mouseClicked(mouseX, mouseY, button);
             if(buttonEdit.onTheMouse(mouseX, mouseY))
                 return;
 
-            int mx = mouseX - locationX - 5;
-            int wSize = 0;
-
-            int strWidth = getFont().getStringWidth(text);
-            if(mx >= strWidth)
+            if(button == 1)
             {
-                cursorPosition = text.length();
-                return;
+                menu.show(mouseX, mouseY, controlId);
             }
 
-            for(int i = 0; i < text.length(); i++)
+
+            if(button == 0)
             {
-                int cWidth = getFont().getCharWidth(text.charAt(i));
-                if(mx <= wSize + cWidth)
+                int mx = mouseX - locationX - 5;
+                int wSize = 0;
+
+                int strWidth = getFont().getStringWidth(text);
+                if(mx >= strWidth)
                 {
-                    if(mx <= wSize + cWidth /2)
-                    {
-                        cursorPosition = Math.max(0, i);
-                    }
-                    else
-                    {
-                        cursorPosition = Math.min(text.length(), i + 1);
-                    }
+                    cursorPosition = text.length();
                     return;
                 }
-                wSize += cWidth;
+
+                for(int i = 0; i < text.length(); i++)
+                {
+                    int cWidth = getFont().getCharWidth(text.charAt(i));
+                    if(mx <= wSize + cWidth)
+                    {
+                        if(mx <= wSize + cWidth /2)
+                        {
+                            cursorPosition = Math.max(0, i);
+                        }
+                        else
+                        {
+                            cursorPosition = Math.min(text.length(), i + 1);
+                        }
+                        return;
+                    }
+                    wSize += cWidth;
+                }
             }
         }
     }
@@ -390,10 +470,23 @@ public class ControlTextBox extends Control
         return text;
     }
 
+    public String getSelectText()
+    {
+        if(text.length() == 0)
+            return null;
+
+        if(selectStart != -1 && selectEnd != -1)
+        {
+            return text.substring(selectStart, selectEnd);
+        }
+        return text;
+    }
+
     public void setInputLimit(String par1)
     {
         inputLimit = par1;
     }
+
     /**
      * Text change event
      */

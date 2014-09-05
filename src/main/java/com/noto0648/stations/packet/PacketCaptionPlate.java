@@ -26,10 +26,6 @@ public class PacketCaptionPlate implements IMessageHandler<PacketSendPlate, IMes
         TileEntity te = world.getTileEntity(x, y, z);
         if(te != null && te instanceof TileEntityNamePlate)
         {
-            ((TileEntityNamePlate)te).currentType = message.currentType;
-            ((TileEntityNamePlate)te).texture = message.texture;
-            ((TileEntityNamePlate)te).light = message.light;
-
             List<String> result = new ArrayList();
             List<String> keyMap = new ArrayList();
             String[] keys = message.strMap.keySet().toArray(new String[0]);
@@ -39,8 +35,7 @@ public class PacketCaptionPlate implements IMessageHandler<PacketSendPlate, IMes
                 result.add(message.strMap.get(keys[i]));
             }
 
-            ((TileEntityNamePlate)te).stringList = result;
-            ((TileEntityNamePlate)te).keyList = keyMap;
+            ((TileEntityNamePlate)te).setNamePlateData(message.currentType, message.texture, message.light, result, keyMap);
             ((TileEntityNamePlate)te).reload();
         }
         return null;

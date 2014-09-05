@@ -1,7 +1,10 @@
 package com.noto0648.stations.tile;
 
+import com.noto0648.stations.Stations;
 import com.noto0648.stations.common.MarkData;
 import com.noto0648.stations.common.MinecraftDate;
+import com.noto0648.stations.common.Utils;
+import com.noto0648.stations.packet.PacketSendMarkData;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
@@ -63,6 +66,9 @@ public class TileEntityMarkMachine extends TileBase
         {
             markDataList.add(list.get(i));
         }
+
+        if(!worldObj.isRemote)
+            Utils.INSTANCE.sendToPlayers(new PacketSendMarkData(markDataList, xCoord, yCoord, zCoord), this);
     }
 
 

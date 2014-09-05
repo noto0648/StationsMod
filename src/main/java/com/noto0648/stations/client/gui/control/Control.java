@@ -21,16 +21,22 @@ public abstract class Control
     public boolean isFocus;
     protected boolean isEnable = true;
 
+    public int controlId;
+
     public Control(IGui gui)
     {
         this.gui = gui;
     }
 
     public abstract void draw(int mouseX, int mouseY);
+
+    public void drawTopLayer(int mouseX, int mouseY) {}
+
     public abstract void mouseClicked(int mouseX, int mouseY, int button);
     public void update() {}
 
     public void initGui() {}
+
     /**
      * draw a rectangle
      * @param x leftTop x position

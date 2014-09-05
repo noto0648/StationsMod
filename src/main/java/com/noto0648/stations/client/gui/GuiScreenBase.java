@@ -16,14 +16,22 @@ public abstract class GuiScreenBase extends GuiScreen implements IGui
 {
     protected List<Control> controlList = new ArrayList();
 
+    private boolean isShowContextMenu = false;
+    private int contextMenuId = -1;
+
     protected abstract void paint(int mouseX, int mouseY);
     protected abstract void resize();
+
 
     @Override
     public void initGui()
     {
         Keyboard.enableRepeatEvents(true);
         super.initGui();
+        for(int i = 0; i < controlList.size(); i++)
+        {
+            controlList.get(i).controlId = i;
+        }
         resize();
         for(int i = 0; i < controlList.size(); i++)
         {
@@ -43,16 +51,29 @@ public abstract class GuiScreenBase extends GuiScreen implements IGui
             controlList.get(i).draw(p_73863_1_, p_73863_2_);
         }
         paint(p_73863_1_, p_73863_2_);
+
+        for(int i = 0; i < controlList.size(); i++)
+        {
+            controlList.get(i).drawTopLayer(p_73863_1_, p_73863_2_);
+        }
     }
 
     @Override
     protected void mouseClicked(int p_73864_1_, int p_73864_2_, int p_73864_3_)
     {
         super.mouseClicked(p_73864_1_, p_73864_2_, p_73864_3_);
-        for(int i = 0; i < controlList.size(); i++)
+        if(!isShowContextMenu)
         {
-            controlList.get(i).focusCheck(p_73864_1_, p_73864_2_, p_73864_3_);
-            controlList.get(i).mouseClicked(p_73864_1_, p_73864_2_, p_73864_3_);
+            for(int i = 0; i < controlList.size(); i++)
+            {
+                controlList.get(i).focusCheck(p_73864_1_, p_73864_2_, p_73864_3_);
+                controlList.get(i).mouseClicked(p_73864_1_, p_73864_2_, p_73864_3_);
+            }
+        }
+        else
+        {
+            controlList.get(contextMenuId).focusCheck(p_73864_1_, p_73864_2_, p_73864_3_);
+            controlList.get(contextMenuId).mouseClicked(p_73864_1_, p_73864_2_, p_73864_3_);
         }
     }
 
@@ -60,9 +81,16 @@ public abstract class GuiScreenBase extends GuiScreen implements IGui
     protected void keyTyped(char p_73869_1_, int p_73869_2_)
     {
         super.keyTyped(p_73869_1_, p_73869_2_);
-        for(int i = 0; i < controlList.size(); i++)
+        if(!isShowContextMenu)
         {
-            controlList.get(i).keyTyped(p_73869_1_, p_73869_2_);
+            for(int i = 0; i < controlList.size(); i++)
+            {
+                controlList.get(i).keyTyped(p_73869_1_, p_73869_2_);
+            }
+        }
+        else
+        {
+            controlList.get(contextMenuId).keyTyped(p_73869_1_, p_73869_2_);
         }
     }
 
@@ -70,9 +98,16 @@ public abstract class GuiScreenBase extends GuiScreen implements IGui
     protected void mouseMovedOrUp(int p_146286_1_, int p_146286_2_, int p_146286_3_)
     {
         super.mouseMovedOrUp(p_146286_1_, p_146286_2_, p_146286_3_);
-        for(int i = 0; i < controlList.size(); i++)
+        if(!isShowContextMenu)
         {
-            controlList.get(i).mouseMovedOrUp(p_146286_1_, p_146286_2_, p_146286_3_);
+            for(int i = 0; i < controlList.size(); i++)
+            {
+                controlList.get(i).mouseMovedOrUp(p_146286_1_, p_146286_2_, p_146286_3_);
+            }
+        }
+        else
+        {
+            controlList.get(contextMenuId).mouseMovedOrUp(p_146286_1_, p_146286_2_, p_146286_3_);
         }
     }
 
@@ -80,9 +115,16 @@ public abstract class GuiScreenBase extends GuiScreen implements IGui
     protected void mouseClickMove(int p_146273_1_, int p_146273_2_, int p_146273_3_, long p_146273_4_)
     {
         super.mouseClickMove(p_146273_1_, p_146273_2_, p_146273_3_, p_146273_4_);
-        for(int i = 0; i < controlList.size(); i++)
+        if(!isShowContextMenu)
         {
-            controlList.get(i).mouseClickMove(p_146273_1_, p_146273_2_, p_146273_3_, p_146273_4_);
+            for(int i = 0; i < controlList.size(); i++)
+            {
+                controlList.get(i).mouseClickMove(p_146273_1_, p_146273_2_, p_146273_3_, p_146273_4_);
+            }
+        }
+        else
+        {
+            controlList.get(contextMenuId).mouseClickMove(p_146273_1_, p_146273_2_, p_146273_3_, p_146273_4_);
         }
     }
 
@@ -90,9 +132,16 @@ public abstract class GuiScreenBase extends GuiScreen implements IGui
     public void updateScreen()
     {
         super.updateScreen();
-        for(int i = 0; i < controlList.size(); i++)
+        if(!isShowContextMenu)
         {
-            controlList.get(i).update();
+            for(int i = 0; i < controlList.size(); i++)
+            {
+                controlList.get(i).update();
+            }
+        }
+        else
+        {
+            controlList.get(contextMenuId).update();
         }
     }
 
@@ -144,5 +193,11 @@ public abstract class GuiScreenBase extends GuiScreen implements IGui
     public FontRenderer getFontRenderer()
     {
         return this.fontRendererObj;
+    }
+
+    public void openRightClickMenu(boolean par1, int par2)
+    {
+        isShowContextMenu = par1;
+        contextMenuId = par2;
     }
 }

@@ -81,6 +81,14 @@ public class Utils
         }
     }
 
+    public void sendToPlayers(IPacketSender packetSender)
+    {
+        List<Object> result = new ArrayList();
+        packetSender.setSendData(result);
+        TileEntity te = packetSender.getTile();
+        sendToPlayers(new PacketSendTile(result, te.xCoord, te.yCoord, te.zCoord), te);
+    }
+
     public void sendToPlayers(IMessage mes, TileEntity te)
     {
         sendToPlayers(mes, te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord, 192);

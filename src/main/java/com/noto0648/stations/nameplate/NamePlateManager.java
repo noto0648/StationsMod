@@ -1,11 +1,9 @@
 package com.noto0648.stations.nameplate;
 
 import com.google.gson.Gson;
-import com.noto0648.stations.client.texture.TextureImporter;
+import com.noto0648.stations.Stations;
 import cpw.mods.fml.common.Loader;
-import scala.reflect.api.Annotations;
 
-import javax.xml.stream.util.StreamReaderDelegate;
 import java.io.*;
 import java.lang.annotation.Annotation;
 import java.nio.charset.Charset;
@@ -64,7 +62,7 @@ public class NamePlateManager
             if(images[i].getPath().endsWith(".png"))
             {
                 platesImages.add(images[i].getPath());
-                TextureImporter.INSTANCE.readTexture(images[i].getPath());
+                Stations.proxy.readTexture(images[i].getPath());
             }
             else if(images[i].getPath().endsWith(".json"))
             {
@@ -140,7 +138,7 @@ public class NamePlateManager
                     {
                         String key = zipPaths.get(i) + "/" + entry.getName();
                         platesImages.add(key);
-                        TextureImporter.INSTANCE.readTexture(key, zip.getInputStream(entry));
+                        Stations.proxy.readTexture(key, zip.getInputStream(entry));
                     }
                 }
             }

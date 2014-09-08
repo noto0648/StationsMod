@@ -18,6 +18,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -30,7 +31,7 @@ import net.minecraftforge.common.util.EnumHelper;
 /**
  * Created by Noto on 14/08/04.
  */
-@Mod(modid = "stationsMod", name = "Stations Mod", version = "1.7.10#1")
+@Mod(modid = "stationsMod", name = "Stations Mod", version = "1.7.10.2")
 public class Stations
 {
     @Mod.Instance("stationsMod")
@@ -45,11 +46,11 @@ public class Stations
 
     public Block stationMaterial;
     public Block stationFence;
-    public Block numberPlates;
     public Block pillarBlock;
     public Block namePlate;
     public Block ticketMachine;
     public Block shutter;
+    public Block railToy;
 
     public Item ticket;
     public Item lanSetter;
@@ -59,7 +60,7 @@ public class Stations
     public Item ticketCase;
 
     public int fenceRendererId;
-    public int numberPlateId;
+    public int railToyRenderId;
     public int pillarRenderId;
     public int namePlateRenderId;
     public int tickerMachineRenderId;
@@ -85,7 +86,7 @@ public class Stations
 
         packetDispatcher.registerMessage(PacketCaptionTile.class, PacketSendTile.class, 32, Side.SERVER);
 
-        NewFontRenderer.INSTANCE.init();
+
         NamePlateManager.INSTANCE.init();
 
         isLoadedEconomy = Loader.isModLoaded("mceconomy2");
@@ -113,6 +114,10 @@ public class Stations
 
         ticketMachine = new BlockTicketMachine();
         GameRegistry.registerBlock(ticketMachine, ItemBlockBase.class, "NotoMod.ticketMachine");
+
+
+        railToy = new BlockRailToy();
+        GameRegistry.registerBlock(railToy, ItemBlockBase.class, "NotoMod.railToy");
 
         shutter = new BlockShutter();
         GameRegistry.registerBlock(shutter, "NotoMod.shutter");

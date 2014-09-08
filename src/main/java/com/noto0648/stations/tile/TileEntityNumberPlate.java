@@ -1,6 +1,8 @@
 package com.noto0648.stations.tile;
 
+import com.noto0648.stations.common.Utils;
 import com.noto0648.stations.packet.IPacketReceiver;
+import com.noto0648.stations.packet.IPacketSender;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -12,7 +14,7 @@ import java.util.List;
 /**
  * Created by Noto on 14/08/04.
  */
-public class TileEntityNumberPlate extends TileBase implements IPacketReceiver
+public class TileEntityNumberPlate extends TileBase implements IPacketReceiver, IPacketSender
 {
     private String drawStr = "";
 
@@ -48,6 +50,23 @@ public class TileEntityNumberPlate extends TileBase implements IPacketReceiver
         {
             drawStr = (String)data.get(1);
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+            if(!worldObj.isRemote)
+            {
+                Utils.INSTANCE.sendToPlayers(this);
+            }
         }
+    }
+
+    @Override
+    public TileEntity getTile()
+    {
+        return this;
+    }
+
+    @Override
+    public void setSendData(List<Object> list)
+    {
+        list.add((byte)0x03);
+        list.add(drawStr);
     }
 }

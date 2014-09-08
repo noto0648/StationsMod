@@ -1,6 +1,9 @@
 package com.noto0648.stations.nameplate;
 
+import com.noto0648.stations.client.render.TileEntityNamePlateRender;
 import com.noto0648.stations.client.texture.NewFontRenderer;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
@@ -15,7 +18,6 @@ import java.util.Map;
 @NamePlateAnnotation
 public class NamePlateKokutetsu extends NamePlateBase
 {
-    public static IModelCustom model = AdvancedModelLoader.loadModel(new ResourceLocation("notomod", "objs/name_plate_kokutetsu.obj"));
 
     @Override
     public void render(Map<String, String> map, boolean rotate, int plateFace)
@@ -148,6 +150,6 @@ public class NamePlateKokutetsu extends NamePlateBase
         if(plateFace == 2) GL11.glTranslatef(0F, -0.5F, 0F);
 
         GL11.glScalef(1.5F, 1.5F, 1.5F);
-        model.renderAll();
+        TileEntityNamePlateRender.kokutetuModel.renderAll();
     }
 }

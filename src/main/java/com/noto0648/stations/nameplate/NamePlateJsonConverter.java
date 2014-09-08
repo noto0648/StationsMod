@@ -1,5 +1,6 @@
 package com.noto0648.stations.nameplate;
 
+import com.noto0648.stations.client.render.TileEntityNamePlateRender;
 import com.noto0648.stations.client.texture.NewFontRenderer;
 import org.lwjgl.opengl.GL11;
 
@@ -119,7 +120,7 @@ public class NamePlateJsonConverter extends NamePlateBase
         {
             if(plateFace == 1) GL11.glTranslatef(0F, 0.5F, 0F);
             if(plateFace == 2) GL11.glTranslatef(0F, -0.5F, 0F);
-            NamePlateAonamiLine.model.renderAll();
+            TileEntityNamePlateRender.subwayModel.renderAll();
         }
         if(plateData.modelId == 2)
         {
@@ -127,7 +128,7 @@ public class NamePlateJsonConverter extends NamePlateBase
             if(plateFace == 2) GL11.glTranslatef(0F, -0.5F, 0F);
 
             GL11.glScalef(1.5F, 1.5F, 1.5F);
-            NamePlateKokutetsu.model.renderAll();
+            TileEntityNamePlateRender.kokutetuModel.renderAll();
         }
     }
 

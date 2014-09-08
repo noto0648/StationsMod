@@ -2,7 +2,6 @@ package com.noto0648.stations.client.gui;
 
 import com.noto0648.stations.*;
 import com.noto0648.stations.client.gui.control.*;
-import com.noto0648.stations.client.texture.NewFontRenderer;
 import com.noto0648.stations.nameplate.NamePlateBase;
 import com.noto0648.stations.nameplate.NamePlateManager;
 import com.noto0648.stations.packet.PacketSendPlate;

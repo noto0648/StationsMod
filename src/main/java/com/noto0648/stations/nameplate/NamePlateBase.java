@@ -1,5 +1,8 @@
 package com.noto0648.stations.nameplate;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import java.util.List;
 import java.util.Map;
 

@@ -1,6 +1,9 @@
 package com.noto0648.stations.nameplate;
 
+import com.noto0648.stations.client.render.TileEntityNamePlateRender;
 import com.noto0648.stations.client.texture.NewFontRenderer;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
@@ -15,7 +18,8 @@ import java.util.Map;
 @NamePlateAnnotation
 public class NamePlateAonamiLine extends NamePlateBase
 {
-    public static IModelCustom model = AdvancedModelLoader.loadModel(new ResourceLocation("notomod", "objs/name_plate_subway.obj"));
+    @SideOnly(Side.CLIENT)
+
 
 
     @Override
@@ -23,8 +27,6 @@ public class NamePlateAonamiLine extends NamePlateBase
     {
         String nowStation = map.get("stationName");
         String nowEnglish = map.get("englishName");
-
-
 
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -135,6 +137,6 @@ public class NamePlateAonamiLine extends NamePlateBase
         if(plateFace == 1) GL11.glTranslatef(0F, 0.5F, 0F);
         if(plateFace == 2) GL11.glTranslatef(0F, -0.5F, 0F);
 
-        model.renderAll();
+        TileEntityNamePlateRender.subwayModel.renderAll();
     }
 }

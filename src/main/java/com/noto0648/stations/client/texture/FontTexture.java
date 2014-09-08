@@ -14,7 +14,6 @@ import java.io.IOException;
 /**
  * Created by Noto on 14/08/07.
  */
-@SideOnly(Side.CLIENT)
 public class FontTexture extends AbstractTexture
 {
     private static final Logger logger = LogManager.getLogger();

@@ -19,6 +19,9 @@ import java.util.Map;
 public class TileEntityNamePlateRender extends TileEntitySpecialRenderer
 {
     public static IModelCustom model = AdvancedModelLoader.loadModel(new ResourceLocation("notomod", "objs/name_plate.obj"));
+    public static IModelCustom subwayModel = AdvancedModelLoader.loadModel(new ResourceLocation("notomod", "objs/name_plate_subway.obj"));
+    public static IModelCustom kokutetuModel = AdvancedModelLoader.loadModel(new ResourceLocation("notomod", "objs/name_plate_kokutetsu.obj"));
+
     public static ResourceLocation texture = new ResourceLocation("notomod", "textures/models/name_plate.png");
 
     @Override

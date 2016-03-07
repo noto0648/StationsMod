@@ -28,9 +28,9 @@ public class NamePlateJson
         public String reverseLabel;
         public boolean enableReverse;
 
-        public double R;
-        public double G;
-        public double B;
+        public float R;
+        public float G;
+        public float B;
 
         public double fontScale;
 

@@ -6,6 +6,7 @@ import com.noto0648.stations.client.texture.NewFontRenderer;
 import com.noto0648.stations.common.CreativeTabsStations;
 import com.noto0648.stations.common.ServerProxy;
 import com.noto0648.stations.common.StationsGuiHandler;
+import com.noto0648.stations.common.VillageTrade;
 import com.noto0648.stations.items.*;
 import com.noto0648.stations.nameplate.*;
 import com.noto0648.stations.packet.*;
@@ -20,6 +21,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.VillagerRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -31,7 +33,7 @@ import net.minecraftforge.common.util.EnumHelper;
 /**
  * Created by Noto on 14/08/04.
  */
-@Mod(modid = "stationsMod", name = "Stations Mod", version = "1.7.10.2")
+@Mod(modid = "stationsMod", name = "Stations Mod", version = "1.7.10.4")
 public class Stations
 {
     @Mod.Instance("stationsMod")
@@ -71,9 +73,16 @@ public class Stations
 
     public int armorRenderId = -1;
 
+    public int stationAttendantVillagerId = 31;
+    public VillageTrade villageTrade;
+
     @Mod.EventHandler
     public void init(FMLInitializationEvent event)
     {
+        villageTrade = new VillageTrade();
+        VillagerRegistry.instance().registerVillagerId(stationAttendantVillagerId);
+        VillagerRegistry.instance().registerVillageTradeHandler(stationAttendantVillagerId, villageTrade);
+
         proxy.register();
 
         GameRegistry.registerTileEntity(TileEntityMarkMachine.class, "NotoMod.MarkMachine");
@@ -87,6 +96,7 @@ public class Stations
         packetDispatcher.registerMessage(PacketCaptionTile.class, PacketSendTile.class, 32, Side.SERVER);
 
 
+
         NamePlateManager.INSTANCE.init();
 
         isLoadedEconomy = Loader.isModLoaded("mceconomy2");
@@ -96,9 +106,7 @@ public class Stations
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
-
         proxy.preInit();
-
 
         stationMaterial = new BlockStation();
         GameRegistry.registerBlock(stationMaterial, ItemBlockBase.class, "NotoMod.stationMaterial");

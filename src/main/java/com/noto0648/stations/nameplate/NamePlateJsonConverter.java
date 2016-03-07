@@ -55,12 +55,16 @@ public class NamePlateJsonConverter extends NamePlateBase
             for(int i = 0; i < labels.size(); i++)
             {
                 NamePlateJson.LabelData label = labels.get(i);
+                if(!map.containsKey(label.label))
+                {
+                    continue;
+                }
                 String drawStr = map.get(label.label);
 
                 if(label.enableReverse && rotate) drawStr = map.get(label.reverseLabel);
 
                 GL11.glPushMatrix();
-                GL11.glColor3d(label.R, label.G, label.B);
+                GL11.glColor3f(label.R, label.G, label.B);
                 GL11.glTranslated(label.x, -label.y, 0);
                 GL11.glScaled(label.fontScale, label.fontScale, label.fontScale);
 

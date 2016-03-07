@@ -78,6 +78,7 @@ public class NamePlateManager
                     }
                     NamePlateJson namePlateData = gson.fromJson(result.toString(), NamePlateJson.class);
                     NamePlateManager.INSTANCE.registerNamePlate(new NamePlateJsonConverter(namePlateData, namePlateData.labels));
+                    System.out.println("Registered Nameplate " + namePlateData.name);
                     stream.close();
                 }
                 catch(Exception e)

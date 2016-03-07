@@ -313,6 +313,15 @@ public class ControlTextBox extends Control
                     text = sb.toString();
                     textChanged();
                 }
+                else if(selectStart != -1 && selectEnd != -1)
+                {
+                    String first = text.substring(0, selectStart);
+                    String end = text.substring(selectEnd);
+                    text = first + String.valueOf(par1) + end;
+                    cursorPosition = selectStart;
+                    selectStart = selectEnd = -1;
+                    textChanged();
+                }
                 else
                 {
                     text = text.substring(0, cursorPosition) + String.valueOf(par1) + text.substring(cursorPosition, text.length());

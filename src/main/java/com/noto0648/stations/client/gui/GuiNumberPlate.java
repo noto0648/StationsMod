@@ -20,6 +20,8 @@ public class GuiNumberPlate extends GuiScreenBase implements IPacketSender
 
     private ControlTextBox textBox;
     private ControlButton button;
+    private ControlTextBox colorCodeBox;
+    private ControlTextBox strColorCodeBox;
 
     private IPacketSender instance;
 
@@ -27,6 +29,14 @@ public class GuiNumberPlate extends GuiScreenBase implements IPacketSender
     {
         tile = tileEntityNumberPlate;
         instance = this;
+
+        strColorCodeBox = new ControlTextBox(this, (width - 200) / 2, (height - 20) / 2 - 80, 200, 20);
+        strColorCodeBox.setText(tile.getStrColorCode());
+        strColorCodeBox.setInputLimit("0123456789abcdefABCDEF");
+        colorCodeBox = new ControlTextBox(this, (width - 200) / 2, (height - 20) / 2 - 40, 200, 20);
+        colorCodeBox.setText(tile.getColorCode());
+        colorCodeBox.setInputLimit("0123456789abcdefABCDEF");
+
         textBox = new ControlTextBox(this, (width - 200) / 2, (height - 20) / 2, 200, 20);
         textBox.setText(tile.getDrawStr());
         button = (new ControlButton(this, (width - 200) / 2, (height - 20) / 2 + 40, 200, 20, "Done")
@@ -44,6 +54,8 @@ public class GuiNumberPlate extends GuiScreenBase implements IPacketSender
         });
         controlList.add(textBox);
         controlList.add(button);
+        controlList.add(colorCodeBox);
+        controlList.add(strColorCodeBox);
     }
 
     @Override
@@ -55,6 +67,8 @@ public class GuiNumberPlate extends GuiScreenBase implements IPacketSender
     @Override
     protected void resize()
     {
+        strColorCodeBox.setLocation((width - 200) / 2, (height - 20) / 2 - 40);
+        colorCodeBox.setLocation((width - 200) / 2, (height - 20) / 2 - 80);
         textBox.setLocation((width - 200) / 2, (height - 20) / 2);
         button.setLocation((width - 200) / 2, (height - 20) / 2 + 40);
     }
@@ -70,5 +84,7 @@ public class GuiNumberPlate extends GuiScreenBase implements IPacketSender
     {
         list.add((byte)0x03);
         list.add(textBox.getText());
+        list.add(colorCodeBox.getText().toUpperCase());
+        list.add(strColorCodeBox.getText().toUpperCase());
     }
 }

@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -167,7 +168,7 @@ public class BlockStation extends Block
                     {
                         Block block = p_149695_1_.getBlock(p_149695_2_, p_149695_3_ - i, p_149695_4_);
                         TileEntity te = p_149695_1_.getTileEntity(p_149695_2_, p_149695_3_ - i, p_149695_4_);
-                        if(block == Stations.instance.shutter && te != null && te instanceof TileEntityShutter)
+                        if((block == Stations.instance.shutter && te != null && te instanceof TileEntityShutter))
                         {
                             continue;
                         }
@@ -188,13 +189,13 @@ public class BlockStation extends Block
                     {
                         Block block = p_149695_1_.getBlock(p_149695_2_, p_149695_3_ - i, p_149695_4_);
                         TileEntity te = p_149695_1_.getTileEntity(p_149695_2_, p_149695_3_ - i, p_149695_4_);
-                        if(block == Stations.instance.shutter && te != null && te instanceof TileEntityShutter)
+                        if((block == Stations.instance.shutter && te != null && te instanceof TileEntityShutter))
                         {
                             continue;
                         }
                         else
                         {
-                            if(i == 1 && te == null)
+                            if(i == 1 && te == null && block == Blocks.air)
                             {
                                 p_149695_1_.setBlock(p_149695_2_, p_149695_3_ - 1, p_149695_4_, Stations.instance.shutter,  metadata == 14 ? 7 : 15, 2);
                             }

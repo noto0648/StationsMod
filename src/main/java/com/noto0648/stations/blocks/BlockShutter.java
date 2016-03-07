@@ -63,9 +63,6 @@ public class BlockShutter extends BlockContainer
     public void harvestBlock(World p_149636_1_, EntityPlayer p_149636_2_, int p_149636_3_, int p_149636_4_, int p_149636_5_, int p_149636_6_)
     {
         super.harvestBlock(p_149636_1_, p_149636_2_, p_149636_3_, p_149636_4_, p_149636_5_, p_149636_6_);
-        System.out.println("harvest");
-
-
     }
 
     @Override

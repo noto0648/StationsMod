@@ -11,6 +11,8 @@ import com.noto0648.stations.tile.*;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.registry.VillagerRegistry;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 
 import java.io.InputStream;
@@ -24,6 +26,8 @@ public class ClientProxy extends ServerProxy
     public void register()
     {
         NewFontRenderer.INSTANCE.init();
+
+        VillagerRegistry.instance().registerVillagerSkin(Stations.instance.stationAttendantVillagerId, new ResourceLocation("notomod", "/textures/entity/station_villager.png"));
 
         Stations.instance.fenceRendererId = RenderingRegistry.getNextAvailableRenderId();
         Stations.instance.railToyRenderId = RenderingRegistry.getNextAvailableRenderId();

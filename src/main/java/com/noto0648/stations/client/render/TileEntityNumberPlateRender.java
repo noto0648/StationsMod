@@ -77,10 +77,23 @@ public class TileEntityNumberPlateRender extends TileEntitySpecialRenderer
 
         public ColorCode(String str)
         {
-            int code = (int)Long.parseLong(str.toUpperCase(), 16);
-            this.r = ((code >> 16) & 0xFF);
-            this.g = ((code >> 8) & 0xFF);
-            this.b = ((code >> 0) & 0xFF);
+            if(str==null||str.length()==0)
+            {
+                r = g = b = 0;
+                return;
+            }
+
+            try
+            {
+                int code = (int) Long.parseLong(str.toUpperCase(), 16);
+                this.r = ((code >> 16) & 0xFF);
+                this.g = ((code >> 8) & 0xFF);
+                this.b = ((code >> 0) & 0xFF);
+            }
+            catch(Exception e)
+            {
+                r = g = b = 0;
+            }
         }
 
         private float getFloat(int v)

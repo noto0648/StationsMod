@@ -33,7 +33,7 @@ import net.minecraftforge.common.util.EnumHelper;
 /**
  * Created by Noto on 14/08/04.
  */
-@Mod(modid = "stationsMod", name = "Stations Mod", version = "1.7.10.4")
+@Mod(modid = "stationsMod", name = "Stations Mod", version = "1.7.10.5")
 public class Stations
 {
     @Mod.Instance("stationsMod")

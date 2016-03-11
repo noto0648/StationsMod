@@ -84,7 +84,16 @@ public class GuiNumberPlate extends GuiScreenBase implements IPacketSender
     {
         list.add((byte)0x03);
         list.add(textBox.getText());
+        if(colorCodeBox.getText().length()==0)
+        {
+            colorCodeBox.setText(tile.getColorCode());
+        }
         list.add(colorCodeBox.getText().toUpperCase());
+
+        if(strColorCodeBox.getText().length()==0)
+        {
+            strColorCodeBox.setText(tile.getStrColorCode());
+        }
         list.add(strColorCodeBox.getText().toUpperCase());
     }
 }

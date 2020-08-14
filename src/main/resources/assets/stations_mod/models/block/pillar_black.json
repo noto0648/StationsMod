@@ -1,0 +1,7 @@
+{
+  "parent": "stations_mod:block/pillar_white",
+  "textures": {
+    "particle": "stations_mod:blocks/pillar_black",
+    "pillar": "stations_mod:blocks/pillar_black"
+  }
+}

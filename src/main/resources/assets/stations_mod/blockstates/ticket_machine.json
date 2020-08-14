@@ -1,0 +1,72 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "stations_mod:ticket_machine.obj",
+    "transform": "forge:default-block",
+    "custom": { "flip-v": true }
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{}],
+    "facing=north,variant=ticket_machine": {
+      "y": 270
+    },
+    "facing=south,variant=ticket_machine": {
+      "y": 90
+    },
+    "facing=east,variant=ticket_machine": {
+      "y": 0
+    },
+    "facing=west,variant=ticket_machine": {
+      "y": 180
+    },
+    "facing=north,variant=ticket_gate": {
+      "model": "stations_mod:ticket_gate.obj",
+      "y": 270
+    },
+    "facing=south,variant=ticket_gate": {
+      "model": "stations_mod:ticket_gate.obj",
+      "y": 90
+    },
+    "facing=east,variant=ticket_gate": {
+      "model": "stations_mod:ticket_gate.obj",
+      "y": 0
+    },
+    "facing=west,variant=ticket_gate": {
+      "model": "stations_mod:ticket_gate.obj",
+      "y": 180
+    },
+    "facing=north,variant=staff_ticket_machine": {
+      "model": "stations_mod:mars.obj",
+      "y": 270
+    },
+    "facing=south,variant=staff_ticket_machine": {
+      "model": "stations_mod:mars.obj",
+      "y": 90
+    },
+    "facing=east,variant=staff_ticket_machine": {
+      "model": "stations_mod:mars.obj",
+      "y": 0
+    },
+    "facing=west,variant=staff_ticket_machine": {
+      "model": "stations_mod:mars.obj",
+      "y": 180
+    },
+    "facing=north,variant=ic_ticket_gate": {
+      "model": "stations_mod:ic_ticket_gate.obj",
+      "y": 270
+    },
+    "facing=south,variant=ic_ticket_gate": {
+      "model": "stations_mod:ic_ticket_gate.obj",
+      "y": 90
+    },
+    "facing=east,variant=ic_ticket_gate": {
+      "model": "stations_mod:ic_ticket_gate.obj",
+      "y": 0
+    },
+    "facing=west,variant=ic_ticket_gate": {
+      "model": "stations_mod:ic_ticket_gate.obj",
+      "y": 180
+    }
+  }
+}

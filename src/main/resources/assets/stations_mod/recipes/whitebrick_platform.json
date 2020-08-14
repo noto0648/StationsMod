@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "stations_mod:basic_material",
+  "pattern": [
+    "%",
+    "!",
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:stonebrick",
+      "data": 0
+    },
+    "!": {
+      "item": "minecraft:dye",
+      "data": 15
+    },
+    "%": {
+      "item": "minecraft:stone_slab",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "stations_mod:material_block",
+    "data": 0,
+    "count": 8
+  }
+}

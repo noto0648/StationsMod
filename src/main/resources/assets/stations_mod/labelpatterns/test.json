@@ -1,0 +1,21 @@
+{
+  "name":"__builtin_test",
+  "labels":[
+    {
+      "label": "akanaaa",
+      "x": 0,
+      "y": 0,
+      "justification": "LEFT",
+      "fontScale": 1,
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "enableReverse": false
+    }
+  ],
+  "displayNames": {
+    "en_US": "aa",
+    "ja_JP": "bb"
+  },
+  "modelId": 0
+}

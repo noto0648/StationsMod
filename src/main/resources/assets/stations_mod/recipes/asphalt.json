@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "stations_mod:advanced_material",
+  "pattern": [
+    "%%%",
+    "%!%",
+    "%%%"
+  ],
+  "key": {
+    "!": {
+      "item": "minecraft:dye",
+      "data": 3
+    },
+    "%": {
+      "item": "stations_mod:material_block",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "stations_mod:material_block",
+    "data": 3,
+    "count": 8
+  }
+}

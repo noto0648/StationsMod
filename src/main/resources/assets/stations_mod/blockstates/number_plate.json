@@ -1,0 +1,24 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "stations_mod:number_plate.obj",
+    "transform": "forge:default-block",
+    "custom": { "flip-v": true }
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{}],
+    "facing=north,variant=ticket_machine": {
+      "y": 270
+    },
+    "facing=south,variant=ticket_machine": {
+      "y": 90
+    },
+    "facing=east,variant=ticket_machine": {
+      "y": 0
+    },
+    "facing=west,variant=ticket_machine": {
+      "y": 180
+    }
+  }
+}

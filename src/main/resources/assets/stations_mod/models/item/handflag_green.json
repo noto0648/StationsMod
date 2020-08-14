@@ -1,0 +1,8 @@
+{
+  "parent": "stations_mod:item/handflag_red",
+  "textures": {
+    "particle": "stations_mod:blocks/station_brick",
+    "stick": "blocks/planks_oak",
+    "cloth": "blocks/wool_colored_green"
+  }
+}

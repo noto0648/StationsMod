@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "stations_mod:blocks/old_platform_brick"
+  }
+}

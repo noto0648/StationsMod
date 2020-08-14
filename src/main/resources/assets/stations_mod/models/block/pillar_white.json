@@ -1,0 +1,22 @@
+{
+  "parent": "block/block",
+  "elements": [
+    {
+      "from": [6.4, 0, 6.4],
+      "to": [9.6, 16, 9.6],
+      "color": 3,
+      "faces": {
+        "north": {"uv": [6.4, 0, 9.6, 16], "texture": "#pillar"},
+        "east": {"uv": [6.4, 0, 9.6, 16], "texture": "#pillar"},
+        "south": {"uv": [6.4, 0, 9.6, 16], "texture": "#pillar"},
+        "west": {"uv": [6.4, 0, 9.6, 16], "texture": "#pillar"},
+        "up": {"uv": [6.4, 6.4, 9.6, 9.6], "texture": "#pillar"},
+        "down": {"uv": [9.6, 9.6, 9.6, 9.6], "texture": "#pillar"}
+      }
+    }
+  ],
+  "textures": {
+    "particle": "blocks/iron_block",
+    "pillar": "blocks/iron_block"
+  }
+}

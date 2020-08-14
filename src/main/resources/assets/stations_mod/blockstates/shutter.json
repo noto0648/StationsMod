@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=x,progress=0": { "model": "stations_mod:block_shutter_0" },
+    "facing=x,progress=1": { "model": "stations_mod:block_shutter_1" },
+    "facing=x,progress=2": { "model": "stations_mod:block_shutter_2" },
+    "facing=x,progress=3": { "model": "stations_mod:block_shutter_3" },
+    "facing=x,progress=4": { "model": "stations_mod:block_shutter_4" },
+    "facing=x,progress=5": { "model": "stations_mod:block_shutter_5" },
+    "facing=x,progress=6": { "model": "stations_mod:block_shutter_6" },
+    "facing=x,progress=7": { "model": "stations_mod:block_shutter_7" },
+
+
+    "facing=z,progress=0": { "model": "stations_mod:block_shutter_0", "y": 90 },
+    "facing=z,progress=1": { "model": "stations_mod:block_shutter_1", "y": 90 },
+    "facing=z,progress=2": { "model": "stations_mod:block_shutter_2", "y": 90 },
+    "facing=z,progress=3": { "model": "stations_mod:block_shutter_3", "y": 90 },
+    "facing=z,progress=4": { "model": "stations_mod:block_shutter_4", "y": 90 },
+    "facing=z,progress=5": { "model": "stations_mod:block_shutter_5", "y": 90 },
+    "facing=z,progress=6": { "model": "stations_mod:block_shutter_6", "y": 90 },
+    "facing=z,progress=7": { "model": "stations_mod:block_shutter_7", "y": 90 }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "transform": "forge:default-block",
+    "custom": { "flip-v": true }
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{}],
+
+    "facing=north,variant=pillar_white": { "model": "stations_mod:pillar_white" },
+    "facing=north,variant=pillar_black": { "model": "stations_mod:pillar_black" },
+
+    "facing=north,variant=yellow_line": { "model": "stations_mod:yellow_line", "y":180 },
+    "facing=south,variant=yellow_line": { "model": "stations_mod:yellow_line", "y":0 },
+    "facing=east,variant=yellow_line": { "model": "stations_mod:yellow_line", "y":270 },
+    "facing=west,variant=yellow_line": { "model": "stations_mod:yellow_line", "y":90 },
+
+    "facing=north,variant=number_plate": { "model": "stations_mod:number_plate.obj", "y":90 },
+    "facing=south,variant=number_plate": { "model": "stations_mod:number_plate.obj", "y":90 },
+    "facing=west,variant=number_plate": { "model": "stations_mod:number_plate.obj", "y":0 },
+    "facing=east,variant=number_plate": { "model": "stations_mod:number_plate.obj", "y":180 },
+
+    "facing=north,variant=white_line": { "model": "stations_mod:white_line", "y":180 },
+    "facing=south,variant=white_line": { "model": "stations_mod:white_line", "y":0 },
+    "facing=east,variant=white_line": { "model": "stations_mod:white_line", "y":270 },
+    "facing=west,variant=white_line": { "model": "stations_mod:white_line", "y":90 }
+
+  }
+}

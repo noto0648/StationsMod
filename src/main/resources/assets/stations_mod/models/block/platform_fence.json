@@ -1,0 +1,179 @@
+{
+  "parent": "block/block",
+  "elements": [
+    {
+      "from": [7, 0, 0],
+      "to": [9, 12, 1],
+      "color": 0,
+      "faces": {
+        "north": {"uv": [0, 0, 2, 12], "texture": "#fence"},
+        "east": {"uv": [0, 0, 1, 12], "texture": "#fence"},
+        "south": {"uv": [0, 0, 2, 12], "texture": "#fence"},
+        "west": {"uv": [0, 0, 1, 12], "texture": "#fence"},
+        "up": {"uv": [0, 0, 2, 1], "texture": "#fence"},
+        "down": {"uv": [0, 0, 2, 1], "texture": "#fence"}
+      }
+    },
+    {
+      "from": [7, 0, 15],
+      "to": [9, 12, 16],
+      "color": 0,
+      "faces": {
+        "north": {"uv": [0, 0, 2, 12], "texture": "#fence"},
+        "east": {"uv": [0, 0, 1, 12], "texture": "#fence"},
+        "south": {"uv": [0, 0, 2, 12], "texture": "#fence"},
+        "west": {"uv": [0, 0, 1, 12], "texture": "#fence"},
+        "up": {"uv": [0, 0, 2, 1], "texture": "#fence"},
+        "down": {"uv": [0, 0, 2, 1], "texture": "#fence"}
+      }
+    },
+    {
+      "from": [7, 1, 1],
+      "to": [8, 2, 15],
+      "color": 3,
+      "faces": {
+        "north": {"uv": [0, 0, 1, 1], "texture": "#fence"},
+        "east": {"uv": [0, 0, 14, 1], "texture": "#fence"},
+        "south": {"uv": [0, 0, 1, 1], "texture": "#fence"},
+        "west": {"uv": [0, 0, 14, 1], "texture": "#fence"},
+        "up": {"uv": [0, 0, 1, 14], "texture": "#fence"},
+        "down": {"uv": [0, 0, 1, 14], "texture": "#fence"}
+      }
+    },
+    {
+      "from": [7, 10, 1],
+      "to": [8, 11, 15],
+      "color": 3,
+      "faces": {
+        "north": {"uv": [0, 0, 1, 1], "texture": "#fence"},
+        "east": {"uv": [0, 0, 14, 1], "texture": "#fence"},
+        "south": {"uv": [0, 0, 1, 1], "texture": "#fence"},
+        "west": {"uv": [0, 0, 14, 1], "texture": "#fence"},
+        "up": {"uv": [0, 0, 1, 14], "texture": "#fence"},
+        "down": {"uv": [0, 0, 1, 14], "texture": "#fence"}
+      }
+    },
+    {
+      "from": [8, 15, 0],
+      "to": [9, 16, 16],
+      "color": 5,
+      "faces": {
+        "north": {"uv": [0, 0, 1, 1], "texture": "#fence"},
+        "east": {"uv": [0, 0, 16, 1], "texture": "#fence"},
+        "south": {"uv": [0, 0, 1, 1], "texture": "#fence"},
+        "west": {"uv": [0, 0, 16, 1], "texture": "#fence"},
+        "up": {"uv": [0, 0, 1, 16], "texture": "#fence"},
+        "down": {"uv": [0, 0, 1, 16], "texture": "#fence"}
+      }
+    },
+    {
+      "from": [7, 12, 0],
+      "to": [8, 16, 1],
+      "color": 4,
+      "faces": {
+        "north": {"uv": [0, 0, 1, 4], "texture": "#fence"},
+        "east": {"uv": [0, 0, 1, 4], "texture": "#fence"},
+        "south": {"uv": [0, 0, 1, 4], "texture": "#fence"},
+        "west": {"uv": [0, 0, 1, 4], "texture": "#fence"},
+        "up": {"uv": [0, 0, 1, 1], "texture": "#fence"},
+        "down": {"uv": [0, 0, 1, 1], "texture": "#fence"}
+      }
+    },
+    {
+      "from": [7, 12, 15],
+      "to": [8, 16, 16],
+      "color": 4,
+      "faces": {
+        "north": {"uv": [0, 0, 1, 4], "texture": "#fence"},
+        "east": {"uv": [0, 0, 1, 4], "texture": "#fence"},
+        "south": {"uv": [0, 0, 1, 4], "texture": "#fence"},
+        "west": {"uv": [0, 0, 1, 4], "texture": "#fence"},
+        "up": {"uv": [0, 0, 1, 1], "texture": "#fence"},
+        "down": {"uv": [0, 0, 1, 1], "texture": "#fence"}
+      }
+    },
+    {
+      "from": [7, 2, 13],
+      "to": [8, 10, 14],
+      "color": 7,
+      "faces": {
+        "north": {"uv": [0, 0, 1, 8], "texture": "#fence"},
+        "east": {"uv": [0, 0, 1, 8], "texture": "#fence"},
+        "south": {"uv": [0, 0, 1, 8], "texture": "#fence"},
+        "west": {"uv": [0, 0, 1, 8], "texture": "#fence"},
+        "up": {"uv": [0, 0, 1, 1], "texture": "#fence"},
+        "down": {"uv": [0, 0, 1, 1], "texture": "#fence"}
+      }
+    },
+    {
+      "from": [7, 2, 2],
+      "to": [8, 10, 3],
+      "color": 7,
+      "faces": {
+        "north": {"uv": [0, 0, 1, 8], "texture": "#fence"},
+        "east": {"uv": [0, 0, 1, 8], "texture": "#fence"},
+        "south": {"uv": [0, 0, 1, 8], "texture": "#fence"},
+        "west": {"uv": [0, 0, 1, 8], "texture": "#fence"},
+        "up": {"uv": [0, 0, 1, 1], "texture": "#fence"},
+        "down": {"uv": [0, 0, 1, 1], "texture": "#fence"}
+      }
+    },
+    {
+      "from": [7, 2, 4],
+      "to": [8, 10, 5],
+      "color": 7,
+      "faces": {
+        "north": {"uv": [0, 0, 1, 8], "texture": "#fence"},
+        "east": {"uv": [0, 0, 1, 8], "texture": "#fence"},
+        "south": {"uv": [0, 0, 1, 8], "texture": "#fence"},
+        "west": {"uv": [0, 0, 1, 8], "texture": "#fence"},
+        "up": {"uv": [0, 0, 1, 1], "texture": "#fence"},
+        "down": {"uv": [0, 0, 1, 1], "texture": "#fence"}
+      }
+    },
+    {
+      "from": [7, 2, 11],
+      "to": [8, 10, 12],
+      "rotation": {"angle": 0, "axis": "y", "origin": [0, 8, 8]},
+      "color": 7,
+      "faces": {
+        "north": {"uv": [0, 0, 1, 8], "texture": "#fence"},
+        "east": {"uv": [0, 0, 1, 8], "texture": "#fence"},
+        "south": {"uv": [0, 0, 1, 8], "texture": "#fence"},
+        "west": {"uv": [0, 0, 1, 8], "texture": "#fence"},
+        "up": {"uv": [0, 0, 1, 1], "texture": "#fence"},
+        "down": {"uv": [0, 0, 1, 1], "texture": "#fence"}
+      }
+    },
+    {
+      "from": [7, 2, 6],
+      "to": [8, 10, 7],
+      "color": 7,
+      "faces": {
+        "north": {"uv": [0, 0, 1, 8], "texture": "#fence"},
+        "east": {"uv": [0, 0, 1, 8], "texture": "#fence"},
+        "south": {"uv": [0, 0, 1, 8], "texture": "#fence"},
+        "west": {"uv": [0, 0, 1, 8], "texture": "#fence"},
+        "up": {"uv": [0, 0, 1, 1], "texture": "#fence"},
+        "down": {"uv": [0, 0, 1, 1], "texture": "#fence"}
+      }
+    },
+    {
+      "from": [7, 2, 9],
+      "to": [8, 10, 10],
+      "color": 7,
+      "faces": {
+        "north": {"uv": [0, 0, 1, 8], "texture": "#fence"},
+        "east": {"uv": [0, 0, 1, 8], "texture": "#fence"},
+        "south": {"uv": [0, 0, 1, 8], "texture": "#fence"},
+        "west": {"uv": [0, 0, 1, 8], "texture": "#fence"},
+        "up": {"uv": [0, 0, 1, 1], "texture": "#fence"},
+        "down": {"uv": [0, 0, 1, 1], "texture": "#fence"}
+      }
+    }
+  ],
+  "textures": {
+    "particle": "stations_mod:blocks/platform_fence",
+    "fence": "stations_mod:blocks/platform_fence"
+  }
+}

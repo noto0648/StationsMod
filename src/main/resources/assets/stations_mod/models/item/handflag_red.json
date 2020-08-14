@@ -1,0 +1,60 @@
+{
+  "parent": "block/block",
+  "elements":[
+    {
+      "name": "stick",
+      "from": [7, 0, 0],
+      "to": [8, 16, 1],
+      "color": 6,
+      "faces": {
+        "north": {"uv": [0, 0, 1, 16], "texture": "#stick"},
+        "east": {"uv": [0, 0, 1, 16], "texture": "#stick"},
+        "south": {"uv": [0, 0, 1, 16], "texture": "#stick"},
+        "west": {"uv": [0, 0, 1, 16], "texture": "#stick"},
+        "up": {"uv": [0, 0, 1, 1], "texture": "#stick"},
+        "down": {"uv": [0, 0, 1, 1], "texture": "#stick"}
+      }
+    },
+    {
+      "name": "cloth",
+      "from": [7, 5, 1],
+      "to": [8, 16, 14],
+      "color": 7,
+      "faces": {
+        "north": {"uv": [0, 0, 1, 11], "texture": "#cloth"},
+        "east": {"uv": [0, 0, 16, 16], "texture": "#cloth"},
+        "south": {"uv": [0, 0, 1, 11], "texture": "#cloth"},
+        "west": {"uv": [0, 0, 16, 16], "texture": "#cloth"},
+        "up": {"uv": [0, 0, 1, 13], "texture": "#cloth"},
+        "down": {"uv": [0, 0, 1, 13], "texture": "#cloth"}
+      }
+    }
+  ],
+  "textures": {
+    "particle": "stations_mod:blocks/station_brick",
+    "stick": "blocks/planks_oak",
+    "cloth": "blocks/wool_colored_red"
+  },
+  "display":{
+    "firstperson_righthand":{
+      "scale":[1, 1, 1],
+      "translation":[0, 0 ,0],
+      "rotation":[90, 0, 180]
+    },
+    "firstperson_lefthand":{
+      "scale":[1, 1, 1],
+      "translation":[0, 0 ,0],
+      "rotation":[90, 0, 180]
+    },
+    "thirdperson_righthand":{
+      "scale":[0.7, 0.7, 0.7],
+      "translation":[0, 5.0, -5.0],
+      "rotation":[0, 180, 0]
+    },
+    "thirdperson_lefthand":{
+      "scale":[0.7, 0.7, 0.7],
+      "translation":[0, 5.0, -5.0],
+      "rotation":[0, 180, 0]
+    }
+  }
+}

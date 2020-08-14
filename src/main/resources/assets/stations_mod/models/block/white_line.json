@@ -1,0 +1,6 @@
+{
+  "parent": "stations_mod:block/yellow_line",
+  "textures": {
+    "top": "stations_mod:blocks/white_line"
+  }
+}

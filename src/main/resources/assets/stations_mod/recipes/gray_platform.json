@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "stations_mod:advanced_material",
+  "pattern": [
+    "%",
+    "!"
+  ],
+  "key": {
+    "!": {
+      "item": "minecraft:stone_slab",
+      "data": 0
+    },
+    "%": {
+      "item": "stations_mod:material_block",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "stations_mod:material_block",
+    "data": 1,
+    "count": 1
+  }
+}

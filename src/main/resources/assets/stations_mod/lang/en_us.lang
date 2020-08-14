@@ -1,0 +1,64 @@
+#
+# System
+#
+itemGroup.stationsItems=Stations Mod Items
+container.notomod.ticketcase=Ticket Case
+gui.notomod.texture=Texture
+gui.notomod.label=Label
+gui.notomod.other=Other
+gui.notomod.labelpattern=Label Pattern
+#
+# Basic Items
+#
+item.notomod.ticket.name=Ticket
+item.notomod.used_ticket.name=Used Ticket
+item.notomod.mars_ticket.name=Detailed Ticket
+item.notomod.used_mars_ticket.name=Used Detailed Ticket
+item.notomod.replenishing_ticket.name=Replenishing Ticket
+item.notomod.ic_ticket.name=IC Ticket
+item.notomod.torque_wrench.name=Torque Wrench
+item.notomod.digital_clock.name=Digital Clock
+item.notomod.analog_clock.name=Analog Clock
+item.notomod.handflag_red.name=Red Handflag
+item.notomod.handflag_white.name=White Handflag
+item.notomod.handflag_green.name=Green Handflag
+item.notomod.ticket_case.name=Ticket Case
+item.notomod.slide_door.name=Slide Door
+item.notomod.diagram_book.name=Diagram Book
+item.notomod.seal_sensor.name=Seal Sensor
+item.notomod.ticket_punch.name=Ticket Punch
+#
+# Equipment
+#
+item.notomod.staff_hat.name=Staff Uniform Hat
+item.notomod.staff_suit.name=Staff Uniform Suit
+item.notomod.staff_pants.name=Staff Uniform Pants
+item.notomod.staff_boots.name=Staff Uniform Boots
+#
+# Basic Blocks
+#
+tile.notomod.station_material0.name=Platform White Brick
+tile.notomod.station_material1.name=Platform Gray Brick
+tile.notomod.station_material5.name=Platform White Brick with Yellow Line
+tile.notomod.station_material9.name=Asphalt Block
+tile.notomod.station_material10.name=Old Platform Brick
+tile.notomod.station_fence0.name=Platform Fence
+tile.notomod.station_fence4.name=Railroad Fence
+tile.notomod.station_fence14.name=Departure Plate
+tile.notomod.ticket_machine0.name=Ticket Vending Machine
+tile.notomod.ticket_machine4.name=Ticket Gate
+tile.notomod.ticket_machine8.name=Staff Vending Machine
+tile.notomod.ticket_machine12.name=IC Ticket Gate
+tile.notomod.station_pillar0.name=White Pillar
+tile.notomod.station_pillar6.name=Black Pillar
+tile.notomod.station_pillar2.name=Yellow Line
+tile.notomod.station_pillar9.name=White Line
+tile.notomod.station_pillar7.name=Number Plate
+tile.notomod.name_plate0.name=Name Plate
+tile.notomod.shutter.name=Shutter
+tile.notomod.string_seal.name=Text Seal
+
+
+
+
+

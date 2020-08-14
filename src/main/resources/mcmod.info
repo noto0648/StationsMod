@@ -1,0 +1,16 @@
+[
+{
+  "modid": "stations_mod",
+  "name": "Stations Mod",
+  "description": "Author is praying now.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Noto"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

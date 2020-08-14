@@ -1,0 +1,30 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "stations_mod:name_plate.obj",
+    "transform": "forge:default-block",
+    "custom": { "flip-v": true }
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{}],
+    "direction=horizontal,position=middle": {
+      "y": 90
+    },
+    "direction=vertical,position=middle": {
+      "y": 0
+    },
+    "direction=horizontal,position=front": {
+      "y": 90
+    },
+    "direction=vertical,position=front": {
+      "y": 0
+    },
+    "direction=horizontal,position=back": {
+      "y": 90
+    },
+    "direction=vertical,position=back": {
+      "y": 0
+    }
+  }
+}

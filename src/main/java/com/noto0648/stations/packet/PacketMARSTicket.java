@@ -2,10 +2,7 @@ package com.noto0648.stations.packet;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-
-import java.util.UUID;
 
 public class PacketMARSTicket implements IMessage
 {

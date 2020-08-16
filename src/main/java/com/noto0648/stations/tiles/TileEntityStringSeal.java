@@ -106,6 +106,7 @@ public class TileEntityStringSeal extends TileEntityBase implements IPacketRecei
         colorCodes = cols;
 
         Utils.INSTANCE.sendToPlayers(this);
+        markDirty();
     }
 
     @Override

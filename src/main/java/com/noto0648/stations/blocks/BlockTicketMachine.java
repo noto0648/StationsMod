@@ -1,20 +1,12 @@
 package com.noto0648.stations.blocks;
 
-
 import com.noto0648.stations.StationsItems;
 import com.noto0648.stations.StationsMod;
-import com.noto0648.stations.common.ITicketItem;
-import com.noto0648.stations.common.Utils;
-import com.noto0648.stations.items.ItemTicket;
-import com.noto0648.stations.tiles.TileEntityStringSeal;
 import com.noto0648.stations.tiles.TileEntityTicketGate;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -68,14 +60,7 @@ public class BlockTicketMachine extends BlockHorizontal implements ITileEntityPr
                 return false;
             case IC_TICKET_GATE:
                 ItemStack heldItem = p_149727_5_.getHeldItem(p_onBlockActivated_5_);
-                if(heldItem.getItem() != null && heldItem.getItem() instanceof ITicketItem)
-                {
-                    if(!((ITicketItem)heldItem.getItem()).canStoreTicketCase(heldItem))
-                    {
-                        return true;
-                    }
-                }
-                return false;
+                return TileEntityTicketGate.isICTicket(heldItem);
         }
 
         return false;

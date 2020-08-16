@@ -1,13 +1,8 @@
 package com.noto0648.stations.client.render;
 
-import com.noto0648.stations.StationsItems;
-import com.noto0648.stations.StationsMod;
 import com.noto0648.stations.tiles.TileEntityStationFence;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BannerTextures;
 import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;

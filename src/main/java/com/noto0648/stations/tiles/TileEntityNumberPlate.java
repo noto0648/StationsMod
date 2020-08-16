@@ -4,11 +4,8 @@ import com.noto0648.stations.common.Utils;
 import com.noto0648.stations.packet.IPacketReceiver;
 import com.noto0648.stations.packet.IPacketSender;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class TileEntityNumberPlate extends TileEntityBase implements IPacketReceiver, IPacketSender
@@ -77,6 +74,7 @@ public class TileEntityNumberPlate extends TileEntityBase implements IPacketRece
     {
         if((Byte)data.get(0) == 0x03)
         {
+            boolean update = !data.get(2).equals(this.colorCode);
             drawStr = (String)data.get(1);
             colorCode = (String)data.get(2);
             strColorCode = (String)data.get(3);
@@ -86,6 +84,9 @@ public class TileEntityNumberPlate extends TileEntityBase implements IPacketRece
             {
                 Utils.INSTANCE.sendToPlayers(this);
             }
+            markDirty();
+            if(update)
+                getWorld().markBlockRangeForRenderUpdate(pos, pos);
         }
     }
 

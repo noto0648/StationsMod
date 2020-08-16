@@ -6,7 +6,6 @@ import com.noto0648.stations.tiles.TileEntityShutter;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
@@ -16,7 +15,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -41,6 +39,12 @@ public class BlockShutter extends BlockContainer
     }
 
     @Override
+    public void getDrops(NonNullList<ItemStack> p_getDrops_1_, IBlockAccess p_getDrops_2_, BlockPos p_getDrops_3_, IBlockState p_getDrops_4_, int p_getDrops_5_)
+    {
+        p_getDrops_1_.add(new ItemStack(StationsItems.blockMaterial1, 1, 14));
+    }
+
+    @Override
     protected BlockStateContainer createBlockState()
     {
         return new BlockStateContainer(this, FACING, PROGRESS);
@@ -61,7 +65,7 @@ public class BlockShutter extends BlockContainer
     @Override
     public int quantityDropped(Random random)
     {
-        return 0;
+        return 1;
     }
 
     @Override
@@ -74,20 +78,20 @@ public class BlockShutter extends BlockContainer
     {
         for(int i = 1 ; ; i++)
         {
-            BlockPos targetPos = new BlockPos(p_149636_3_, p_149636_4_ + i, p_149636_5_);
-            IBlockState blockState = p_149636_1_.getBlockState(targetPos);
-            Block block = blockState.getBlock();
+            final BlockPos targetPos = new BlockPos(p_149636_3_, p_149636_4_ + i, p_149636_5_);
+            final IBlockState blockState = p_149636_1_.getBlockState(targetPos);
+            final Block block = blockState.getBlock();
             //int meta = p_149636_1_.getBlockMetadata(p_149636_3_, p_149636_4_ + i, p_149636_5_);
             if(block == StationsItems.blockShutter)
             {
                 p_149636_1_.setBlockToAir(targetPos);
                 continue;
-            }/*
-            else if((block == StationsItems.blockMaterial1 && (meta == 14 || meta == 15)))
+            }
+            else if((block == StationsItems.blockMaterial1 && blockState.getValue(BlockStationMaterial.VARIANT) == BlockStationMaterial.EnumType.SHUTTER_CORE))
             {
-                p_149636_1_.setBlockToAir(p_149636_3_, p_149636_4_ + i, p_149636_5_);
+                p_149636_1_.setBlockToAir(targetPos);
                 break;
-            }*/
+            }
             else
             {
                 break;
@@ -112,16 +116,28 @@ public class BlockShutter extends BlockContainer
     }
 
     @Override
+    public AxisAlignedBB getBoundingBox(IBlockState p_getBoundingBox_1_, IBlockAccess p_getBoundingBox_2_, BlockPos p_getBoundingBox_3_)
+    {
+        return getAABB(p_getBoundingBox_1_, p_getBoundingBox_2_, p_getBoundingBox_3_);
+    }
+
+    @Override
     @Nullable
     public AxisAlignedBB getCollisionBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos)
     {
-        final float height = state.getActualState(world, pos).getValue(PROGRESS) * 0.125f;
-        final EnumAxis axis = state.getActualState(world, pos).getValue(FACING);
+        return getAABB(state, world, pos);
+    }
 
-        if(axis == EnumAxis.X)
+    private AxisAlignedBB getAABB(IBlockState state, IBlockAccess world, BlockPos pos)
+    {
+        final IBlockState actualState = state.getActualState(world, pos);
+        final float height = actualState.getValue(PROGRESS) * 0.125f;
+        final EnumAxis axis = actualState.getValue(FACING);
+
+        if(axis == EnumAxis.Z)
             return new AxisAlignedBB(0F, height, 0.4F, 1F, 1F, 0.6F);
         else
-            return new AxisAlignedBB(0F, height, 0.4F, 1F, 1F, 0.6F);
+            return new AxisAlignedBB(0.4F, height, 0F, 0.6F, 1F, 1F);
     }
 
     @Override
@@ -183,7 +199,5 @@ public class BlockShutter extends BlockContainer
         {
             return name;
         }
-
-
     }
 }

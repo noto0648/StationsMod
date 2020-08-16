@@ -1,6 +1,5 @@
 package com.noto0648.stations.client.render;
 
-import com.noto0648.stations.StationsItems;
 import com.noto0648.stations.tiles.TileEntitySlideDoor;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.state.IBlockState;

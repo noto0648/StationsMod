@@ -4,7 +4,6 @@ import com.noto0648.stations.StationsMod;
 import com.noto0648.stations.common.Utils;
 import com.noto0648.stations.tiles.TileEntityStringSeal;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;

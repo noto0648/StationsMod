@@ -4,8 +4,7 @@ import com.noto0648.stations.StationsMod;
 import com.noto0648.stations.common.ITicketItem;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumDyeColor;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
@@ -74,7 +73,13 @@ public class ItemTicket extends Item implements ITicketItem
     }
 
     @Override
-    public ItemStack cutTicket(EntityPlayer ep, ItemStack itemStack)
+    public boolean validItem(ItemStack itemStack)
+    {
+        return itemStack.getItem() instanceof ItemTicket;
+    }
+
+    @Override
+    public ItemStack cutTicket(EntityLivingBase ep, ItemStack itemStack)
     {
         int meta = itemStack.getMetadata();
         for(int i = 0; i < TICKET_CUT_TABLE.length; i++)
@@ -99,5 +104,11 @@ public class ItemTicket extends Item implements ITicketItem
     public boolean canStoreTicketCase(ItemStack itemStack)
     {
         return itemStack.getMetadata() != 2;
+    }
+
+    @Override
+    public boolean isICTicket(ItemStack itemStack)
+    {
+        return itemStack.getMetadata() == 2;
     }
 }

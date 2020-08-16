@@ -28,6 +28,10 @@ public class Utils
 
     private Utils() {}
 
+    public String posToString(BlockPos pos)
+    {
+        return "(" + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + ")";
+    }
 
     public boolean haveWrench(EntityPlayer ep)
     {

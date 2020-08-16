@@ -1,54 +1,45 @@
 package com.noto0648.stations.client.render;
 
+import com.noto0648.stations.StationsItems;
+import com.noto0648.stations.blocks.BlockPillar;
 import com.noto0648.stations.client.texture.NewFontRenderer;
 import com.noto0648.stations.tiles.TileEntityNumberPlate;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import org.lwjgl.opengl.GL11;
 
 public class TileEntityNumberPlateRenderer extends TileEntitySpecialRenderer<TileEntityNumberPlate>
 {
+    private final BlockRendererDispatcher blockRenderer = Minecraft.getMinecraft().getBlockRendererDispatcher();
 
     @Override
     public void render(TileEntityNumberPlate namePlate, double par2, double par3, double par4, float p_render_9_, int k, float p_render_10_)
     {
-        int value = namePlate.getBlockMetadata() / 2;
-
-        ColorCode baseColor = new ColorCode(namePlate.getColorCode());
-        ColorCode strColor = new ColorCode(namePlate.getStrColorCode());
-
-        //int baseColorCode = (int)Long.parseLong(, 16);
-        //int strColorCode = (int)Long.parseLong(namePlate.getStrColorCode(), 16);
-
-        //System.out.println(baseColorCode + ", " + strColorCode);
+        final ColorCode strColor = new ColorCode(namePlate.getStrColorCode());
 
         GL11.glPushMatrix();
+
         GL11.glTranslated(par2 + 0.5, par3 + 0.65, par4 + 0.5);
         GL11.glScaled(0.6F, 0.6F, 0.6F);
         if(namePlate.getBlockMetadata() % 2 == 1) GL11.glRotated(90, 0, 1, 0);
-/*
-        GL11.glColor3f(baseColor.getR(), baseColor.getG(), baseColor.getB());
-        bindCharTexture(newTexture);
-        plate.renderAll();
-*/
-        //GL11.glPushMatrix();
-        int width = NewFontRenderer.INSTANCE.drawString(namePlate.getDrawStr(), false);
+
+        final int width = NewFontRenderer.INSTANCE.drawString(namePlate.getDrawStr(), false);
         for(int i = 0; i < 2; i++)
         {
             GL11.glPushMatrix();
             GlStateManager.color(0F, 0F, 0F);
 
             GL11.glRotatef(90F + 180f * i, 0F, 1F, 0F);
-            /*
-            if(i == 0)
-            else GL11.glRotatef(270F, 0F, 1F, 0F);
-*/
             GL11.glTranslated(0, -0.655, 0.15);
 
             GL11.glScalef(0.030F, 0.030F, 0.030F);
             GL11.glTranslated(- width/ 2, 0, 0);
-            //GL11.glColor3b((byte) ((strColorCode >> 16) & 0xFF), (byte) ((strColorCode >> 8) & 0xFF), (byte) (strColorCode & 0xFF));
             GlStateManager.color(strColor.getR(), strColor.getG(), strColor.getB());
             NewFontRenderer.INSTANCE.drawString(namePlate.getDrawStr());
             GlStateManager.color(1F, 1F, 1F);
@@ -57,7 +48,7 @@ public class TileEntityNumberPlateRenderer extends TileEntitySpecialRenderer<Til
         GL11.glPopMatrix();
     }
 
-    class ColorCode
+    public class ColorCode
     {
         public int r;
         public int g;
@@ -105,6 +96,11 @@ public class TileEntityNumberPlateRenderer extends TileEntitySpecialRenderer<Til
         public float getB()
         {
             return getFloat(this.b);
+        }
+
+        public int getInt()
+        {
+            return this.r << 16 | this.g << 8 | this.b;
         }
     }
 

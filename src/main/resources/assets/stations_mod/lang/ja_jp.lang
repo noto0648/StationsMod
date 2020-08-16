@@ -7,6 +7,18 @@ gui.notomod.texture=テクスチャ
 gui.notomod.label=ラベル
 gui.notomod.other=その他
 gui.notomod.labelpattern=ラベルパターン
+gui.notomod.departure=出発
+gui.notomod.arrival=到着
+#
+# NamePlates (Builtin)
+#
+nameplate.notomod.default=デフォルト
+nameplate.notomod.jr_central=JR東海 風
+nameplate.notomod.meitetsu=名鉄 風
+nameplate.notomod.nagoya_subway=名古屋市営地下鉄 風
+nameplate.notomod.kokutetsu=国鉄 風
+nameplate.notomod.aonami=あおなみ線 風
+nameplate.notomod.toyohashi_atsumi=豊鉄 風
 #
 # Basic Items
 #
@@ -17,6 +29,7 @@ item.notomod.used_mars_ticket.name=使用済み詳細な切符
 item.notomod.replenishing_ticket.name=補充用切符
 item.notomod.ic_ticket.name=ICカード
 item.notomod.torque_wrench.name=トルクレンチ
+item.notomod.hammer.name=ハンマー
 item.notomod.digital_clock.name=デジタル時計
 item.notomod.analog_clock.name=懐中時計
 item.notomod.handflag_red.name=赤い旗
@@ -42,6 +55,7 @@ tile.notomod.station_material1.name=ホーム向け灰色レンガ
 tile.notomod.station_material5.name=黄色い線の入ったホーム向け灰色レンガ
 tile.notomod.station_material9.name=アスファルト
 tile.notomod.station_material10.name=古いホーム向けレンガ
+tile.notomod.station_material14.name=シャッターコア
 tile.notomod.station_fence0.name=ホーム向け柵
 tile.notomod.station_fence4.name=鉄道の柵
 tile.notomod.station_fence14.name=発車標

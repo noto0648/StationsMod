@@ -1,24 +1,16 @@
 package com.noto0648.stations.client.gui;
 
 import com.noto0648.stations.StationsMod;
-import com.noto0648.stations.client.gui.control.ControlButton;
 import com.noto0648.stations.client.gui.control.ControlTextBox;
-import com.noto0648.stations.common.Utils;
 import com.noto0648.stations.container.ContainerMARS;
 import com.noto0648.stations.packet.PacketMARSTicket;
-import com.noto0648.stations.packet.PacketSendTile;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
-
-import java.io.IOException;
 
 public class GuiMARS extends GuiContainerBase  implements IContainerListener
 {
@@ -92,19 +84,9 @@ public class GuiMARS extends GuiContainerBase  implements IContainerListener
     }
 
     @Override
-    protected void keyTyped(char p_keyTyped_1_, int p_keyTyped_2_) throws IOException
+    protected boolean closeInventoryKey()
     {
-        if (p_keyTyped_2_ == 1) {
-            this.mc.player.closeScreen();
-        }
-        this.checkHotbarKeys(p_keyTyped_2_);
-        if (this.getSlotUnderMouse() != null && this.getSlotUnderMouse().getHasStack()) {
-            if (this.mc.gameSettings.keyBindPickBlock.isActiveAndMatches(p_keyTyped_2_)) {
-                this.handleMouseClick(this.getSlotUnderMouse(), this.getSlotUnderMouse().slotNumber, 0, ClickType.CLONE);
-            } else if (this.mc.gameSettings.keyBindDrop.isActiveAndMatches(p_keyTyped_2_)) {
-                this.handleMouseClick(this.getSlotUnderMouse(), this.getSlotUnderMouse().slotNumber, isCtrlKeyDown() ? 1 : 0, ClickType.THROW);
-            }
-        }
+        return false;
     }
 
     @Override

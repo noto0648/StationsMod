@@ -9,13 +9,13 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class StationsItems
 {
     public static Item itemTicket;
     public static Item itemTicketCase;
     public static Item itemWrench;
+    public static Item itemHammer;
     public static Item itemPocketWatch;
     public static Item itemStaffHelmet;
     public static Item itemStaffSuit;
@@ -52,6 +52,7 @@ public class StationsItems
         itemTicketCase = new ItemTicketCase().setRegistryName(new ResourceLocation(StationsMod.MOD_ID, "ticket_case"));
 
         itemWrench = new ItemTorqueWrench().setRegistryName(new ResourceLocation(StationsMod.MOD_ID, "torque_wrench"));
+        itemHammer = new ItemHammer().setRegistryName(new ResourceLocation(StationsMod.MOD_ID, "hammer"));
         itemPocketWatch = new ItemPocketWatch().setRegistryName(new ResourceLocation(StationsMod.MOD_ID, "digital_clock"));
 
         itemStaffHelmet = new ItemStaffArmor(0, EntityEquipmentSlot.HEAD).setUnlocalizedName("notomod.staff_hat").setRegistryName(new ResourceLocation(StationsMod.MOD_ID, "staff_hat"));
@@ -74,6 +75,7 @@ public class StationsItems
         evt.getRegistry().register(itemTicket);
         evt.getRegistry().register(itemTicketCase);
         evt.getRegistry().register(itemWrench);
+        evt.getRegistry().register(itemHammer);
         evt.getRegistry().register(itemPocketWatch);
         evt.getRegistry().register(itemStaffHelmet);
         evt.getRegistry().register(itemStaffSuit);

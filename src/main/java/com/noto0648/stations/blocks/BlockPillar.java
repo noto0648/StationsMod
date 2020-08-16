@@ -4,7 +4,6 @@ import com.noto0648.stations.StationsItems;
 import com.noto0648.stations.StationsMod;
 import com.noto0648.stations.common.Utils;
 import com.noto0648.stations.tiles.TileEntityNumberPlate;
-import com.noto0648.stations.tiles.TileEntityStationFence;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -43,7 +42,6 @@ public class BlockPillar extends BlockContainer
         setCreativeTab(StationsMod.tab);
         setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumType.PILLAR_WHITE).withProperty(FACING, EnumFacing.NORTH));
         setHardness(1.2f);
-        //hasTileEntity = true;
     }
 
     @Override
@@ -278,7 +276,7 @@ public class BlockPillar extends BlockContainer
         FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     }
 
-    enum EnumType implements IStringSerializable
+    public enum EnumType implements IStringSerializable
     {
         PILLAR_WHITE("pillar_white", false, EnumBlockRenderType.MODEL),
         MARK_MACHINE("mark_machine", false, EnumBlockRenderType.MODEL),

@@ -2,13 +2,19 @@ package com.noto0648.stations.tiles;
 
 import com.noto0648.stations.StationsItems;
 import com.noto0648.stations.blocks.BlockShutter;
+import com.noto0648.stations.common.Utils;
+import com.noto0648.stations.packet.IPacketReceiver;
+import com.noto0648.stations.packet.IPacketSender;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
 
-public class TileEntityShutter extends TileEntityBase implements ITickable
+import java.util.List;
+
+public class TileEntityShutter extends TileEntityBase implements ITickable, IPacketSender, IPacketReceiver
 {
     private int count;
     private boolean undoFlag;
@@ -27,27 +33,33 @@ public class TileEntityShutter extends TileEntityBase implements ITickable
                 final int baseProgress = mainState.getValue(BlockShutter.PROGRESS);
                 if(baseProgress == 0)
                 {
-                    BlockShutter.EnumAxis axis = mainState.getValue(BlockShutter.FACING);
-                    IBlockState state = getWorld().getBlockState(pos.down());
-                    //Block bottomBlock = getWorld().getBlock(xCoord, yCoord - 1, zCoord);
-                    Block bottomBlock = state.getBlock();
+                    final BlockPos down = pos.down();
+                    final IBlockState state = getWorld().getBlockState(down);
+                    final Block bottomBlock = state.getBlock();
                     finish = true;
-                    if(bottomBlock.isAir(state, getWorld(), pos.down()))
+                    markDirty();
+                    if(bottomBlock.isAir(state, getWorld(), down))
                     {
-                        getWorld().setBlockState(pos.down(), StationsItems.blockShutter.getDefaultState().withProperty(BlockShutter.FACING, axis).withProperty(BlockShutter.PROGRESS, 7));
+                        final BlockShutter.EnumAxis axis = mainState.getValue(BlockShutter.FACING);
+                        getWorld().setBlockState(down, StationsItems.blockShutter.getDefaultState().withProperty(BlockShutter.FACING, axis).withProperty(BlockShutter.PROGRESS, 7));
+                        TileEntityShutter s = (TileEntityShutter) getWorld().getTileEntity(down);
+                        s.setUndoFlag(undoFlag);
+                        //s.finish = finish;
                         return;
                     }
                 }
                 else
                 {
-                    //getWorld().setBlockMetadataWithNotify(xCoord, yCoord, zCoord, getBlockMetadata() - 1, 2);
-                    //getWorld().setBlockState(pos.down(), StationsItems.blockShutter.getDefaultState().withProperty(BlockShutter.FACING, axis).withProperty(BlockShutter.PROGRESS, 7));
-                    getWorld().setBlockState(pos, mainState.withProperty(BlockShutter.PROGRESS, baseProgress-1));
+                    getWorld().setBlockState(pos, mainState.withProperty(BlockShutter.PROGRESS, baseProgress - 1), 3);
+                    TileEntityShutter tile = (TileEntityShutter)getWorld().getTileEntity(pos);
+                    tile.setUndoFlag(undoFlag);
+                    tile.finish = finish;
+                    //updateBlockState(mainState.withProperty/(BlockShutter.PROGRESS, baseProgress - 1))
                 }
             }
-            else if(undoFlag)
+            if(undoFlag)
             {
-                IBlockState mainState = getWorld().getBlockState(pos);
+                final IBlockState mainState = getWorld().getBlockState(pos);
                 final int baseProgress = mainState.getValue(BlockShutter.PROGRESS);
 
                 if(baseProgress == 7)
@@ -63,12 +75,24 @@ public class TileEntityShutter extends TileEntityBase implements ITickable
                 }
                 else
                 {
-//                    getWorld().setBlockMetadataWithNotify(xCoord, yCoord, zCoord, getBlockMetadata() + 1, 2);
-                    getWorld().setBlockState(pos, mainState.withProperty(BlockShutter.PROGRESS, baseProgress + 1));
+//                    updateBlockState(mainState.withProperty(BlockShutter.PROGRESS, baseProgress + 1));
+                    getWorld().setBlockState(pos, mainState.withProperty(BlockShutter.PROGRESS, baseProgress + 1), 3);
 
+                    TileEntityShutter tile = (TileEntityShutter)getWorld().getTileEntity(pos);
+                    tile.setUndoFlag(undoFlag);
+                    tile.finish = finish;
                 }
             }
         }
+        markDirty();
+    }
+
+    private void updateBlockState(IBlockState state)
+    {
+        TileEntity tile = getWorld().getTileEntity(pos);
+        getWorld().setBlockState(pos, state, 3);
+        if(tile != null)
+            getWorld().setTileEntity(pos, tile);
     }
 
     @Override
@@ -92,11 +116,42 @@ public class TileEntityShutter extends TileEntityBase implements ITickable
 
     public void setUndoFlag(boolean par1)
     {
+        if(undoFlag == par1)
+            return;
+
         undoFlag = par1;
         if(!undoFlag)
         {
             finish = false;
         }
+        if(!getWorld().isRemote)
+            Utils.INSTANCE.sendToPlayers(this);
+        markDirty();
     }
 
+    public boolean isRollbackMode()
+    {
+        return undoFlag;
+    }
+
+    @Override
+    public void receive(List<Object> data)
+    {
+        undoFlag = (boolean)data.get(0);
+        finish = (boolean)data.get(1);
+        markDirty();
+    }
+
+    @Override
+    public TileEntity getTile()
+    {
+        return this;
+    }
+
+    @Override
+    public void setSendData(List<Object> list)
+    {
+        list.add(undoFlag);
+        list.add(finish);
+    }
 }

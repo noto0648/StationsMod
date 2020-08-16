@@ -1,7 +1,6 @@
 package com.noto0648.stations.common;
 
 import com.noto0648.stations.StationsMod;
-import com.noto0648.stations.nameplate.NamePlateManager;
 import com.noto0648.stations.tiles.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;

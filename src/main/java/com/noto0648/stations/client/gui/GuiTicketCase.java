@@ -2,7 +2,6 @@ package com.noto0648.stations.client.gui;
 
 import com.noto0648.stations.StationsMod;
 import com.noto0648.stations.container.ContainerTicketCase;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;

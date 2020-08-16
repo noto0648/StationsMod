@@ -9,7 +9,14 @@
     "inventory": [{}],
 
     "facing=north,variant=pillar_white": { "model": "stations_mod:pillar_white" },
+    "facing=south,variant=pillar_white": { "model": "stations_mod:pillar_white" },
+    "facing=east,variant=pillar_white": { "model": "stations_mod:pillar_white" },
+    "facing=west,variant=pillar_white": { "model": "stations_mod:pillar_white" },
+
     "facing=north,variant=pillar_black": { "model": "stations_mod:pillar_black" },
+    "facing=south,variant=pillar_black": { "model": "stations_mod:pillar_black" },
+    "facing=east,variant=pillar_black": { "model": "stations_mod:pillar_black" },
+    "facing=west,variant=pillar_black": { "model": "stations_mod:pillar_black" },
 
     "facing=north,variant=yellow_line": { "model": "stations_mod:yellow_line", "y":180 },
     "facing=south,variant=yellow_line": { "model": "stations_mod:yellow_line", "y":0 },
@@ -24,7 +31,12 @@
     "facing=north,variant=white_line": { "model": "stations_mod:white_line", "y":180 },
     "facing=south,variant=white_line": { "model": "stations_mod:white_line", "y":0 },
     "facing=east,variant=white_line": { "model": "stations_mod:white_line", "y":270 },
-    "facing=west,variant=white_line": { "model": "stations_mod:white_line", "y":90 }
+    "facing=west,variant=white_line": { "model": "stations_mod:white_line", "y":90 },
+
+    "facing=south,variant=mark_machine": { "model": "stations_mod:empty" },
+    "facing=north,variant=mark_machine": { "model": "stations_mod:empty" },
+    "facing=east,variant=mark_machine": { "model": "stations_mod:empty" },
+    "facing=west,variant=mark_machine": { "model": "stations_mod:empty" }
 
   }
 }

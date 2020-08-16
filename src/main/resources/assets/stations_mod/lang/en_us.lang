@@ -7,6 +7,18 @@ gui.notomod.texture=Texture
 gui.notomod.label=Label
 gui.notomod.other=Other
 gui.notomod.labelpattern=Label Pattern
+gui.notomod.departure=Departure
+gui.notomod.arrival=Arrival
+#
+# NamePlates (Builtin)
+#
+nameplate.notomod.default=Default
+nameplate.notomod.jr_central=JR Central Style
+nameplate.notomod.meitetsu=Meitetsu Style
+nameplate.notomod.nagoya_subway=Nagoya-Subway Style
+nameplate.notomod.kokutetsu=JNR Style
+nameplate.notomod.aonami=Aonami Line Style
+nameplate.notomod.toyohashi_atsumi=Toyotetsu Style
 #
 # Basic Items
 #
@@ -17,6 +29,7 @@ item.notomod.used_mars_ticket.name=Used Detailed Ticket
 item.notomod.replenishing_ticket.name=Replenishing Ticket
 item.notomod.ic_ticket.name=IC Ticket
 item.notomod.torque_wrench.name=Torque Wrench
+item.notomod.hammer.name=Hammer
 item.notomod.digital_clock.name=Digital Clock
 item.notomod.analog_clock.name=Analog Clock
 item.notomod.handflag_red.name=Red Handflag
@@ -42,6 +55,7 @@ tile.notomod.station_material1.name=Platform Gray Brick
 tile.notomod.station_material5.name=Platform White Brick with Yellow Line
 tile.notomod.station_material9.name=Asphalt Block
 tile.notomod.station_material10.name=Old Platform Brick
+tile.notomod.station_material14.name=Shutter Core
 tile.notomod.station_fence0.name=Platform Fence
 tile.notomod.station_fence4.name=Railroad Fence
 tile.notomod.station_fence14.name=Departure Plate

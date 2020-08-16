@@ -2,13 +2,13 @@ package com.noto0648.stations.client.gui.control;
 
 import com.noto0648.stations.client.gui.IGui;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ControlNamePlateLabelEditor extends Control
 {
     private ControlVerticalScrollBar scrollBar;
     private Map<String, ControlTextBox> map;
+    private List<String> keys;
 
     public ControlNamePlateLabelEditor(IGui gui)
     {
@@ -22,6 +22,7 @@ public class ControlNamePlateLabelEditor extends Control
             }
         };
         map = new HashMap<>();
+        keys = new ArrayList<>();
     }
 
     protected void changeScrollEvent()
@@ -55,7 +56,7 @@ public class ControlNamePlateLabelEditor extends Control
         scrollBar.setPageSize(Math.min(map.size(), maxItems));
         int count = 0;
         int index = 0;
-        for(String key : map.keySet())
+        for(String key : keys)
         {
             if(index < scrollBar.getCurrentScroll())
             {
@@ -95,6 +96,7 @@ public class ControlNamePlateLabelEditor extends Control
     public void clear()
     {
         map.clear();
+        keys.clear();
         scrollBar.setMaxScroll(map.size());
     }
 
@@ -114,8 +116,14 @@ public class ControlNamePlateLabelEditor extends Control
         textBox.setEnabled(false);
         textBox.setText(text);
         map.put(key, textBox);
+        keys.add(key);
         scrollBar.setMaxScroll(map.size());
         //initGui();
+    }
+
+    public void endSettingKeys()
+    {
+        Collections.sort(keys);
     }
 
     public Map<String, String> getKeyMap()

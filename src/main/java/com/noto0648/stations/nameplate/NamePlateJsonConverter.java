@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.opengl.GL11;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +24,13 @@ public class NamePlateJsonConverter extends NamePlateBase
         labels = list;
         name = plateJson.name;
         plateData = plateJson;
+
+        HashMap<String, String> displayNames = new HashMap<>();
+        for(String key : plateData.displayNames.keySet())
+        {
+            displayNames.put(key.toLowerCase(), plateData.displayNames.get(key));
+        }
+        plateJson.displayNames = displayNames;
     }
 
     @Override
@@ -140,9 +148,13 @@ public class NamePlateJsonConverter extends NamePlateBase
     @Override
     public String getDisplayName()
     {
-        final String lang = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getLanguageCode();
+        final String lang = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getLanguageCode().toLowerCase();
         if(plateData.displayNames.containsKey(lang))
             return plateData.displayNames.get(lang);
+
+        if(plateData.displayNames.containsKey("en_us"))
+            return plateData.displayNames.get("en_us");
+
         return getNamePlateId();
     }
 }

@@ -1,7 +1,6 @@
 package com.noto0648.stations.packet;
 
 import com.noto0648.stations.container.ContainerMARS;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;

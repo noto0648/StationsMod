@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=down":{
+      "model":"stations_mod:empty"
+    },
+    "facing=up":{
+      "model":"stations_mod:empty"
+    },
+    "facing=north":{
+      "model":"stations_mod:empty"
+    },
+    "facing=south":{
+      "model":"stations_mod:empty"
+    },
+    "facing=east":{
+      "model":"stations_mod:empty"
+    },
+    "facing=west":{
+      "model":"stations_mod:empty"
+    }
+  }
+}

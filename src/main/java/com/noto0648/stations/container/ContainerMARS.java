@@ -37,6 +37,8 @@ public class ContainerMARS extends Container
             @Override
             public ItemStack onTake(EntityPlayer p_onTake_1_, ItemStack p_onTake_2_)
             {
+                super.onTake(p_onTake_1_, p_onTake_2_);
+                inventory.setInventorySlotContents(0, p_onTake_2_.copy());
                 return p_onTake_2_;
             }
         });

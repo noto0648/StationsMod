@@ -1,12 +1,10 @@
 package com.noto0648.stations.client.gui;
 
-import com.noto0648.stations.client.gui.control.Control;
 import com.noto0648.stations.client.gui.control.ControlButton;
 import com.noto0648.stations.client.gui.control.ControlCheckBox;
 import com.noto0648.stations.client.gui.control.ControlTextBox;
 import com.noto0648.stations.common.Utils;
 import com.noto0648.stations.packet.IPacketSender;
-import com.noto0648.stations.tiles.TileEntityNumberPlate;
 import com.noto0648.stations.tiles.TileEntityStringSeal;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;

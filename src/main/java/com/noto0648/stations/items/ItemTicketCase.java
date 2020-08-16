@@ -1,12 +1,9 @@
 package com.noto0648.stations.items;
 
-import com.noto0648.stations.StationsItems;
 import com.noto0648.stations.StationsMod;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;

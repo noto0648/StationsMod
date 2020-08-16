@@ -17,11 +17,12 @@ import net.minecraftforge.client.model.obj.OBJModel;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.nio.file.*;
 import java.io.*;
 import java.lang.annotation.Annotation;
 import java.nio.charset.Charset;
+import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
@@ -166,7 +167,7 @@ public class NamePlateManager
                     return;
                 final String resourceName = StationsMod.MOD_ID +":nameplates/" + f.getFileName().toString().replace(".png", "");
                 textures.add(resourceName);
-                ModLog.getLog().info("Register Texture {}", resourceName);
+                //ModLog.getLog().info("Register Texture {}", resourceName);
             });
         }
         catch (Exception e)

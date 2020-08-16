@@ -6,13 +6,11 @@ import com.noto0648.stations.StationsMod;
 import com.noto0648.stations.common.MarkData;
 import com.noto0648.stations.common.Utils;
 import com.noto0648.stations.tiles.TileEntityDeparturePlate;
-import com.noto0648.stations.tiles.TileEntityStationFence;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -20,7 +18,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
@@ -77,6 +74,7 @@ public class BlockStationFence extends BlockContainer
                 md.readFromNBTTag( marks.getCompoundTagAt(i) );
                 ((TileEntityDeparturePlate)te).getMarkDataList().add(md);
             }
+            te.markDirty();
             return true;
         }
         return false;

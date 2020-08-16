@@ -2,12 +2,13 @@ package com.noto0648.stations;
 import com.noto0648.stations.common.CreativeTabStations;
 import com.noto0648.stations.common.ServerProxy;
 import com.noto0648.stations.common.StationsGuiHandler;
-import com.noto0648.stations.nameplate.NamePlateManager;
 import com.noto0648.stations.packet.*;
+import com.noto0648.stations.plugins.PluginRTM;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemArmor;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLConstructionEvent;
@@ -69,6 +70,11 @@ public class StationsMod
     public void postInit(FMLPostInitializationEvent event)
     {
         proxy.postInit();
+
+        if(Loader.isModLoaded("rtm"))
+        {
+            PluginRTM.INSTANCE.postInit();
+        }
     }
 
 }

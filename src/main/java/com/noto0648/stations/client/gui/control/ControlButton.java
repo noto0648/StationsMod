@@ -1,9 +1,6 @@
 package com.noto0648.stations.client.gui.control;
 
 import com.noto0648.stations.client.gui.IGui;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.util.ResourceLocation;
 
 /**
  * Created by Noto on 14/08/16.

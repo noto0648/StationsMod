@@ -13,6 +13,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -45,24 +46,16 @@ public class BlockNamePlate extends BlockContainer
         return false;
     }
 
-    /*
     @Override
     public boolean isFullBlock(IBlockState p_isFullBlock_1_)
     {
         return false;
     }
-*/
     @Override
     public boolean isOpaqueCube(IBlockState p_isOpaqueCube_1_) {
         return false;
     }
 
-    /*
-    @Override
-    public boolean isFullCube(IBlockState p_isFullCube_1_) {
-        return false;
-    }
-*/
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer p_149727_5_, EnumHand p_onBlockActivated_5_, EnumFacing p_onBlockActivated_6_, float p_onBlockActivated_7_, float p_onBlockActivated_8_, float p_onBlockActivated_9_)
     {
@@ -72,6 +65,21 @@ public class BlockNamePlate extends BlockContainer
             return true;
         }
         return false;
+    }
+
+    @Override
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos)
+    {
+        int meta = getMetaFromState(state);
+
+        if(meta == 0) return new AxisAlignedBB(0.4F, 0F, -0.5F, 0.6F, 1F, 1.5F);
+        else if(meta == 1) return new AxisAlignedBB(-0.5F, 0F, 0.4F, 1.5F, 1F, 0.6F);
+        else if(meta == 5) return new AxisAlignedBB(0.0F, 0F, -0.5F, 0.2F, 1F, 1.5F);
+        else if(meta == 4) return new AxisAlignedBB(0.8F, 0F, -0.5F, 1F, 1F, 1.5F);
+        else if(meta == 2) return new AxisAlignedBB(-0.5F, 0F, 0.8F, 1.5F, 1F, 1F);
+        else if(meta == 3) return new AxisAlignedBB(-0.5F, 0F, 0.0F, 1.5F, 1F, 0.2F);
+
+        return super.getBoundingBox(state, world, pos);
     }
 
     @Override
@@ -134,7 +142,7 @@ public class BlockNamePlate extends BlockContainer
         for(j = 0; j < EnumRotating.values().length; j++)
             if(EnumRotating.values()[j] == state.getValue(ROTATING))
                 break;
-        return i * 2 + j;
+        return i * 2 + (1-j);
     }
 
     @Override

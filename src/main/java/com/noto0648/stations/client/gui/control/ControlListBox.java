@@ -152,4 +152,9 @@ public class ControlListBox extends Control
         return "";
     }
 
+    public int getSelectedIndex()
+    {
+        return selectedIndex;
+    }
+
 }

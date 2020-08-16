@@ -3,10 +3,8 @@ package com.noto0648.stations.blocks;
 import com.google.common.base.Predicate;
 import com.noto0648.stations.StationsItems;
 import com.noto0648.stations.StationsMod;
+import com.noto0648.stations.tiles.TileEntityShutter;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockDoor;
-import net.minecraft.block.BlockPlanks;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
@@ -15,9 +13,10 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Items;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -56,19 +55,19 @@ public class BlockStationMaterial extends Block
     @Override
     public IBlockState withRotation(IBlockState p_withRotation_1_, Rotation p_withRotation_2_)
     {
-        return p_withRotation_1_.withProperty(FACING, p_withRotation_2_.rotate((EnumFacing)p_withRotation_1_.getValue(FACING)));
+        return p_withRotation_1_.withProperty(FACING, p_withRotation_2_.rotate(p_withRotation_1_.getValue(FACING)));
     }
 
     @Override
     public IBlockState withMirror(IBlockState p_withMirror_1_, Mirror p_withMirror_2_)
     {
-        return p_withMirror_1_.withRotation(p_withMirror_2_.toRotation((EnumFacing)p_withMirror_1_.getValue(FACING)));
+        return p_withMirror_1_.withRotation(p_withMirror_2_.toRotation(p_withMirror_1_.getValue(FACING)));
     }
 
     @Override
     public IBlockState getStateForPlacement(World p_getStateForPlacement_1_, BlockPos p_getStateForPlacement_2_, EnumFacing p_getStateForPlacement_3_, float p_getStateForPlacement_4_, float p_getStateForPlacement_5_, float p_getStateForPlacement_6_, int p_getStateForPlacement_7_, EntityLivingBase p_getStateForPlacement_8_)
     {
-        if(p_getStateForPlacement_7_ == 1 || p_getStateForPlacement_7_ == 5)
+        if(p_getStateForPlacement_7_ == 1 || p_getStateForPlacement_7_ == 5 || p_getStateForPlacement_7_ == 14)
             return getStateFromMeta(p_getStateForPlacement_7_).withProperty(FACING, p_getStateForPlacement_8_.getHorizontalFacing().getOpposite());
 
         return getStateFromMeta(p_getStateForPlacement_7_);
@@ -95,6 +94,8 @@ public class BlockStationMaterial extends Block
                 return new ItemStack(Item.getItemFromBlock(StationsItems.blockMaterial1), 1, 9);
             case OLD_PLATFORM_BRICK:
                 return new ItemStack(Item.getItemFromBlock(StationsItems.blockMaterial1), 1, 10);
+            case SHUTTER_CORE:
+                return new ItemStack(Item.getItemFromBlock(StationsItems.blockMaterial1), 1, 14);
         }
         return new ItemStack(Item.getItemFromBlock(StationsItems.blockMaterial1));
     }
@@ -107,6 +108,7 @@ public class BlockStationMaterial extends Block
         p_getSubBlocks_2_.add(new ItemStack(this, 1, 5));
         p_getSubBlocks_2_.add(new ItemStack(this, 1, 9));
         p_getSubBlocks_2_.add(new ItemStack(this, 1, 10));
+        p_getSubBlocks_2_.add(new ItemStack(this, 1, 14));
 
     }
 
@@ -137,6 +139,10 @@ public class BlockStationMaterial extends Block
                 return getDefaultState().withProperty(VARIANT, EnumType.ASPHALT).withProperty(FACING, EnumFacing.UP);
             case 10:
                 return getDefaultState().withProperty(VARIANT, EnumType.OLD_PLATFORM_BRICK).withProperty(FACING, EnumFacing.UP);
+            case 14:
+                return getDefaultState().withProperty(VARIANT, EnumType.SHUTTER_CORE).withProperty(FACING, EnumFacing.NORTH);
+            case 15:
+                return getDefaultState().withProperty(VARIANT, EnumType.SHUTTER_CORE).withProperty(FACING, EnumFacing.WEST);
             default:
         }
         return getDefaultState().withProperty(VARIANT, EnumType.PLATFORM_WHITE).withProperty(FACING, EnumFacing.UP);
@@ -162,8 +168,121 @@ public class BlockStationMaterial extends Block
                 return 9;
             case OLD_PLATFORM_BRICK:
                 return 10;
+            case SHUTTER_CORE:
+                return (state.getValue(FACING) == EnumFacing.NORTH || state.getValue(FACING) == EnumFacing.SOUTH) ? 14 : 15;
             default:
                 return 0;
+        }
+    }
+
+    @Override
+    public void onBlockAdded(World p_onBlockAdded_1_, BlockPos p_onBlockAdded_2_, IBlockState p_onBlockAdded_3_)
+    {
+        super.onBlockAdded(p_onBlockAdded_1_, p_onBlockAdded_2_, p_onBlockAdded_3_);
+        if(p_onBlockAdded_3_.getValue(VARIANT) != EnumType.SHUTTER_CORE || p_onBlockAdded_1_.isRemote)
+            return;
+        shutterUpdate(p_onBlockAdded_1_, p_onBlockAdded_2_, p_onBlockAdded_3_);
+    }
+
+    @Override
+    public void neighborChanged(IBlockState p_neighborChanged_1_, World p_neighborChanged_2_, BlockPos p_neighborChanged_3_, Block p_neighborChanged_4_, BlockPos p_neighborChanged_5_)
+    {
+        super.neighborChanged(p_neighborChanged_1_, p_neighborChanged_2_, p_neighborChanged_3_, p_neighborChanged_4_, p_neighborChanged_5_);
+        if(p_neighborChanged_1_.getValue(VARIANT) != EnumType.SHUTTER_CORE || p_neighborChanged_2_.isRemote)
+            return;
+        shutterUpdate(p_neighborChanged_2_, p_neighborChanged_3_, p_neighborChanged_1_);
+    }
+
+    @Override
+    public void updateTick(World p_updateTick_1_, BlockPos p_updateTick_2_, IBlockState p_updateTick_3_, Random p_updateTick_4_)
+    {
+        super.updateTick(p_updateTick_1_, p_updateTick_2_, p_updateTick_3_, p_updateTick_4_);
+        if(p_updateTick_3_.getValue(VARIANT) != EnumType.SHUTTER_CORE || p_updateTick_1_.isRemote)
+            return;
+        shutterUpdate(p_updateTick_1_, p_updateTick_2_, p_updateTick_3_);
+    }
+
+    public void breakBlock(World p_breakBlock_1_, BlockPos p_breakBlock_2_, IBlockState p_breakBlock_3_)
+    {
+        if(p_breakBlock_3_.getValue(VARIANT) == EnumType.SHUTTER_CORE)
+        {
+            for(int i = 1; p_breakBlock_2_.getY() - i >= 0; i++)
+            {
+                final BlockPos pos = p_breakBlock_2_.down(i);
+                final Block block = p_breakBlock_1_.getBlockState(pos).getBlock();
+                if(block == StationsItems.blockShutter)
+                    p_breakBlock_1_.setBlockToAir(pos);
+                else
+                    break;
+            }
+        }
+        super.breakBlock(p_breakBlock_1_, p_breakBlock_2_, p_breakBlock_3_);
+
+    }
+
+    private void shutterUpdate(World p_updateTick_1_, BlockPos p_updateTick_2_, IBlockState p_updateTick_3_)
+    {
+        if(!p_updateTick_1_.isBlockPowered(p_updateTick_2_))
+        {
+            for(int i = 1; p_updateTick_2_.getY() - i >= 0; i++)
+            {
+                final BlockPos pos = p_updateTick_2_.down(i);
+                final IBlockState block = p_updateTick_1_.getBlockState(pos);
+                final TileEntity te = p_updateTick_1_.getTileEntity(pos);
+                if(block.getBlock() == StationsItems.blockShutter && te != null && te instanceof TileEntityShutter)
+                {
+                    continue;
+                }
+                else
+                {
+                    final TileEntity tile = p_updateTick_1_.getTileEntity(p_updateTick_2_.down(i-1));
+                    if(tile != null && tile instanceof TileEntityShutter)
+                    {
+                        ((TileEntityShutter)tile).setUndoFlag(true);
+                    }
+                    break;
+                }
+            }
+        }
+        else
+        {
+            for(int i = 1; ; i++)
+            {
+                final BlockPos pos = p_updateTick_2_.down(i);
+                final IBlockState block = p_updateTick_1_.getBlockState(pos);
+                final TileEntity te = p_updateTick_1_.getTileEntity(pos);
+                if(block.getBlock() == StationsItems.blockShutter && te != null && te instanceof TileEntityShutter)
+                {
+                    continue;
+                }
+                else
+                {
+                    if(i == 1 && te == null && block.getBlock() == Blocks.AIR)
+                    {
+                        final EnumFacing face = p_updateTick_3_.getActualState(p_updateTick_1_, p_updateTick_2_).getValue(FACING);
+                        IBlockState shutterState = StationsItems.blockShutter.getDefaultState().withProperty(BlockShutter.PROGRESS, 7);
+                        if(face == EnumFacing.NORTH || face == EnumFacing.SOUTH)
+                            shutterState  = shutterState.withProperty(BlockShutter.FACING, BlockShutter.EnumAxis.Z);
+                        p_updateTick_1_.setBlockState(pos, shutterState);
+                    }
+                    else if(i == 1 && te != null)
+                    {
+                        if(te != null && te instanceof TileEntityShutter)
+                        {
+                            ((TileEntityShutter)te).setUndoFlag(false);
+                        }
+                    }
+                    else
+                    {
+                        final TileEntity tile = p_updateTick_1_.getTileEntity(pos.down());
+                        if (tile != null && tile instanceof TileEntityShutter)
+                        {
+                            ((TileEntityShutter) tile).setUndoFlag(false);
+                        }
+                    }
+                    break;
+                }
+            }
         }
     }
 
@@ -173,7 +292,8 @@ public class BlockStationMaterial extends Block
         GRAY_PLATFORM("gray_platform"),
         LINED_PLATFORM_WHITE("lined_whitebrick_platform"),
         ASPHALT("asphalt"),
-        OLD_PLATFORM_BRICK("old_platform_brick");
+        OLD_PLATFORM_BRICK("old_platform_brick"),
+        SHUTTER_CORE("shutter_core");
 
         private String name;
         EnumType(String name)

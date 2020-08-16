@@ -210,5 +210,6 @@ public class TileEntityNamePlate extends TileEntityBase implements IPacketSender
             Utils.INSTANCE.sendToPlayers(this);
         }
         reload();
+        markDirty();
     }
 }

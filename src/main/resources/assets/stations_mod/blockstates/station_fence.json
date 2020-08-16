@@ -12,15 +12,19 @@
     "facing=south,variant=platform_fence": { "model": "stations_mod:platform_fence", "y":270 },
     "facing=east,variant=platform_fence": { "model": "stations_mod:platform_fence", "y":0 },
     "facing=west,variant=platform_fence": { "model": "stations_mod:platform_fence", "y":180 },
+    "facing=up,variant=platform_fence": { "model": "stations_mod:platform_fence", "y":0 },
 
     "facing=north,variant=rail_fence": { "model": "stations_mod:rail_fence", "y":90 },
     "facing=west,variant=rail_fence": { "model": "stations_mod:rail_fence", "y": 0 },
     "facing=south,variant=rail_fence": { "model": "stations_mod:rail_fence", "y":90 },
     "facing=east,variant=rail_fence": { "model": "stations_mod:rail_fence", "y": 0 },
+    "facing=up,variant=rail_fence": { "model": "stations_mod:rail_fence", "y": 0 },
 
     "facing=north,variant=platform_display": { "model": "stations_mod:platform_display.obj", "y":90 },
     "facing=south,variant=platform_display": { "model": "stations_mod:platform_display.obj", "y":90 },
     "facing=west,variant=platform_display": { "model": "stations_mod:platform_display.obj", "y":0 },
-    "facing=east,variant=platform_display": { "model": "stations_mod:platform_display.obj", "y":0 }
+    "facing=east,variant=platform_display": { "model": "stations_mod:platform_display.obj", "y":0 },
+    "facing=up,variant=platform_display": { "model": "stations_mod:platform_display.obj", "y":0 }
+
   }
 }

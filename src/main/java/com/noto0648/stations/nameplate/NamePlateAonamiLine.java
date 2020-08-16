@@ -2,6 +2,7 @@ package com.noto0648.stations.nameplate;
 
 import com.noto0648.stations.client.texture.NewFontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
@@ -135,5 +136,11 @@ public class NamePlateAonamiLine extends NamePlateBase
         if(plateFace == 2) GL11.glTranslatef(0F, -0.5F, 0F);
 
         //TileEntityNamePlateRender.subwayModel.renderAll();
+    }
+
+    @Override
+    public String getDisplayName()
+    {
+        return I18n.format("nameplate.notomod.aonami");
     }
 }

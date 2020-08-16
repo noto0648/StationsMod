@@ -1,11 +1,17 @@
 {
   "variants": {
     "facing=up,variant=whitebrick_platform": { "model": "stations_mod:whitebrick_platform" },
-    "facing=up,variant=gray_platform": { "model": "stations_mod:whitebrick_platform" },
+    "facing=north,variant=whitebrick_platform": { "model": "stations_mod:whitebrick_platform" },
+    "facing=south,variant=whitebrick_platform": { "model": "stations_mod:whitebrick_platform" },
+    "facing=east,variant=whitebrick_platform": { "model": "stations_mod:whitebrick_platform" },
+    "facing=west,variant=whitebrick_platform": { "model": "stations_mod:whitebrick_platform" },
+
     "facing=north,variant=gray_platform": { "model": "stations_mod:gray_platform", "y": 0},
     "facing=south,variant=gray_platform": { "model": "stations_mod:gray_platform", "y": 0},
     "facing=west,variant=gray_platform": { "model": "stations_mod:gray_platform", "y": 90},
     "facing=east,variant=gray_platform": { "model": "stations_mod:gray_platform", "y": 90},
+    "facing=up,variant=gray_platform": { "model": "stations_mod:gray_platform", "y": 0},
+
     "facing=up,variant=lined_whitebrick_platform": { "model": "stations_mod:lined_whitebrick_platform_north" },
     "facing=north,variant=lined_whitebrick_platform": { "model": "stations_mod:lined_whitebrick_platform_north" },
     "facing=south,variant=lined_whitebrick_platform": { "model": "stations_mod:lined_whitebrick_platform_south" },
@@ -13,7 +19,22 @@
     "facing=west,variant=lined_whitebrick_platform": { "model": "stations_mod:lined_whitebrick_platform_west" },
 
     "facing=up,variant=asphalt": { "model": "stations_mod:asphalt" },
-    "facing=up,variant=old_platform_brick": { "model": "stations_mod:old_platform_brick" }
+    "facing=north,variant=asphalt": { "model": "stations_mod:asphalt" },
+    "facing=south,variant=asphalt": { "model": "stations_mod:asphalt" },
+    "facing=east,variant=asphalt": { "model": "stations_mod:asphalt" },
+    "facing=west,variant=asphalt": { "model": "stations_mod:asphalt" },
+
+    "facing=up,variant=old_platform_brick": { "model": "stations_mod:old_platform_brick" },
+    "facing=north,variant=old_platform_brick": { "model": "stations_mod:old_platform_brick" },
+    "facing=south,variant=old_platform_brick": { "model": "stations_mod:old_platform_brick" },
+    "facing=east,variant=old_platform_brick": { "model": "stations_mod:old_platform_brick" },
+    "facing=west,variant=old_platform_brick": { "model": "stations_mod:old_platform_brick" },
+
+    "facing=up,variant=shutter_core": { "model": "stations_mod:old_platform_brick" },
+    "facing=north,variant=shutter_core": { "model": "minecraft:iron_block" },
+    "facing=south,variant=shutter_core": { "model": "minecraft:iron_block" },
+    "facing=east,variant=shutter_core": { "model": "minecraft:iron_block" },
+    "facing=west,variant=shutter_core": { "model": "minecraft:iron_block" }
 
   }
 }

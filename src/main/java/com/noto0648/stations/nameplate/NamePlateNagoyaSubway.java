@@ -2,6 +2,7 @@ package com.noto0648.stations.nameplate;
 
 import com.noto0648.stations.client.texture.NewFontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;
@@ -113,5 +114,11 @@ public class NamePlateNagoyaSubway extends NamePlateBase
     public String getNamePlateId()
     {
         return "builtin_nagoya_subway";
+    }
+
+    @Override
+    public String getDisplayName()
+    {
+        return I18n.format("nameplate.notomod.nagoya_subway");
     }
 }

@@ -5,7 +5,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import org.lwjgl.input.Keyboard;
@@ -47,31 +47,20 @@ public abstract class GuiContainerBase extends GuiContainer implements IGui
     @Override
     public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_)
     {
-
-
-        //drawRect(guiLeft, guiTop, guiLeft+xSize, guiTop+ySize, 0xFFC6C6C6 );
-/*
-        GlStateManager.disableRescaleNormal();
-        RenderHelper.disableStandardItemLighting();
-        GlStateManager.disableLighting();
-        GlStateManager.disableDepth();
-*/
-
-
+        if(doesDrawDarkScreen())
+        {
+            this.drawDefaultBackground();
+        }
         super.drawScreen(p_73863_1_, p_73863_2_, p_73863_3_);
-
         renderHoveredToolTip(p_73863_1_, p_73863_2_);
-
     }
 
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float v, int x, int y)
     {
-        if(doesDrawDarkScreen())
-        {
-            this.drawDefaultBackground();
-        }
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        drawGuiSlots();
 
         for(int i = 0; i < controlList.size(); i++)
         {
@@ -84,7 +73,6 @@ public abstract class GuiContainerBase extends GuiContainer implements IGui
             controlList.get(i).drawTopLayer(x, y);
         }
 
-        drawGuiSlots();
     }
 
     @Override
@@ -109,7 +97,21 @@ public abstract class GuiContainerBase extends GuiContainer implements IGui
     @Override
     protected void keyTyped(char p_73869_1_, int p_73869_2_) throws IOException
     {
-        super.keyTyped(p_73869_1_, p_73869_2_);
+//        /super.keyTyped(p_73869_1_, p_73869_2_);
+
+        if (p_73869_2_ == 1 || (this.mc.gameSettings.keyBindInventory.isActiveAndMatches(p_73869_2_) && closeInventoryKey()) ) {
+            this.mc.player.closeScreen();
+        }
+
+        this.checkHotbarKeys(p_73869_2_);
+        if (this.getSlotUnderMouse() != null && this.getSlotUnderMouse().getHasStack()) {
+            if (this.mc.gameSettings.keyBindPickBlock.isActiveAndMatches(p_73869_2_)) {
+                this.handleMouseClick(this.getSlotUnderMouse(), this.getSlotUnderMouse().slotNumber, 0, ClickType.CLONE);
+            } else if (this.mc.gameSettings.keyBindDrop.isActiveAndMatches(p_73869_2_)) {
+                this.handleMouseClick(this.getSlotUnderMouse(), this.getSlotUnderMouse().slotNumber, isCtrlKeyDown() ? 1 : 0, ClickType.THROW);
+            }
+        }
+
         if(!isShowContextMenu)
         {
             for(int i = 0; i < controlList.size(); i++)
@@ -121,6 +123,11 @@ public abstract class GuiContainerBase extends GuiContainer implements IGui
         {
             controlList.get(contextMenuId).keyTyped(p_73869_1_, p_73869_2_);
         }
+    }
+
+    protected boolean closeInventoryKey()
+    {
+        return true;
     }
 
     //mouseMovedOrUp
@@ -235,8 +242,10 @@ public abstract class GuiContainerBase extends GuiContainer implements IGui
     {
         if(inventorySlots == null)
             return;
-        GlStateManager.colorMask(true, true, true, true);
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        //GlStateManager.colorMask(true, true, true, true);
+        //GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.enableCull();
+        GlStateManager.enableAlpha();
         GlStateManager.pushMatrix();
         /*
         GlStateManager.disableRescaleNormal();
@@ -250,13 +259,13 @@ public abstract class GuiContainerBase extends GuiContainer implements IGui
 
         for(Slot s : inventorySlots.inventorySlots)
         {
-            drawRect(s.xPos-1, s.yPos-1, s.xPos + 18, s.yPos + 18, 0xFFC6C6C6,0xFFC6C6C6);
+            drawRect(s.xPos-1, s.yPos-1, s.xPos + 18, s.yPos + 18, 0xFF8C8C8C,0xFF8C8C8C);
             drawRect(s.xPos-1, s.yPos-1, s.xPos + 17, s.yPos + 17, 0xFF383838,0xFF383838);
             drawRect(s.xPos, s.yPos, s.xPos + 17, s.yPos + 17, 0xFFFFFFFF,0xFFFFFFFF);
-            drawRect(s.xPos, s.yPos, s.xPos + 16,  s.yPos + 16, 0xFFC6C6C6,0xFFC6C6C6);
-
+            drawRect(s.xPos, s.yPos, s.xPos + 16,  s.yPos + 16, 0xFF8C8C8C,0xFF8C8C8C);
         }
         GlStateManager.popMatrix();
+        //GlStateManager.disableAlpha();
     }
 
 }

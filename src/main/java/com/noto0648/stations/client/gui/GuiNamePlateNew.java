@@ -124,10 +124,11 @@ public class GuiNamePlateNew extends GuiScreenBase implements IGui, IPacketSende
         List<NamePlateBase> plates = NamePlateManager.INSTANCE.getNamePlates();
         for(int i = 0; i < plates.size(); i++)
         {
-            String plateName = plates.get(i).getNamePlateId();
+            final String plateId = plates.get(i).getNamePlateId();
+            final String plateName = plates.get(i).getDisplayName();
             labelPatternList.items.add(plateName);
 
-            if(plateName.equalsIgnoreCase(tile.currentType))
+            if(plateId.equalsIgnoreCase(tile.currentType))
             {
                 List<String> strs = new ArrayList();
                 plates.get(i).init(strs);
@@ -166,6 +167,7 @@ public class GuiNamePlateNew extends GuiScreenBase implements IGui, IPacketSende
         {
             labelEditor.setText(key, strMaps.get(key));
         }
+        labelEditor.endSettingKeys();
     }
 
     protected void changeTab(int tabIndex)
@@ -176,7 +178,10 @@ public class GuiNamePlateNew extends GuiScreenBase implements IGui, IPacketSende
 
         if(tabIndex == 0)
         {
-            textureSelector.setCurrentLabelMap(labelPatternList.getText());
+            if(labelPatternList.getSelectedIndex() != -1)
+            {
+                textureSelector.setCurrentLabelMap(NamePlateManager.INSTANCE.getNamePlates().get(labelPatternList.getSelectedIndex()).getNamePlateId());
+            }
             textureSelector.setPreviewStringMap(labelEditor.getKeyMap());
         }
     }
@@ -226,7 +231,13 @@ public class GuiNamePlateNew extends GuiScreenBase implements IGui, IPacketSende
     public void setSendData(List<Object> list)
     {
         list.add((byte)0x01);
-        list.add(labelPatternList.getText());
+
+
+        final int sel = labelPatternList.getSelectedIndex();
+        if(sel == -1)
+            list.add("");
+        else
+            list.add(NamePlateManager.INSTANCE.getNamePlates().get(sel).getNamePlateId());
         list.add(textureSelector.getSelected());
         list.add(lightCheck.getCheck());
 

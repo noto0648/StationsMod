@@ -19,24 +19,25 @@ import java.util.Map;
 @SideOnly(Side.CLIENT)
 public class NewFontRenderer
 {
-    private static final String INITIALIZE_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-,.";
+    private static final String INITIALIZE_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-,.{}#$%";
     public static final NewFontRenderer INSTANCE = new NewFontRenderer();
 
     private NewFontRenderer() { }
 
     private ArrayList<FontTexture> packedImages = new ArrayList<>();
-    private Map<Character, BufferedImage> images = new HashMap<Character, BufferedImage>();
-    private Map<Character, FontTexturePosition> widths = new HashMap<Character, FontTexturePosition>();
-    private Map<Character, FontTexture> textures = new HashMap<Character, FontTexture>();
+    private Map<UTFCharacter, BufferedImage> images = new HashMap<>();
+    private Map<UTFCharacter, FontTexturePosition> widths = new HashMap<>();
+    private Map<UTFCharacter, FontTexture> textures = new HashMap<>();
 
     public void init()
     {
         for(int i = 0; i < INITIALIZE_CHARACTERS.length(); i++)
         {
-            char c = INITIALIZE_CHARACTERS.charAt(i);
+            final char c = INITIALIZE_CHARACTERS.charAt(i);
+            final UTFCharacter key = new UTFCharacter(c);
             Object[] objs = toImage(String.valueOf(c));
-            images.put(c, (BufferedImage)objs[0]);
-            widths.put(c, new FontTexturePosition((Integer)objs[1]));
+            images.put(key, (BufferedImage)objs[0]);
+            widths.put(key, new FontTexturePosition((Integer)objs[1]));
         }
         packTexture();
     }
@@ -45,14 +46,14 @@ public class NewFontRenderer
     {
         BufferedImage bImage = new BufferedImage(512, 512, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics = (Graphics2D)bImage.getGraphics();
-        ArrayList<Character> keys = new ArrayList<>(16*16);
-        for(char key : images.keySet())
+        ArrayList<UTFCharacter> keys = new ArrayList<>(16*16);
+        for(UTFCharacter key : images.keySet())
         {
             int len = keys.size();
             final int x = (len % 16) * 32;
             final int y = len / 16 * 32;
             graphics.drawImage(images.get(key), x, y, null);
-            keys.add(new Character(key));
+            keys.add(key);
             widths.put(key, new FontTexturePosition(widths.get(key).getWidth(), x/512f, y/512f, (x+32f)/512f,(y+32f)/512f));
             if(keys.size() == 16*16)
             {
@@ -74,7 +75,7 @@ public class NewFontRenderer
             return;
         }
 
-        for(char c : keys)
+        for(UTFCharacter c : keys)
         {
             images.remove(c);
             textures.put(c, fontTex);
@@ -150,17 +151,26 @@ public class NewFontRenderer
         int offsetX = x;
         int offsetY = y;
         float fontScale = 1f;
+        boolean surrogate = false;
         for(int i = 0; i < str.length(); i++)
         {
             final char c = str.charAt(i);
-            if(c == '{')
+            if(!surrogate && Character.isHighSurrogate(c))
+            {
+                surrogate = true;
+                continue;
+            }
+            final UTFCharacter key = surrogate ? new UTFCharacter(str.charAt(i-1), c) : new UTFCharacter(c);
+
+            if(!surrogate && c == '{')
             {
                 boolean endBucket = false;
                 String options = null;
                 int endIndex = -1;
                 for(int k = i+1; k < str.length(); k++)
                 {
-                    if(str.charAt(k) == '}' && i+1 < k)
+                    final char ch = str.charAt(k);
+                    if(ch == '}' && i+1 < k)
                     {
                         endBucket = true;
                         options = str.substring(i+1, k);
@@ -191,16 +201,16 @@ public class NewFontRenderer
                     continue;
                 }
             }
-            if(!widths.containsKey(c) || !widths.get(c).isGenerated())
+            if(!widths.containsKey(key) || !widths.get(key).isGenerated())
             {
-                Object[] objs = toImage(String.valueOf(c));
-                images.put(c, (BufferedImage)objs[0]);
-                widths.put(c, new FontTexturePosition((Integer)objs[1]));
+                Object[] objs = toImage(key.toString());
+                images.put(key, (BufferedImage)objs[0]);
+                widths.put(key, new FontTexturePosition((Integer)objs[1]));
             }
-            FontTexturePosition fontPos = widths.get(c);
+            FontTexturePosition fontPos = widths.get(key);
             if(draw)
             {
-                bindCharTexture(c);
+                bindCharTexture(key);
 
                 GL11.glPushMatrix();
                 GL11.glNormal3f(0f, 0f, 1f);
@@ -219,6 +229,7 @@ public class NewFontRenderer
                 GL11.glPopMatrix();
             }
             offsetX += (int)(fontPos.getWidth() * fontScale);
+            surrogate = false;
         }
         return offsetX - x;
     }
@@ -264,7 +275,7 @@ public class NewFontRenderer
     }
 
     @SideOnly(Side.CLIENT)
-    public void bindCharTexture(char c)
+    public void bindCharTexture(UTFCharacter c)
     {
         try
         {

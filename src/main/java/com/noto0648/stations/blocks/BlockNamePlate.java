@@ -64,6 +64,26 @@ public class BlockNamePlate extends BlockContainer
             p_149727_5_.openGui(StationsMod.instance, 1, world, pos.getX(), pos.getY(), pos.getZ());
             return true;
         }
+        if(Utils.INSTANCE.haveHammer(p_149727_5_))
+        {
+            TileEntity tile = world.getTileEntity(pos);
+            IBlockState newState = state.getActualState(world, pos);
+            final EnumPosition[] poses = EnumPosition.values();
+            final EnumPosition cur = newState.getValue(POSITION);
+/*
+            for(int i = 0; i < poses.length; i++)
+            {
+                if(poses[i]==cur)
+                {
+                    newState.cycleProperty()
+                    newState.cycleProperty (i+1) % poses.length
+                }
+            }
+            */
+            world.setBlockState(pos, state.cycleProperty(POSITION), 3);
+            world.setTileEntity(pos, tile);
+            return true;
+        }
         return false;
     }
 
@@ -74,9 +94,10 @@ public class BlockNamePlate extends BlockContainer
 
         if(meta == 0) return new AxisAlignedBB(0.4F, 0F, -0.5F, 0.6F, 1F, 1.5F);
         else if(meta == 1) return new AxisAlignedBB(-0.5F, 0F, 0.4F, 1.5F, 1F, 0.6F);
-        else if(meta == 5) return new AxisAlignedBB(0.0F, 0F, -0.5F, 0.2F, 1F, 1.5F);
+
+        else if(meta == 2) return new AxisAlignedBB(0.0F, 0F, -0.5F, 0.2F, 1F, 1.5F);
         else if(meta == 4) return new AxisAlignedBB(0.8F, 0F, -0.5F, 1F, 1F, 1.5F);
-        else if(meta == 2) return new AxisAlignedBB(-0.5F, 0F, 0.8F, 1.5F, 1F, 1F);
+        else if(meta == 5) return new AxisAlignedBB(-0.5F, 0F, 0.8F, 1.5F, 1F, 1F);
         else if(meta == 3) return new AxisAlignedBB(-0.5F, 0F, 0.0F, 1.5F, 1F, 0.2F);
 
         return super.getBoundingBox(state, world, pos);
@@ -172,14 +193,24 @@ public class BlockNamePlate extends BlockContainer
 
     public enum EnumPosition implements IStringSerializable
     {
-        MIDDLE,
-        FRONT,
-        BACK;
+        MIDDLE(0),
+        FRONT(0.45f),
+        BACK(-0.45f);
+        private float offset;
 
+        EnumPosition(float f)
+        {
+            offset = f;
+        }
         @Override
         public String getName()
         {
             return toString().toLowerCase();
+        }
+
+        public float getOffset()
+        {
+            return offset;
         }
     }
 }

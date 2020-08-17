@@ -25,7 +25,7 @@ public class StationsMod
     public static final Boolean DEBUG_MODE = false;
     public static final String MOD_ID = "stations_mod";
     public static final String NAME = "Stations Mod";
-    public static final String VERSION = "1.12.2.0";
+    public static final String VERSION = "1.12.2-0.1.0";
 
     @Mod.Instance(MOD_ID)
     public static StationsMod instance;
@@ -34,10 +34,8 @@ public class StationsMod
     public static ServerProxy proxy;
 
     public static final SimpleNetworkWrapper PACKET_DISPATCHER = NetworkRegistry.INSTANCE.newSimpleChannel(MOD_ID);
-
-    public static CreativeTabStations tab = new CreativeTabStations();
-
-    public static ItemArmor.ArmorMaterial staffArmorMaterial = EnumHelper.addArmorMaterial("STATION_STAFF", MOD_ID + ":station_staff", 18, new int[]{1, 2, 3, 1}, 0, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0f);
+    public static final CreativeTabStations tab = new CreativeTabStations();
+    public static final ItemArmor.ArmorMaterial staffArmorMaterial = EnumHelper.addArmorMaterial("STATION_STAFF", MOD_ID + ":station_staff", 18, new int[]{1, 2, 3, 1}, 0, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0f);
 
 
     @Mod.EventHandler

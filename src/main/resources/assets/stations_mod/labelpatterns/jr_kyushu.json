@@ -1,0 +1,100 @@
+{
+	"name": "builtin_jr_kyushu",
+	"author": "Noto",
+	"enableNormal": true,
+	"modelId": 0,
+	"labels": [
+		{
+			"x": 110,
+			"y": 6,
+			"justification": "CENTER",
+			"R": 0.0,
+			"G": 0.0,
+			"B": 0.0,
+			"fontScale": 0.79,
+			"enableReverse": false,
+			"label": "stationName"
+		},
+		{
+			"x": 110,
+			"y": 16,
+			"justification": "CENTER",
+			"R": 0.0,
+			"G": 0.0,
+			"B": 0.0,
+			"fontScale": 0.3,
+			"enableReverse": false,
+			"label": "englishName"
+		},
+		{
+			"x": 110,
+			"y": 27,
+			"justification": "CENTER",
+			"R": 0.0,
+			"G": 0.0,
+			"B": 0.0,
+			"fontScale": 0.3,
+			"enableReverse": false,
+			"label": "kanjiName"
+		},
+		{
+			"x": 25,
+			"y": 52,
+			"justification": "LEFT",
+			"R": 0.0,
+			"G": 0.0,
+			"B": 0.0,
+			"fontScale": 0.38,
+			"enableReverse": false,
+			"label": "prevName"
+		},
+		{
+			"x": 195,
+			"y": 52,
+			"justification": "RIGHT",
+			"R": 0.0,
+			"G": 0.0,
+			"B": 0.0,
+			"fontScale": 0.38,
+			"enableReverse": false,
+			"label": "nextName"
+		},
+		{
+			"x": 21,
+			"y": 62,
+			"justification": "LEFT",
+			"R": 0.0,
+			"G": 0.0,
+			"B": 0.0,
+			"fontScale": 0.25,
+			"enableReverse": false,
+			"label": "prevEnglish"
+		},
+		{
+			"x": 199,
+			"y": 62,
+			"justification": "RIGHT",
+			"R": 0.0,
+			"G": 0.0,
+			"B": 0.0,
+			"fontScale": 0.25,
+			"enableReverse": false,
+			"label": "nextEnglish"
+		},
+		{
+			"x": 110,
+			"y": 59,
+			"justification": "CENTER",
+			"R": 0.0,
+			"G": 0.0,
+			"B": 0.0,
+			"fontScale": 0.8,
+			"enableReverse": false,
+			"label": "mark"
+		}
+	],
+	"displayNames": {
+		"en_US": "JR Kyushu Style",
+		"ja_JP": "JR九州風"
+	}
+}

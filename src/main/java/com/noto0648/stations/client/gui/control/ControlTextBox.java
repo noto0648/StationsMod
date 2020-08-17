@@ -296,18 +296,18 @@ public class ControlTextBox extends Control
             }
             if(GuiScreen.isCtrlKeyDown())
             {
-                if(par1 == 'C')
+                if(GuiScreen.isKeyComboCtrlC(par2))
                 {
                     if(getSelectText() != null)
                     {
                         GuiScreen.setClipboardString(getSelectText());
                     }
                 }
-                else if(par1 == 'V')
+                else if(GuiScreen.isKeyComboCtrlV(par2))
                 {
                     setText(GuiScreen.getClipboardString());
                 }
-                else if(par1 == 'X')
+                else if(GuiScreen.isKeyComboCtrlX(par2))
                 {
                     if(getSelectText() != null)
                     {
@@ -315,7 +315,7 @@ public class ControlTextBox extends Control
                         setText("");
                     }
                 }
-                else if(par1 == 'A')
+                else if(GuiScreen.isKeyComboCtrlA(par2))
                 {
                     selectStart = 0;
                     selectEnd = text.length();
@@ -342,20 +342,21 @@ public class ControlTextBox extends Control
                     }
                     if(!canInput) return;
                 }
-                if(cursorPosition == text.length())
-                {
-                    StringBuilder sb = new StringBuilder(text);
-                    sb.append(par1);
-                    text = sb.toString();
-                    textChanged();
-                }
-                else if(selectStart != -1 && selectEnd != -1)
+
+                if(selectStart != -1 && selectEnd != -1)
                 {
                     String first = text.substring(0, selectStart);
                     String end = text.substring(selectEnd);
                     text = first + String.valueOf(par1) + end;
                     cursorPosition = selectStart;
                     selectStart = selectEnd = -1;
+                    textChanged();
+                }
+                else if(cursorPosition == text.length())
+                {
+                    StringBuilder sb = new StringBuilder(text);
+                    sb.append(par1);
+                    text = sb.toString();
                     textChanged();
                 }
                 else

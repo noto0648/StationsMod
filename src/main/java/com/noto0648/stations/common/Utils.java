@@ -60,16 +60,20 @@ public class Utils
         return ItemStack.EMPTY;
     }
 
-    /*
-    public boolean haveTicket(EntityPlayer ep)
+    public boolean haveHammer(EntityPlayer ep)
     {
-        if(ep.getCurrentEquippedItem() == null)
-            return false;
+        if(StationsMod.DEBUG_MODE)
+            return true;
 
-        return ItemDictionary.INSTANCE.contains("ticket", ep.getCurrentEquippedItem());
+        if(ep.getHeldItemMainhand().getItem() == StationsItems.itemHammer || ep.getHeldItemOffhand().getItem() == StationsItems.itemHammer)
+        {
+            //return ep.getHeldItemMainhand();
+            return true;
+        }
+        return false;
+        //return ep.getCurrentEquippedItem() != null && ep.getCurrentEquippedItem().getItem() == Stations.instance.torqueWrench;
     }
 
-*/
     public void sendPacket(IPacketSender packet)
     {
         List<Object> result = new ArrayList();

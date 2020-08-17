@@ -50,15 +50,16 @@ public class TileEntityNamePlateRenderer extends TileEntitySpecialRenderer<TileE
     {
         if(!p_147500_1_.hasWorld())
             return;
-        IBlockState blockState = getWorld().getBlockState(p_147500_1_.getPos());
-        BlockNamePlate.EnumPosition tilePos = blockState.getValue(BlockNamePlate.POSITION);
-        BlockNamePlate.EnumRotating rotate = blockState.getValue(BlockNamePlate.ROTATING);
+        final IBlockState blockState = getWorld().getBlockState(p_147500_1_.getPos());
+        final BlockNamePlate.EnumPosition tilePos = blockState.getValue(BlockNamePlate.POSITION);
+        final BlockNamePlate.EnumRotating rotate = blockState.getValue(BlockNamePlate.ROTATING);
 
         GlStateManager.pushMatrix();
         GlStateManager.translate(0.5f, 0.5f, 0.5f);
         if(rotate == BlockNamePlate.EnumRotating.HORIZONTAL)
             GL11.glRotatef(-90F, 0, 1, 0);
 
+        GlStateManager.translate(-tilePos.getOffset(),0, 0);
 
         Map<String, String> strMap = (p_147500_1_).getHashMap();
 
@@ -206,14 +207,21 @@ public class TileEntityNamePlateRenderer extends TileEntitySpecialRenderer<TileE
         }
 
 
-
-        BlockNamePlate.EnumRotating rotate = getWorld().getBlockState(te.getPos()).getValue(BlockNamePlate.ROTATING);
+        final IBlockState actualState = getWorld().getBlockState(te.getPos());
+        final BlockNamePlate.EnumRotating rotate = actualState.getValue(BlockNamePlate.ROTATING);
+        final BlockNamePlate.EnumPosition pos = actualState.getValue(BlockNamePlate.POSITION);
 
         if(rotate == BlockNamePlate.EnumRotating.HORIZONTAL)
         {
             GlStateManager.translate(0.5f,0,0.5f);
             GlStateManager.rotate(90f, 0f, 1f, 0);
             GlStateManager.translate(-0.5f,0,-0.5f);
+
+            GlStateManager.translate(pos.getOffset(),0, 0);
+        }
+        else
+        {
+            GlStateManager.translate(-pos.getOffset(),0, 0);
         }
         //GlStateManager.translate(-te.getPos().getX(), -te.getPos().getY(), -te.getPos().getZ());
 

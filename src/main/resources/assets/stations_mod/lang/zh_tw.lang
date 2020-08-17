@@ -1,0 +1,78 @@
+#
+# System
+#
+itemGroup.stationsItems=Stations Mod 物品
+container.notomod.ticketcase=車票盒
+gui.notomod.texture=材質
+gui.notomod.label=標籤
+gui.notomod.other=其他
+gui.notomod.labelpattern=標籤模板
+gui.notomod.departure=開車
+gui.notomod.arrival=抵達
+#
+# NamePlates (Builtin)
+#
+nameplate.notomod.default=預設
+nameplate.notomod.jr_central=JR 中央線風格
+nameplate.notomod.meitetsu=名古屋鐵道風格
+nameplate.notomod.nagoya_subway=名古屋地下鐵風格
+nameplate.notomod.kokutetsu=JNR 風格
+nameplate.notomod.aonami=青波線風格
+nameplate.notomod.toyohashi_atsumi=豐橋鐵道風格
+#
+# Basic Items
+#
+item.notomod.ticket.name=車票
+item.notomod.used_ticket.name=已消耗車票
+item.notomod.mars_ticket.name=指定型車票
+item.notomod.used_mars_ticket.name=已消耗指定型車票
+item.notomod.replenishing_ticket.name=補充型車票
+item.notomod.ic_ticket.name=IC 卡
+item.notomod.torque_wrench.name=扭力扳手
+item.notomod.hammer.name=槌子
+item.notomod.digital_clock.name=數位鐘
+item.notomod.analog_clock.name=類比鐘
+item.notomod.handflag_red.name=紅色手旗
+item.notomod.handflag_white.name=白色手旗
+item.notomod.handflag_green.name=綠色手旗
+item.notomod.ticket_case.name=車票盒
+item.notomod.slide_door.name=滑門
+item.notomod.diagram_book.name=數位書
+item.notomod.seal_sensor.name=密封傳感器
+item.notomod.ticket_punch.name=剪票器
+#
+# Equipment
+#
+item.notomod.staff_hat.name=站務人員帽
+item.notomod.staff_suit.name=站務人員制服
+item.notomod.staff_pants.name=站務人員褲子
+item.notomod.staff_boots.name=站務人員靴子
+#
+# Basic Blocks
+#
+tile.notomod.station_material0.name=白色月台磚
+tile.notomod.station_material1.name=灰色月台磚
+tile.notomod.station_material5.name=白色月台磚含黃線
+tile.notomod.station_material9.name=瀝青
+tile.notomod.station_material10.name=舊月台磚
+tile.notomod.station_material14.name=鐵捲門核心
+tile.notomod.station_fence0.name=月台扶手
+tile.notomod.station_fence4.name=鐵道柵欄
+tile.notomod.station_fence14.name=開車資訊版
+tile.notomod.ticket_machine0.name=售票機
+tile.notomod.ticket_machine4.name=票閘
+tile.notomod.ticket_machine8.name=站務售票機
+tile.notomod.ticket_machine12.name=IC 卡票閘
+tile.notomod.station_pillar0.name=白色柱子
+tile.notomod.station_pillar6.name=黑色Pillar
+tile.notomod.station_pillar2.name=黃色Line
+tile.notomod.station_pillar9.name=白色線
+tile.notomod.station_pillar7.name=數字板
+tile.notomod.name_plate0.name=站牌
+tile.notomod.shutter.name=鐵捲門
+tile.notomod.string_seal.name=公文用印
+
+
+
+
+

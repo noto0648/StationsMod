@@ -189,7 +189,9 @@ public class GuiNamePlateNew extends GuiScreenBase implements IGui, IPacketSende
     @Override
     protected void resize()
     {
-        doneButton.setLocation(width / 2 + 10, height / 2 + 90);
+        doneButton.setLocation(width - 210, height  - 30);
+        doneButton.setSize(200, 20);
+
         for(int i = 0; i < tabButtons.length; i++)
         {
             tabButtons[i].setLocation((width / 2 - 180) + 100 * i, height / 2 - 110);
@@ -201,10 +203,10 @@ public class GuiNamePlateNew extends GuiScreenBase implements IGui, IPacketSende
         lightCheck.setLocation(width / 2 - 80, height / 2 - 30);
 
         labelPatternList.setLocation((width / 2 - 180), height / 2 - 70);
-        labelPatternList.setSize((int)((width / 2 -20)*0.82), height / 2 - 30);
+        labelPatternList.setSize((width / 2 - 15) - (width / 2 - 180), height / 2 - 30);
 
         labelEditor.setLocation((width / 2), height / 2 - 80);
-        labelEditor.setSize((int)(width / 2), height - 80);
+        labelEditor.setSize((width - 15) - (width / 2), height - 35 - (height / 2 - 80));
 
         //labelPatternList.locationY = height / 2 + 10;
         //labelPatternList.setSize(width / 2 - 20, height / 2 - 15);

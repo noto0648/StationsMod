@@ -40,6 +40,12 @@ public class BlockTicketMachine extends BlockHorizontal implements ITileEntityPr
     }
 
     @Override
+    public EnumBlockRenderType getRenderType(IBlockState state)
+    {
+        return state.getValue(VARIANT) == EnumType.TICKET_GATE ? EnumBlockRenderType.INVISIBLE : EnumBlockRenderType.MODEL;
+    }
+
+    @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer p_149727_5_, EnumHand p_onBlockActivated_5_, EnumFacing p_onBlockActivated_6_, float p_onBlockActivated_7_, float p_onBlockActivated_8_, float p_onBlockActivated_9_)
     {
         switch(state.getActualState(world, pos).getValue(VARIANT))
@@ -106,6 +112,8 @@ public class BlockTicketMachine extends BlockHorizontal implements ITileEntityPr
                 {
                     return NULL_AABB;
                 }
+                return FENCE_AABB;
+            case IC_TICKET_GATE:
                 return FENCE_AABB;
             default:
                 return FULL_BLOCK_AABB;

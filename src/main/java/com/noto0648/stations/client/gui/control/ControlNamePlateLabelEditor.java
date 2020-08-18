@@ -174,10 +174,11 @@ public class ControlNamePlateLabelEditor extends Control
     }
 
     @Override
-    public void mouseScroll(int mouseScroll)
+    public void mouseScroll(int mouseScroll, int mouseX, int mouseY)
     {
-        if(!isEnable)
+        if(!isEnable || !onTheMouse(mouseX, mouseY))
             return;
+
         scrollBar.mouseScroll(mouseScroll);
         for(ControlTextBox  val : map.values())
         {

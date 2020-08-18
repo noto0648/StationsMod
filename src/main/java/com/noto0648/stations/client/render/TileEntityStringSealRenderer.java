@@ -1,7 +1,7 @@
 package com.noto0648.stations.client.render;
 
 import com.noto0648.stations.StationsItems;
-import com.noto0648.stations.client.texture.NewFontRenderer;
+import com.noto0648.stations.client.fontrenderer.NewFontRenderer;
 import com.noto0648.stations.tiles.TileEntityStringSeal;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.state.IBlockState;

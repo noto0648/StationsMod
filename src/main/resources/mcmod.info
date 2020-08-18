@@ -2,7 +2,7 @@
     {
       "modid": "stations_mod",
       "name": "Stations Mod",
-      "description": "Author is praying now.",
+      "description": "Its author is praying now.",
       "version": "${version}",
       "mcversion": "${mcversion}",
       "url": "",

@@ -126,16 +126,20 @@ public abstract class GuiScreenBase extends GuiScreen implements IGui
         int scroll = Mouse.getEventDWheel();
         if(scroll == 0)
             return;
+
+        int mouseX = Mouse.getEventX() * this.width / this.mc.displayWidth;
+        int mouseY = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
+
         if(!isShowContextMenu)
         {
             for(int i = 0; i < controlList.size(); i++)
             {
-                controlList.get(i).mouseScroll(scroll);
+                controlList.get(i).mouseScroll(scroll, mouseX, mouseY);
             }
         }
         else
         {
-            controlList.get(contextMenuId).mouseScroll(scroll);
+            controlList.get(contextMenuId).mouseScroll(scroll, mouseX, mouseY);
         }
     }
 

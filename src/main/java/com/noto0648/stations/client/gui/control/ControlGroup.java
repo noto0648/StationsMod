@@ -78,11 +78,11 @@ public class ControlGroup extends Control
     }
 
     @Override
-    public void mouseScroll(int mouseScroll)
+    public void mouseScroll(int mouseScroll, int mouseX, int mouseY)
     {
         for(Control c : children)
         {
-            c.mouseScroll(mouseScroll);
+            c.mouseScroll(mouseScroll, mouseX, mouseY);
         }
     }
 

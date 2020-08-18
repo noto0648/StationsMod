@@ -67,6 +67,10 @@ public abstract class Control
 
     public void mouseClickMove(int mouseX, int mouseY, int button, long time) {}
     public void mouseMovedOrUp(int mouseX, int mouseY, int mode) {}
+    public void mouseScroll(int mouseScroll, int mouseX, int mouseY)
+    {
+        mouseScroll(mouseScroll);
+    }
     public void mouseScroll(int mouseScroll) {}
     public void keyTyped(char par1, int par2) {}
     public void onGuiClosed() {}

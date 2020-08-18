@@ -67,21 +67,12 @@ public class BlockNamePlate extends BlockContainer
         if(Utils.INSTANCE.haveHammer(p_149727_5_))
         {
             TileEntity tile = world.getTileEntity(pos);
-            IBlockState newState = state.getActualState(world, pos);
-            final EnumPosition[] poses = EnumPosition.values();
-            final EnumPosition cur = newState.getValue(POSITION);
-/*
-            for(int i = 0; i < poses.length; i++)
-            {
-                if(poses[i]==cur)
-                {
-                    newState.cycleProperty()
-                    newState.cycleProperty (i+1) % poses.length
-                }
-            }
-            */
             world.setBlockState(pos, state.cycleProperty(POSITION), 3);
-            world.setTileEntity(pos, tile);
+            if(tile != null)
+            {
+                tile.validate();
+                world.setTileEntity(pos, tile);
+            }
             return true;
         }
         return false;

@@ -1,6 +1,6 @@
 package com.noto0648.stations.nameplate;
 
-import com.noto0648.stations.client.texture.NewFontRenderer;
+import com.noto0648.stations.client.fontrenderer.NewFontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.relauncher.Side;

@@ -1,4 +1,4 @@
-package com.noto0648.stations.client.texture;
+package com.noto0648.stations.client.fontrenderer;
 
 public class FontTexturePosition
 {

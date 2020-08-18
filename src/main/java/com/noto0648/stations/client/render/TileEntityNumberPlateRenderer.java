@@ -1,17 +1,11 @@
 package com.noto0648.stations.client.render;
 
-import com.noto0648.stations.StationsItems;
-import com.noto0648.stations.blocks.BlockPillar;
-import com.noto0648.stations.client.texture.NewFontRenderer;
+import com.noto0648.stations.client.fontrenderer.NewFontRenderer;
 import com.noto0648.stations.tiles.TileEntityNumberPlate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.block.model.IBakedModel;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.util.EnumFacing;
 import org.lwjgl.opengl.GL11;
 
 public class TileEntityNumberPlateRenderer extends TileEntitySpecialRenderer<TileEntityNumberPlate>

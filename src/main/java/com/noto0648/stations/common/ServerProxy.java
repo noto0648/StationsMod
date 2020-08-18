@@ -19,8 +19,6 @@ public class ServerProxy
         GameRegistry.registerTileEntity(TileEntityStringSeal.class, new ResourceLocation(StationsMod.MOD_ID, "string_seal"));
         GameRegistry.registerTileEntity(TileEntityDeparturePlate.class, new ResourceLocation(StationsMod.MOD_ID, "departure_plate"));
         GameRegistry.registerTileEntity(TileEntityShutter.class, new ResourceLocation(StationsMod.MOD_ID, "shutter"));
-
-        GameRegistry.registerTileEntity(TileEntityTicketGate.class, new ResourceLocation(StationsMod.MOD_ID, "ticket_gate"));
     }
 
     public void postInit()

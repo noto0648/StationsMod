@@ -1,17 +1,21 @@
 package com.noto0648.stations.client;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.noto0648.stations.StationsItems;
 import com.noto0648.stations.StationsMod;
 import com.noto0648.stations.blocks.BlockPillar;
+import com.noto0648.stations.client.fontrenderer.NewFontRenderer;
 import com.noto0648.stations.client.render.*;
-import com.noto0648.stations.client.texture.NewFontRenderer;
 import com.noto0648.stations.common.ServerProxy;
 import com.noto0648.stations.nameplate.NamePlateManager;
 import com.noto0648.stations.tiles.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.color.IBlockColor;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -23,6 +27,7 @@ import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.client.model.obj.OBJModel;
 import net.minecraftforge.common.MinecraftForge;
@@ -54,15 +59,14 @@ public class ClientProxy extends ServerProxy
     @Override
     public void init()
     {
-
         ClientRegistry.registerTileEntity(TileEntityNumberPlate.class, StationsMod.MOD_ID + ":number_plate", new TileEntityNumberPlateRenderer());
         ClientRegistry.registerTileEntity(TileEntityNamePlate.class, StationsMod.MOD_ID + ":name_plate", new TileEntityNamePlateRenderer());
         ClientRegistry.registerTileEntity(TileEntitySlideDoor.class, StationsMod.MOD_ID + ":slide_door", new TileEntitySlideDoorRenderer());
         ClientRegistry.registerTileEntity(TileEntityStringSeal.class, StationsMod.MOD_ID + ":string_seal", new TileEntityStringSealRenderer());
         ClientRegistry.registerTileEntity(TileEntityDeparturePlate.class, StationsMod.MOD_ID + ":departure_plate", new TileEntityDeparturePlateRenderer());
+        ClientRegistry.registerTileEntity(TileEntityTicketGate.class, StationsMod.MOD_ID + ":ticket_gate", new TileEntityTicketGateRenderer());
 
         GameRegistry.registerTileEntity(TileEntityShutter.class, new ResourceLocation(StationsMod.MOD_ID, "shutter"));
-        GameRegistry.registerTileEntity(TileEntityTicketGate.class, new ResourceLocation(StationsMod.MOD_ID, "ticket_gate"));
     }
 
     @SubscribeEvent
@@ -145,17 +149,17 @@ public class ClientProxy extends ServerProxy
     public void registerBakedModels(ModelBakeEvent evt)
     {
         NamePlateManager.INSTANCE.loadRetexturedModels(evt.getModelRegistry());
-
-        /*
         try
         {
-            OBJModel numberPlateModel = (OBJModel)ModelLoaderRegistry.getModel(new ResourceLocation(StationsMod.MOD_ID + ":/block/ticket_gate.obj"));
-
-        } catch (Exception e)
+            final OBJModel ticketGateObj = (OBJModel)ModelLoaderRegistry.getModel(new ResourceLocation(StationsMod.MOD_ID + ":block/ticket_gate.obj")).process(ImmutableMap.<String, String>builder().put("flip-v", "true").build());
+            final OBJModel.OBJState state = new OBJModel.OBJState(Lists.newArrayList("body"), false);
+            final IBakedModel bakedModel = ticketGateObj.bake(state, DefaultVertexFormats.BLOCK, ModelLoader.defaultTextureGetter());
+            evt.getModelRegistry().putObject(new ModelResourceLocation(StationsMod.MOD_ID + ":block/ticket_gate_open.obj", "normal"), bakedModel);
+        }
+        catch (Exception e)
         {
             e.printStackTrace();
         }
-        */
 
         final EnumFacing[] dirs = {EnumFacing.NORTH ,EnumFacing.EAST ,EnumFacing.WEST, EnumFacing.SOUTH};
         for(int i = 0; i < dirs.length; i++)
@@ -188,6 +192,7 @@ public class ClientProxy extends ServerProxy
     public void onTextureStitchEvent(TextureStitchEvent.Pre event)
     {
         NamePlateManager.INSTANCE.registerTextures(event.getMap());
+        event.getMap().registerSprite(new ResourceLocation(StationsMod.MOD_ID, "blocks/ticket_gate_door"));
     }
 
     @SubscribeEvent

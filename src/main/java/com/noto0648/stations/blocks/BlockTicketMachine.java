@@ -195,6 +195,8 @@ public class BlockTicketMachine extends BlockHorizontal implements ITileEntityPr
                 return 4 + getMetaFacing(state.getValue(FACING));
             case STAFF_TICKET_MACHINE:
                 return 8 + getMetaFacing(state.getValue(FACING));
+            case IC_TICKET_GATE:
+                return 12 + getMetaFacing(state.getValue(FACING));
         }
         return 0;
     }

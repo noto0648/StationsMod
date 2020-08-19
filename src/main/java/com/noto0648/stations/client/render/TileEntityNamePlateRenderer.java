@@ -7,22 +7,25 @@ import com.noto0648.stations.nameplate.NamePlateManager;
 import com.noto0648.stations.tiles.TileEntityNamePlate;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BlockRendererDispatcher;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.world.World;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL20;
 
+import java.nio.FloatBuffer;
 import java.util.Map;
 
 
 public class TileEntityNamePlateRenderer extends TileEntitySpecialRenderer<TileEntityNamePlate>
 {
     private final BlockRendererDispatcher blockRenderer = Minecraft.getMinecraft().getBlockRendererDispatcher();
+    private final FloatBuffer uniformFloatBuffer = BufferUtils.createFloatBuffer(16);
 
     @Override
     public void render(TileEntityNamePlate p_147500_1_, double x, double y, double z, float p_render_8_, int p_render_9_, float p_render_10_)
@@ -229,8 +232,8 @@ public class TileEntityNamePlateRenderer extends TileEntitySpecialRenderer<TileE
         //IBakedModel model = blockRenderer.getModelForState(state);
         IBakedModel model = plate.getModel(te.texture);
 
-        Tessellator tessellator = Tessellator.getInstance();
         this.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+        //Minecraft.getMinecraft().getFramebuffer()
 
         //GlStateManager.disableLighting();
         /*
@@ -240,10 +243,46 @@ public class TileEntityNamePlateRenderer extends TileEntitySpecialRenderer<TileE
        b lockRenderer.getBlockModelRenderer().renderModel(world, model, state, te.getPos(), bufferBuilder, true);
         tessellator.draw();
         */
+        //GL20.glUseProgram(NamePlateManager.INSTANCE.getNamePlateShader());
+        //createParameter();
+        //GL20.glUniform1i(GL20.glGetUniformLocation(NamePlateManager.INSTANCE.getNamePlateShader(), "texture"), OpenGlHelper.defaultTexUnit);
+        //final int posIndex = 0;
+        //Tessellator tes = Tessellator.getInstance();
+        //GL20.glVertexAttribPointer(posIndex, 3, GL11.GL_FLOAT, false, DefaultVertexFormats.BLOCK.getNextOffset(), 0L);
+        //GL20.glEnableVertexAttribArray(posIndex);
         blockRenderer.getBlockModelRenderer().renderModelBrightnessColor(model, 1f, 1f, 1f, 1f);
+        //GL20.glDisableVertexAttribArray(posIndex);
+        //GL20.glUseProgram(0);
 
         //GlStateManager.enableLighting();
         //RenderHelper.enableStandardItemLighting();
         GlStateManager.popMatrix();
     }
+
+
+    private void createParameter()
+    {
+        final Framebuffer mainFramebuffer = Minecraft.getMinecraft().getFramebuffer();
+        Matrix4f projectionMatrix = new Matrix4f();
+        projectionMatrix.setIdentity();
+        projectionMatrix.m00 = 2.0F / (float)mainFramebuffer.framebufferTextureWidth;
+        projectionMatrix.m11 = 2.0F / (float)(-mainFramebuffer.framebufferTextureHeight);
+        projectionMatrix.m22 = -0.0020001999F;
+        projectionMatrix.m33 = 1.0F;
+        projectionMatrix.m03 = -1.0F;
+        projectionMatrix.m13 = 1.0F;
+        projectionMatrix.m23 = -1.0001999F;
+
+        Matrix4f p_set_1_ = projectionMatrix;
+        final float[] vf = {p_set_1_.m00, p_set_1_.m01, p_set_1_.m02, p_set_1_.m03, p_set_1_.m10, p_set_1_.m11, p_set_1_.m12, p_set_1_.m13, p_set_1_.m20, p_set_1_.m21, p_set_1_.m22, p_set_1_.m23, p_set_1_.m30, p_set_1_.m31, p_set_1_.m32, p_set_1_.m33};
+        for(int i = 0; i < vf.length; i++)
+            uniformFloatBuffer.put(i, vf[i]);
+
+        //this.shaderGroup.createBindFramebuffers(this.mc.displayWidth, this.mc.displayHeight);
+
+        GL20.glUniformMatrix4(GL20.glGetUniformLocation(NamePlateManager.INSTANCE.getNamePlateShader(), "projMat"), true, uniformFloatBuffer);
+        GL20.glUniform2i(GL20.glGetUniformLocation(NamePlateManager.INSTANCE.getNamePlateShader(), "outSize"), mainFramebuffer.framebufferTextureWidth, mainFramebuffer.framebufferTextureHeight);
+
+    }
+
 }

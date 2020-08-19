@@ -11,6 +11,7 @@ import com.noto0648.stations.common.ServerProxy;
 import com.noto0648.stations.nameplate.NamePlateManager;
 import com.noto0648.stations.tiles.*;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -22,6 +23,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -33,6 +35,7 @@ import net.minecraftforge.client.model.obj.OBJModel;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -224,5 +227,15 @@ public class ClientProxy extends ServerProxy
         }, StationsItems.blockPillar);
     }
 
+
+
+    @Override
+    public World getWorld(MessageContext ctx)
+    {
+        if(ctx.side == Side.SERVER)
+            return ctx.getServerHandler().player.world;
+
+        return Minecraft.getMinecraft().world;
+    }
 
 }

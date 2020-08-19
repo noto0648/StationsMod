@@ -1,13 +1,12 @@
 package com.noto0648.stations.packet;
 
-import net.minecraft.client.Minecraft;
+import com.noto0648.stations.StationsMod;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.relauncher.Side;
 
 public class PacketCaptionTile implements IMessageHandler<PacketSendTile, IMessage>
 {
@@ -18,15 +17,7 @@ public class PacketCaptionTile implements IMessageHandler<PacketSendTile, IMessa
         int y = message.posY;
         int z = message.posZ;
 
-        World world = null;
-        if(ctx.side == Side.CLIENT)
-        {
-            world = Minecraft.getMinecraft().world;
-        }
-        else
-        {
-            world = ctx.getServerHandler().player.world;
-        }
+        World world = StationsMod.proxy.getWorld(ctx);
         TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
         //System.out.println("get receive package + te + " + (te == null));
 

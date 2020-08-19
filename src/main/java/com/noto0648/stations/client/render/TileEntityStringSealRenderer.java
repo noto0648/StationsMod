@@ -90,6 +90,7 @@ public class TileEntityStringSealRenderer extends TileEntitySpecialRenderer<Tile
         for(int i = 0; i < tile.getColorCodes().size(); i++)
         {
             GlStateManager.pushMatrix();
+            GlStateManager.color(1f, 1f, 1f);
             GlStateManager.translate(0f, 32f / tile.getColorCodes().size() * i, 0f);
             GlStateManager.scale(1f / tile.getColorCodes().size(), 1f / tile.getColorCodes().size(), 1f);
             int width = NewFontRenderer.INSTANCE.drawString(tile.getStrings().get(tile.getColorCodes().size() -  i - 1), false);

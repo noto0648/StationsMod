@@ -4,10 +4,12 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import com.noto0648.stations.StationsMod;
 import com.noto0648.stations.common.ModLog;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.resources.IResource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.IRegistry;
 import net.minecraftforge.client.model.IModel;
@@ -16,6 +18,7 @@ import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.obj.OBJModel;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL20;
 
 import java.io.*;
 import java.lang.annotation.Annotation;
@@ -40,6 +43,8 @@ public class NamePlateManager
 
     private List<String> textures;
     private Map<String, String> models;
+
+    private int namePlateShader;
     private boolean initialized = false;
 
     private NamePlateManager()
@@ -72,7 +77,58 @@ public class NamePlateManager
 
         textures = textures.stream().distinct().sorted().collect(Collectors.toList());
 
+        //loadShader();
         initialized = true;
+    }
+
+
+    private String loadShaderContent(InputStream is) throws IOException
+    {
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        String line;
+        StringBuilder sb = new StringBuilder();
+        while((line = br.readLine()) != null)
+        {
+            sb.append(line);
+            sb.append("\n");
+        }
+        br.close();
+        return sb.toString();
+    }
+
+    private void loadShader()
+    {
+        final ResourceLocation fragmentLocation = new ResourceLocation(StationsMod.MOD_ID, "shaders/program/nameplate_color_change.fsh");
+        final ResourceLocation vertexLocation = new ResourceLocation(StationsMod.MOD_ID, "shaders/program/nameplate_color_change.vsh");
+
+        try
+        {
+            final IResource vertRes = Minecraft.getMinecraft().getResourceManager().getResource(vertexLocation);
+
+            int vertexShader = GL20.glCreateShader(GL20.GL_VERTEX_SHADER);
+            GL20.glShaderSource(vertexShader, loadShaderContent(vertRes.getInputStream()));
+            GL20.glCompileShader(vertexShader);
+
+            final IResource fragRes = Minecraft.getMinecraft().getResourceManager().getResource(fragmentLocation);
+            int fragmentShader = GL20.glCreateShader(GL20.GL_FRAGMENT_SHADER);
+            GL20.glShaderSource(fragmentShader, loadShaderContent(fragRes.getInputStream()));
+            GL20.glCompileShader(fragmentShader);
+
+            namePlateShader = GL20.glCreateProgram();
+            GL20.glBindAttribLocation(namePlateShader, 0, "position");
+            GL20.glAttachShader(namePlateShader, vertexShader);
+            //GL20.glAttachShader(namePlateShader, fragmentShader);
+
+            GL20.glDeleteShader(vertexShader);
+            GL20.glDeleteShader(fragmentShader);
+
+            GL20.glLinkProgram(namePlateShader);
+            ModLog.getLog().info("Shader registered {}", namePlateShader);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @SideOnly(Side.CLIENT)
@@ -321,5 +377,10 @@ public class NamePlateManager
     public List<String> getTextures()
     {
         return textures;
+    }
+
+    public int getNamePlateShader()
+    {
+        return namePlateShader;
     }
 }

@@ -9,6 +9,7 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -21,6 +22,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class BlockNamePlate extends BlockContainer
 {
@@ -76,6 +78,13 @@ public class BlockNamePlate extends BlockContainer
             return true;
         }
         return false;
+    }
+
+    @Override
+    @Nullable
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos)
+    {
+        return getBoundingBox(state, world, pos);
     }
 
     @Override

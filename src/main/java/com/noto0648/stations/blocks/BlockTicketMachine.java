@@ -249,7 +249,6 @@ public class BlockTicketMachine extends BlockHorizontal implements ITileEntityPr
     {
         TICKET_MACHINE("ticket_machine"),
         STAFF_TICKET_MACHINE("staff_ticket_machine"),
-
         TICKET_GATE("ticket_gate"),
         IC_TICKET_GATE("ic_ticket_gate");
         private String name;

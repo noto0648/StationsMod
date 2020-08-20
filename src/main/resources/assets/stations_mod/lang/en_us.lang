@@ -38,7 +38,7 @@ item.notomod.handflag_green.name=Green Handflag
 item.notomod.ticket_case.name=Ticket Case
 item.notomod.slide_door.name=Slide Door
 item.notomod.diagram_book.name=Diagram Book
-item.notomod.seal_sensor.name=Seal Sensor
+item.notomod.seal_sensor.name=Sticker Sensor
 item.notomod.ticket_punch.name=Ticket Punch
 #
 # Equipment
@@ -70,7 +70,7 @@ tile.notomod.station_pillar9.name=White Line
 tile.notomod.station_pillar7.name=Number Plate
 tile.notomod.name_plate0.name=Name Plate
 tile.notomod.shutter.name=Shutter
-tile.notomod.string_seal.name=Text Seal
+tile.notomod.string_seal.name=Text Sticker
 
 
 

@@ -1,17 +1,20 @@
 package com.noto0648.stations.plugins;
 
 import com.noto0648.stations.common.ITicketItem;
-import com.noto0648.stations.common.ModLog;
 import com.noto0648.stations.tiles.TileEntityTicketGate;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.lang.reflect.Method;
 
@@ -19,22 +22,26 @@ public class PluginRTM implements ITicketItem
 {
     public static final PluginRTM INSTANCE = new PluginRTM();
 
-    private final String CLASS_TILE_ENTITY_TURNSTILE = "jp.ngt.rtm.block.tileentity.TileEntityTurnstile";
-    private final String CLASS_TILE_ENTITY_MACHINE_BASE = "jp.ngt.rtm.block.tileentity.TileEntityMachineBase";
+    private final String CLASS_BLOCK_TURNSTILE = "jp.ngt.rtm.block.BlockTurnstile";
 
-    private Class classTileEntityTurnstile;
-    private Class classTileEntityMachineBase;
+    private Class classBlockTurnstile;
+    private Method blockTurnstileOpenGate;
 
     public PluginRTM() {}
+
+    public void construct()
+    {
+        MinecraftForge.EVENT_BUS.register(this);
+    }
 
     private void initializeClazz()
     {
         try
         {
-            classTileEntityTurnstile = Class.forName(CLASS_TILE_ENTITY_TURNSTILE);
-            classTileEntityMachineBase = Class.forName(CLASS_TILE_ENTITY_MACHINE_BASE);
+            classBlockTurnstile = Class.forName(CLASS_BLOCK_TURNSTILE);
+            blockTurnstileOpenGate = classBlockTurnstile.getMethod("openGate", World.class, int.class, int.class, int.class, EntityPlayer.class);
         }
-        catch (ClassNotFoundException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -60,7 +67,7 @@ public class PluginRTM implements ITicketItem
     @Override
     public ItemStack cutTicket(EntityLivingBase ep, ItemStack stack)
     {
-        String name = stack.getUnlocalizedName();
+        final String name = stack.getUnlocalizedName();
         if(name.equals("item.rtm:ticket") || name.equals("item.rtm:ticketbook"))
         {
             if(!stack.hasTagCompound())
@@ -112,24 +119,17 @@ public class PluginRTM implements ITicketItem
 
     public EnumActionResult handleTurnstile(EntityPlayer entityPlayer, World world, BlockPos blockPos, EnumHand hand)
     {
+        final Block block = world.getBlockState(blockPos).getBlock();
         ItemStack stack = TileEntityTicketGate.cutTicket(entityPlayer, entityPlayer.getHeldItem(hand));
 
         if(stack == null)
             return EnumActionResult.FAIL;
 
-        final TileEntity tile = world.getTileEntity(blockPos);
-
-        if(classTileEntityTurnstile != null && classTileEntityTurnstile.isInstance(tile))
+        if(classBlockTurnstile != null && classBlockTurnstile.isInstance(block))
         {
             try
             {
-                final Method m1 = classTileEntityTurnstile.getMethod("setCount", int.class);
-                m1.invoke(tile, 30);
-                if(classTileEntityMachineBase != null)
-                {
-                    final Method m2 = classTileEntityMachineBase.getMethod("onActivate");
-                    m2.invoke(tile);
-                }
+                blockTurnstileOpenGate.invoke(block, world, blockPos.getX(), blockPos.getY(), blockPos.getZ(), entityPlayer);
                 entityPlayer.setHeldItem(hand, stack);
                 return EnumActionResult.SUCCESS;
             }
@@ -139,6 +139,17 @@ public class PluginRTM implements ITicketItem
             }
         }
         return EnumActionResult.FAIL;
+    }
+
+    @SubscribeEvent
+    public void handlePlayerInteract(PlayerInteractEvent.RightClickBlock evt)
+    {
+        final IBlockState blockState = evt.getWorld().getBlockState(evt.getPos());
+        final Block block = blockState.getBlock();
+        if(block.getUnlocalizedName().equals("tile.rtm:turnstile"))
+        {
+            handleTurnstile(evt.getEntityPlayer(), evt.getWorld(), evt.getPos(), evt.getHand());
+        }
     }
 
 }

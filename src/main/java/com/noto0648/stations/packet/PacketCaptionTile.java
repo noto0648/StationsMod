@@ -13,13 +13,12 @@ public class PacketCaptionTile implements IMessageHandler<PacketSendTile, IMessa
     @Override
     public IMessage onMessage(PacketSendTile message, MessageContext ctx)
     {
-        int x = message.posX;
-        int y = message.posY;
-        int z = message.posZ;
+        final int x = message.posX;
+        final int y = message.posY;
+        final int z = message.posZ;
 
-        World world = StationsMod.proxy.getWorld(ctx);
-        TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
-        //System.out.println("get receive package + te + " + (te == null));
+        final World world = StationsMod.proxy.getWorld(ctx);
+        final TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
 
         if(te != null && te instanceof IPacketReceiver)
         {

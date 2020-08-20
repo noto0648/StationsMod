@@ -1,4 +1,5 @@
 package com.noto0648.stations;
+
 import com.noto0648.stations.common.CreativeTabStations;
 import com.noto0648.stations.common.ServerProxy;
 import com.noto0648.stations.common.StationsGuiHandler;
@@ -43,6 +44,12 @@ public class StationsMod
     {
         MinecraftForge.EVENT_BUS.register(new StationsItems());
         proxy.construct();
+
+        if(Loader.isModLoaded("rtm"))
+        {
+            PluginRTM.INSTANCE.construct();
+        }
+
     }
 
     @Mod.EventHandler

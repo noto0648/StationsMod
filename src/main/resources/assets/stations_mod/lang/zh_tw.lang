@@ -64,13 +64,13 @@ tile.notomod.ticket_machine4.name=票閘
 tile.notomod.ticket_machine8.name=站務售票機
 tile.notomod.ticket_machine12.name=IC 卡票閘
 tile.notomod.station_pillar0.name=白色柱子
-tile.notomod.station_pillar6.name=黑色Pillar
-tile.notomod.station_pillar2.name=黃色Line
+tile.notomod.station_pillar6.name=黑色柱子
+tile.notomod.station_pillar2.name=黃色線
 tile.notomod.station_pillar9.name=白色線
 tile.notomod.station_pillar7.name=數字板
 tile.notomod.name_plate0.name=站牌
 tile.notomod.shutter.name=鐵捲門
-tile.notomod.string_seal.name=公文用印
+tile.notomod.string_seal.name=密封玻璃
 
 
 

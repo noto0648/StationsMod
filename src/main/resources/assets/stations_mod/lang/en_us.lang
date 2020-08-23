@@ -9,6 +9,14 @@ gui.notomod.other=Other
 gui.notomod.labelpattern=Label Pattern
 gui.notomod.departure=Departure
 gui.notomod.arrival=Arrival
+gui.notomod.trains=Trains
+gui.notomod.time=Time
+gui.notomod.traintype=Train Type
+gui.notomod.destination=Destination
+gui.notomod.add=Add
+gui.notomod.remove=Remove
+gui.notomod.new=New
+gui.notomod.inpreparation=In Preparation
 #
 # NamePlates (Builtin)
 #

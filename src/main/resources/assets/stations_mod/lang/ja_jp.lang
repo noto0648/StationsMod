@@ -9,6 +9,14 @@ gui.notomod.other=その他
 gui.notomod.labelpattern=ラベルパターン
 gui.notomod.departure=出発
 gui.notomod.arrival=到着
+gui.notomod.trains=列車
+gui.notomod.time=時間
+gui.notomod.traintype=種別
+gui.notomod.destination=行き先
+gui.notomod.add=追加
+gui.notomod.remove=削除
+gui.notomod.new=新規
+gui.notomod.inpreparation=準備中
 #
 # NamePlates (Builtin)
 #

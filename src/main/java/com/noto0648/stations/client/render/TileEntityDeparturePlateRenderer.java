@@ -1,14 +1,20 @@
 package com.noto0648.stations.client.render;
 
+import com.noto0648.stations.api.DeparturePlateMode;
 import com.noto0648.stations.common.MarkData;
-import com.noto0648.stations.common.MinecraftDate;
 import com.noto0648.stations.tiles.TileEntityDeparturePlate;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.resources.I18n;
 import org.lwjgl.opengl.GL11;
 
+import java.util.Collections;
 import java.util.List;
+
+import static org.lwjgl.opengl.GL11.GL_EQUAL;
 
 public class TileEntityDeparturePlateRenderer extends TileEntitySpecialRenderer<TileEntityDeparturePlate>
 {
@@ -31,14 +37,6 @@ public class TileEntityDeparturePlateRenderer extends TileEntitySpecialRenderer<
         GL11.glTranslatef((float) par2 + 0.5F, (float) par3 + 0.5F, (float) par4 + 0.5F);
         if(meta == 14) GL11.glRotatef(90F, 0, 1, 0);
 
-        /*
-        GL11.glPushMatrix();
-        GL11.glScaled(0.5F, 0.5F, 0.5F);
-        //bindCharTexture(departureTexture);
-        //NewFontRenderer.INSTANCE.bindCharTexture(NewFontRenderer.INSTANCE.toImage(""));
-        //departureModel.renderAll();
-        GL11.glPopMatrix();
-*/
         for(int i = 0; i < 2; i++)
         {
             GL11.glPushMatrix();
@@ -69,16 +67,43 @@ public class TileEntityDeparturePlateRenderer extends TileEntitySpecialRenderer<
     {
 
         List<MarkData> marks = tile.getMarkDataList();
-        if(marks == null || marks.isEmpty())
+
+        final DeparturePlateMode mode =  tile.getDisplayMode();
+        if(mode == DeparturePlateMode.UNDISPLAYED || mode == DeparturePlateMode.CUSTOM)
+            return;
+
+        if(mode == DeparturePlateMode.PREPARATION)
         {
-            font.drawString("準    備    中", 0, 0, 0xFFFFFF);
+            font.drawString(I18n.format("gui.notomod.inpreparation"), 0, 0, 0xFFFFFF);
             return;
         }
 
-        MarkData[] mka = getNextMarkDataWithMinecraftDate(marks);
-        if(mka != null)
+        if(mode == DeparturePlateMode.FIXED)
         {
-            //GL11.glColor3f(1F, 1F, 1F);
+            /*
+            GL11.glEnable(GL11.GL_STENCIL_TEST);
+            GL11.glClear(GL11.GL_STENCIL_BUFFER_BIT);
+            GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_REPLACE, GL11.GL_REPLACE);
+            GlStateManager.depthMask(false);
+            GL11.glStencilFunc(GL11.GL_EQUAL, 1, ~0);
+            Tessellator tes = Tessellator.getInstance();
+            tes.getBuffer().begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+            tes.getBuffer().pos(0, 0, 0).endVertex();
+            tes.getBuffer().pos(0, 36, 0).endVertex();
+            tes.getBuffer().pos(70, 36, 0).endVertex();
+            tes.getBuffer().pos(70, 0, 0).endVertex();
+            tes.draw();
+            GlStateManager.depthMask(true);
+            //GL11.glStencilFunc(GL11.GL_EQUAL, 1, ~0);
+            GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_KEEP);
+            font.drawString("駆け込み乗車は、ご迷惑となりますのでおやめください", 0, 0*18, 0xFFFFFFFF);
+            */
+            return;
+        }
+
+        if(mode == DeparturePlateMode.NORMAL || mode == DeparturePlateMode.REALTIME)
+        {
+            final MarkData[] mka = tile.getNextMarkDataWithMinecraftDate();
             GlStateManager.resetColor();
             for(int i = 0; i < 2; i++)
             {
@@ -89,15 +114,6 @@ public class TileEntityDeparturePlateRenderer extends TileEntitySpecialRenderer<
                     font.drawString(mka[i].dest, 74, i*18, mka[i].destColor);
                 }
             }
-            /*
-            GL11.glColor3f(1F, 1F, 1F);
-            if(mka.length > 1 && mka[1] != null)
-            {
-                font.drawString(mka[1].type, 0, 18, mka[1].typeColor);
-                font.drawString(toEm(mka[1].getTimeString()), 44, 18, mka[1].timeColor);
-                font.drawString(mka[1].dest, 74, 18, mka[1].destColor);
-            }
-            */
         }
 
         /*
@@ -139,29 +155,6 @@ public class TileEntityDeparturePlateRenderer extends TileEntitySpecialRenderer<
 */
     }
 
-    public MarkData[] getNextMarkDataWithMinecraftDate(List<MarkData> markDataList)
-    {
-        MinecraftDate md = new MinecraftDate(getWorld().getWorldTime());
-        MarkData[] result = new MarkData[2];
-        int resultIndex = 0;
-
-        for(int i = 0; i < markDataList.size(); i++)
-        {
-            MarkData mkd = markDataList.get(i);
-            if(mkd.hours >= md.getHours())
-            {
-                if((mkd.hours > md.getHours()) || (mkd.minutes >= md.getMinutes() && (mkd.hours >= md.getHours())))
-                {
-                    result[resultIndex] = mkd;
-                    resultIndex++;
-                }
-            }
-
-            if(resultIndex >= 2)
-                break;
-        }
-        return result;
-    }
 
     public static String toEm(String s)
     {

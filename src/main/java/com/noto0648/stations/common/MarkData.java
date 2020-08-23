@@ -1,5 +1,7 @@
 package com.noto0648.stations.common;
 
+import com.noto0648.stations.api.DepartureData;
+import com.noto0648.stations.api.DepartureTime;
 import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.regex.Matcher;
@@ -8,7 +10,7 @@ import java.util.regex.Pattern;
 /**
  * Created by Noto on 14/08/06.
  */
-public class MarkData
+public class MarkData implements Comparable<MarkData>
 {
     public static final String REGEX = "^<([0-9A-F]*)>\\s*(.*)";
     public static final Pattern COMPILED_PATTERN = Pattern.compile(REGEX);
@@ -23,6 +25,12 @@ public class MarkData
     public int timeColor;
 
     public MarkData() {}
+
+    public MarkData(int h, int m)
+    {
+        hours = h;
+        minutes = m;
+    }
 
     public MarkData(int h, int m, String d, String t)
     {
@@ -103,5 +111,24 @@ public class MarkData
 
     }
 
+    @Override
+    public int compareTo(MarkData o)
+    {
+        return MarkDataComparator.INSTANCE.compare(this, o);
+    }
 
+    public static MarkData of(MinecraftDate md)
+    {
+        return new MarkData(md.getHours(), md.getMinutes());
+    }
+
+    public DepartureData toDepartureData()
+    {
+        return new DepartureData(new DepartureTime(hours, minutes), type, dest);
+    }
+
+    public DepartureTime getDepartureTime()
+    {
+        return new DepartureTime(hours, minutes);
+    }
 }

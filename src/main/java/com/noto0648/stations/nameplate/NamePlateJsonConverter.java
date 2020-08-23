@@ -1,13 +1,13 @@
 package com.noto0648.stations.nameplate;
 
+import com.google.common.collect.ImmutableList;
 import com.noto0648.stations.client.fontrenderer.NewFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.opengl.GL11;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Noto on 14/08/22.
@@ -112,6 +112,27 @@ public class NamePlateJsonConverter extends NamePlateBase
             for(int i = 0; i < labels.size(); i++)
                 list.add(labels.get(i).label);
         }
+    }
+
+    @Override
+    protected List<Pair<String, String>> getPairLabels()
+    {
+        if(labels == null)
+            return ImmutableList.of();
+
+        List<Pair<String, String>> list = new ArrayList<>();
+        for(NamePlateJson.LabelData lab: labels)
+        {
+            if(lab.enableReverse && lab.reverseLabel != null)
+            {
+                final String[] tuple = {lab.reverseLabel, lab.label};
+                Arrays.sort(tuple);
+                Pair<String,String> pair = Pair.of(tuple[0], tuple[1]);
+                if(!list.contains(pair))
+                    list.add(pair);
+            }
+        }
+        return list;
     }
 
     @Override

@@ -20,14 +20,14 @@ public class GuiNamePlateNew extends GuiScreenBase implements IGui, IPacketSende
     private ControlListBox labelPatternList;
     private ControlNamePlateLabelEditor labelEditor;
 
+    private ControlButton labelReverseButton;
+
     private ControlButton[] tabButtons;
     private ControlGroup[] tabControls;
     private int selectedTab = 0;
 
     private final TileEntityNamePlate tile;
     private Map<String, String> strMaps = new HashMap<String, String>();
-
-    //private List<String> textures = new ArrayList<String>();
 
     public GuiNamePlateNew(TileEntityNamePlate tileEntityNamePlate)
     {
@@ -149,6 +149,18 @@ public class GuiNamePlateNew extends GuiScreenBase implements IGui, IPacketSende
         tabControls[1].add(labelEditor);
         setupLabelEditor();
 
+        labelReverseButton = new ControlButton(this, 0,0,10,10, "R")
+        {
+            @Override
+            public void onButtonClick(int button)
+            {
+                playClickSound();
+                clickLabelReverse();
+            }
+        };
+        labelReverseButton.setEnabled(false);
+        tabControls[1].add(labelReverseButton);
+
         lightCheck = (new ControlCheckBox(this, width / 2 - 80, height / 2 - 30, "Shining"));
         lightCheck.setCheck(tile.light);
         lightCheck.setEnabled(false);
@@ -186,6 +198,21 @@ public class GuiNamePlateNew extends GuiScreenBase implements IGui, IPacketSende
         }
     }
 
+    protected void clickLabelReverse()
+    {
+        final int sel = labelPatternList.getSelectedIndex();
+
+        final Map<String,String> newMap = labelEditor.getKeyMap();
+        NamePlateManager.INSTANCE.getNamePlates().get(sel).reverseLabels(newMap);
+
+        for(final String key : newMap.keySet())
+        {
+            final String val = newMap.get(key);
+            if(!val.equals(labelEditor.getText(key)))
+                labelEditor.setText(key, val);
+        }
+    }
+
     @Override
     protected void resize()
     {
@@ -205,8 +232,10 @@ public class GuiNamePlateNew extends GuiScreenBase implements IGui, IPacketSende
         labelPatternList.setLocation((width / 2 - 180), height / 2 - 70);
         labelPatternList.setSize((width / 2 - 15) - (width / 2 - 180), height / 2 - 30);
 
-        labelEditor.setLocation((width / 2), height / 2 - 80);
-        labelEditor.setSize((width - 15) - (width / 2), height - 35 - (height / 2 - 80));
+        labelEditor.setLocation((width / 2), height / 2 - 70);
+        labelEditor.setSize((width - 15) - (width / 2), height - 35 - (height / 2 - 80) - 10);
+
+        labelReverseButton.setLocation((width - 15) - 15, height / 2 - 70 - 12);
 
         //labelPatternList.locationY = height / 2 + 10;
         //labelPatternList.setSize(width / 2 - 20, height / 2 - 15);

@@ -9,6 +9,7 @@ import com.noto0648.stations.common.MarkDataComparator;
 import com.noto0648.stations.common.MinecraftDate;
 import com.noto0648.stations.items.ItemDiagramBook;
 import com.noto0648.stations.packet.PacketDiagramBook;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class GuiDiagramBook extends GuiScreenBase
 {
-    public List<MarkData> markDataList = new ArrayList();
+    public List<MarkData> markDataList;
     private final World mainWorld;
     //private TileEntityMarkMachine tile;
 
@@ -30,12 +31,33 @@ public class GuiDiagramBook extends GuiScreenBase
     private final ControlListBox listBox;
     private final ControlButton removeButton;
     private final ControlButton addButton;
+    private final ControlButton doneButton;
 
     private final ItemStack diagramBook;
 
+    private boolean isAddMode;
+    private boolean isEditMode;
+
     public GuiDiagramBook(EntityPlayer player)
     {
-        listBox = new ControlListBox(this, 10, 10, width / 2 - 20, height - 20);
+        listBox = new ControlListBox(this, 10, 22, width / 2 - 20, height - 20)
+        {
+            @Override
+            public void selectChanged()
+            {
+                setEditMode(false);
+                if(selectedIndex < 0 || selectedIndex >= items.size())
+                    return;
+
+                final MarkData md = markDataList.get(selectedIndex);
+                timeText.setText(md.getTimeString());
+                whereText.setText(md.dest);
+                typeText.setText(md.type);
+                setEditMode(true);
+
+            }
+        };
+
         //tile = tileEntityMarkMachine;
         entityPlayer = player;
         mainWorld = player.getEntityWorld();
@@ -57,16 +79,65 @@ public class GuiDiagramBook extends GuiScreenBase
             ItemDiagramBook.readFromNBT(diagramBook, markDataList);
         }
         //markDataList = tileEntityMarkMachine.getMarkDataList();
-
+/*
         for(int i = 0; i < markDataList.size(); i++)
             listBox.items.add(markDataList.get(i).toString());
+        */
+        listReload();
 
         timeText = new ControlTextBox(this, width / 2 + 70, 60, 140, 20);
         timeText.setInputLimit("0123456789:");
         typeText = new ControlTextBox(this, width / 2 + 70, 90, 140, 20);
         whereText = new ControlTextBox(this, width / 2 + 70, 120, 140, 20);
+        timeText.setEnabled(false);
+        typeText.setEnabled(false);
+        whereText.setEnabled(false);
 
-        removeButton = (new ControlButton(this, width / 2 + 10, 10, 100, 20, "Remove")
+        doneButton = (new ControlButton(this, width / 2 + 10, 10, 100, 20, I18n.format("gui.done"))
+        {
+            @Override
+            public void onButtonClick(int button)
+            {
+                playClickSound();
+
+                if(!isAddMode && !isEditMode)
+                    return;
+
+                String time_text = timeText.getText();
+                if(time_text.contains(":") && time_text.split(":").length == 2 && whereText.getText() != null && whereText.getText().length() != 0 && typeText.getText() != null && typeText.getText().length() != 0)
+                {
+                    String[] splits = time_text.split(":");
+                    int hour = Integer.valueOf(splits[0]);
+                    int mins = Integer.valueOf(splits[1]);
+
+                    if(isAddMode)
+                    {
+                        final MarkData md = new MarkData(hour, mins, whereText.getText(), typeText.getText());
+                        markDataList.add(md);
+                    }
+                    if(isEditMode)
+                    {
+                        final MarkData md = markDataList.get(listBox.getSelectedIndex());
+                        md.dest = whereText.getText();
+                        md.hours = hour;
+                        md.minutes = mins;
+                        md.type = typeText.getText();
+                    }
+
+                    listReload();
+                    timeText.setText("");
+                    typeText.setText("");
+                    whereText.setText("");
+                    setAddMode(false);
+                    setEditMode(false);
+                }
+
+            }
+
+        });
+        doneButton.setEnabled(false);
+
+        removeButton = (new ControlButton(this, width / 2 + 10, 10, 100, 20, I18n.format("gui.notomod.remove"))
         {
             @Override
             public void onButtonClick(int button)
@@ -76,30 +147,37 @@ public class GuiDiagramBook extends GuiScreenBase
                 {
                     markDataList.remove(listBox.selectedIndex);
                     listBox.items.remove(listBox.selectedIndex);
+                    if(isEditMode)
+                        setEditMode(false);
                     listReload();
                 }
             }
         });
 
-        addButton = (new ControlButton(this, width / 2 + 110, 10, 100, 20, "Add")
+        addButton = (new ControlButton(this, width / 2 + 110, 10, 100, 20, I18n.format("gui.notomod.new"))
         {
             @Override
             public void onButtonClick(int button)
             {
                 playClickSound();
-                String time_text = timeText.getText();
-                if(time_text.contains(":") && time_text.split(":").length == 2 && whereText.getText() != null && whereText.getText().length() != 0 && typeText.getText() != null && typeText.getText().length() != 0)
+
+                if(!isAddMode)
                 {
-                    String[] splits = time_text.split(":");
-                    int hour = Integer.valueOf(splits[0]);
-                    int mins = Integer.valueOf(splits[1]);
-                    MarkData md = new MarkData(hour, mins, whereText.getText(), typeText.getText());
-                    markDataList.add(md);
-                    listReload();
+                    setEditMode(false);
+                    setAddMode(true);
                     timeText.setText("");
-                    typeText.setText("");
                     whereText.setText("");
+                    typeText.setText("");
+                    return;
                 }
+
+                if(isAddMode || isEnable)
+                {
+                    setAddMode(false);
+                    setEditMode(false);
+                    return;
+                }
+
             }
         });
 
@@ -109,7 +187,28 @@ public class GuiDiagramBook extends GuiScreenBase
         controlList.add(whereText);
         controlList.add(removeButton);
         controlList.add(addButton);
+        controlList.add(doneButton);
 
+    }
+
+    private void setAddMode(boolean mode)
+    {
+        isAddMode = mode;
+        addButton.setText(mode ? I18n.format("gui.cancel") : I18n.format("gui.notomod.new"));
+        doneButton.setEnabled(mode);
+        timeText.setEnabled(mode);
+        whereText.setEnabled(mode);
+        typeText.setEnabled(mode);
+    }
+
+    private void setEditMode(boolean mode)
+    {
+        isEditMode = mode;
+        addButton.setText(mode ? I18n.format("gui.cancel") : I18n.format("gui.notomod.new"));
+        doneButton.setEnabled(mode);
+        timeText.setEnabled(mode);
+        whereText.setEnabled(mode);
+        typeText.setEnabled(mode);
     }
 
     @Override
@@ -133,17 +232,24 @@ public class GuiDiagramBook extends GuiScreenBase
         timeText.setLocation(width / 2 + 70, 60);
         typeText.setLocation(width / 2 + 70, 90);
         whereText.setLocation(width / 2 + 70, 120);
-        removeButton.setLocation(width / 2 + 10, 10);
-        addButton.setLocation(width / 2 + 110, 10);
-        listBox.setSize(width / 2 - 20, height - 20);
+        addButton.setLocation(width / 2 + 10, 10);
+        removeButton.setLocation(width / 2 + 110, 10);
+        listBox.setSize(width / 2 - 20, height - 32);
+        doneButton.setLocation(width / 2 + 35, 150);
+
     }
 
     @Override
     protected void paint(int mouseX, int mouseY)
     {
-        getFontRenderer().drawString("Time", width / 2 + 10, 60, 0xFFFFFF);
-        getFontRenderer().drawString("TrainType", width / 2 + 10, 90, 0xFFFFFF);
-        getFontRenderer().drawString("Dest", width / 2 + 10, 120, 0xFFFFFF);
+        getFontRenderer().drawString(I18n.format("gui.notomod.trains") + ":", 10, 10, 0xFFFFFF);
+
+        if(isAddMode || isEditMode)
+        {
+            getFontRenderer().drawString(I18n.format("gui.notomod.time"), width / 2 + 10, 60, 0xFFFFFF);
+            getFontRenderer().drawString(I18n.format("gui.notomod.traintype"), width / 2 + 10, 90, 0xFFFFFF);
+            getFontRenderer().drawString(I18n.format("gui.notomod.destination"), width / 2 + 10, 120, 0xFFFFFF);
+        }
 
         getFontRenderer().drawString(new MinecraftDate(mainWorld.getWorldTime()).toString(), width - getFontRenderer().getStringWidth(new MinecraftDate(mainWorld.getWorldTime()).toString()), height - 12, 0xFFFFFF);
     }
@@ -151,6 +257,7 @@ public class GuiDiagramBook extends GuiScreenBase
     private void listReload()
     {
         listBox.items.clear();
+        listBox.selectedIndex = -1;
         Collections.sort(markDataList, new MarkDataComparator());
         for(int i = 0; i < markDataList.size(); i++)
             listBox.items.add(markDataList.get(i).toString());

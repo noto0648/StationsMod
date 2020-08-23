@@ -1,5 +1,6 @@
 package com.noto0648.stations.common;
 
+import com.noto0648.stations.api.DepartureTime;
 import net.minecraft.world.World;
 
 public class MinecraftDate
@@ -46,5 +47,10 @@ public class MinecraftDate
     public int getMinutes()
     {
         return minutes;
+    }
+
+    public DepartureTime toDepartureTime()
+    {
+        return new DepartureTime(getHours(), getMinutes());
     }
 }

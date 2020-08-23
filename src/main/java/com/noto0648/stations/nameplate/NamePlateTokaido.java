@@ -1,8 +1,10 @@
 package com.noto0648.stations.nameplate;
 
+import com.google.common.collect.ImmutableList;
 import com.noto0648.stations.client.fontrenderer.NewFontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
+import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;
@@ -122,6 +124,13 @@ public class NamePlateTokaido  extends NamePlateBase
         list.add("prevEnglish");
         list.add("address");
     }
+
+    @Override
+    protected List<Pair<String, String>> getPairLabels()
+    {
+        return ImmutableList.of(Pair.of("nextStation", "prevStation"), Pair.of("nextEnglish", "prevEnglish"));
+    }
+
 /*
     @Override
     protected ModelResourceLocation getModelLocation()

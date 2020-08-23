@@ -1,10 +1,13 @@
 package com.noto0648.stations.nameplate;
 
+import com.google.common.collect.ImmutableList;
 import com.noto0648.stations.StationsMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import org.apache.commons.lang3.tuple.Pair;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -51,6 +54,33 @@ public abstract class NamePlateBase
     public String getModelName()
     {
         return "basic";
+    }
+
+    protected List<Pair<String, String>> getPairLabels()
+    {
+        return ImmutableList.of();
+    }
+
+    public void reverseLabels(Map<String, String> str)
+    {
+        final List<Pair<String, String>> pairs = getPairLabels();
+        if(pairs == null || pairs.isEmpty())
+            return;
+
+        final Map<String, Boolean> changed = new HashMap<>();
+        for(final String key : str.keySet())
+            changed.put(key, false);
+        for(final Pair<String, String> p : pairs)
+        {
+            if(str.containsKey(p.getLeft()) && str.containsKey(p.getRight()) && !changed.get(p.getLeft()) && !changed.get(p.getRight()))
+            {
+                final String first = str.get(p.getLeft());
+                str.put(p.getLeft(), str.get(p.getRight()));
+                str.put(p.getRight(), first);
+                changed.put(p.getRight(), true);
+                changed.put(p.getLeft(), true);
+            }
+        }
     }
 
     @Override

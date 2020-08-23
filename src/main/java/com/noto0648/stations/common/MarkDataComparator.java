@@ -4,6 +4,8 @@ import java.util.Comparator;
 
 public class MarkDataComparator implements Comparator<MarkData>
 {
+    public static final MarkDataComparator INSTANCE = new MarkDataComparator();
+
     @Override
     public int compare(MarkData o1, MarkData o2)
     {

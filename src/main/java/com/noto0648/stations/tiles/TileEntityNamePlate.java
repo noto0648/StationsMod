@@ -1,5 +1,7 @@
 package com.noto0648.stations.tiles;
 
+import com.google.common.collect.ImmutableList;
+import com.noto0648.stations.api.INamePlate;
 import com.noto0648.stations.common.Utils;
 import com.noto0648.stations.nameplate.NamePlateBase;
 import com.noto0648.stations.nameplate.NamePlateManager;
@@ -16,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TileEntityNamePlate extends TileEntityBase implements IPacketSender, IPacketReceiver
+public class TileEntityNamePlate extends TileEntityBase implements IPacketSender, IPacketReceiver, INamePlate
 {
 
     public String currentType;
@@ -212,4 +214,23 @@ public class TileEntityNamePlate extends TileEntityBase implements IPacketSender
         reload();
         markDirty();
     }
+
+    @Override
+    public String getLabelText(String key)
+    {
+        for(int i = 0; i < keyList.size(); i++)
+        {
+            if(keyList.get(i).equals(key))
+                return stringList.get(i);
+        }
+        return "";
+    }
+
+    @Override
+    public List<String> getLabelKeys()
+    {
+        return ImmutableList.copyOf(keyList);
+    }
+
+
 }

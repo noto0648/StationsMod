@@ -23,7 +23,7 @@ import net.minecraftforge.fml.relauncher.Side;
 @Mod(modid = StationsMod.MOD_ID, name = StationsMod.NAME, version = StationsMod.VERSION)
 public class StationsMod
 {
-    public static final Boolean DEBUG_MODE = false;
+    public static final Boolean DEBUG_MODE = true;
     public static final String MOD_ID = "stations_mod";
     public static final String NAME = "Stations Mod";
     public static final String VERSION = "1.12.2-0.1.0";

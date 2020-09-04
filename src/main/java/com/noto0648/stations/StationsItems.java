@@ -26,6 +26,7 @@ public class StationsItems
     public static Item itemSealSensor;
     public static Item itemTicketPunch;
     public static Item itemSlideDoor;
+    public static Item itemVerticalNamePlate;
 
     public static Block blockMaterial1;
     public static Block blockFence;
@@ -66,6 +67,7 @@ public class StationsItems
         itemTicketPunch = new ItemTicketPunch().setRegistryName(new ResourceLocation(StationsMod.MOD_ID, "ticket_punch"));
 
         itemSlideDoor = new ItemSlideDoor().setRegistryName(new ResourceLocation(StationsMod.MOD_ID, "slide_door"));
+        itemVerticalNamePlate = new ItemVerticalNamePlate().setRegistryName(new ResourceLocation(StationsMod.MOD_ID, "vertical_nameplate"));
 
     }
 
@@ -86,6 +88,7 @@ public class StationsItems
         evt.getRegistry().register(itemSealSensor);
         evt.getRegistry().register(itemTicketPunch);
         evt.getRegistry().register(itemSlideDoor);
+        evt.getRegistry().register(itemVerticalNamePlate);
 
         evt.getRegistry().register(new ItemBlockBase(blockMaterial1).setRegistryName(StationsMod.MOD_ID, "material_block"));
         evt.getRegistry().register(new ItemBlockBase(blockFence).setRegistryName(StationsMod.MOD_ID, "station_fence"));

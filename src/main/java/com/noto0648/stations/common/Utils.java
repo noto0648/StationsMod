@@ -2,10 +2,10 @@ package com.noto0648.stations.common;
 
 import com.noto0648.stations.StationsItems;
 import com.noto0648.stations.StationsMod;
-import com.noto0648.stations.packet.IPacketSender;
-import com.noto0648.stations.packet.PacketSendTile;
-import com.noto0648.stations.packet.PacketTileClient;
+import com.noto0648.stations.packet.*;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.BlockPortal;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -119,6 +119,21 @@ public class Utils
     }
     */
 
+    public void sendToPlayers(Entity entity, IEntityPacketSender packetSender)
+    {
+        List<Object> result = new ArrayList();
+        packetSender.setSendData(result);
+        sendToPlayers(new PacketEntityUpdate(entity, result), entity.getEntityWorld(), (int)entity.posX, (int)entity.posY, (int)entity.posZ, 192);
+    }
+
+    public void sendToServer(Entity entity, IEntityPacketSender packetSender)
+    {
+        List<Object> result = new ArrayList();
+        packetSender.setSendData(result);
+        StationsMod.PACKET_DISPATCHER.sendToServer(new PacketEntityUpdate(entity, result));
+        //sendToPlayers(, entity.getEntityWorld(), (int)entity.posX, (int)entity.posY, (int)entity.posZ, 192);
+    }
+
     public void sendToPlayers(IPacketSender packetSender)
     {
         List<Object> result = new ArrayList();
@@ -153,6 +168,132 @@ public class Utils
 
                 StationsMod.PACKET_DISPATCHER.sendTo(mes, player);
             }
+        }
+    }
+
+    public void writePacket(ByteBuf buf, List<Object> data)
+    {
+        buf.writeInt(data.size());
+
+        for(int i = 0; i < data.size(); i++)
+        {
+            Object obj = data.get(i);
+            if(obj instanceof Character)
+            {
+                buf.writeByte(0x00);
+                buf.writeChar((Character)obj);
+            }
+            else if(obj instanceof String)
+            {
+                buf.writeByte(0x01);
+                writeString(buf, (String)obj);
+            }
+            else if(obj instanceof Float)
+            {
+                buf.writeByte(0x02);
+                buf.writeFloat((Float) obj);
+            }
+            else if(obj instanceof Double)
+            {
+                buf.writeByte(0x03);
+                buf.writeDouble((Double)obj);
+            }
+            else if(obj instanceof Byte)
+            {
+                buf.writeByte(0x04);
+                buf.writeByte((Byte)obj);
+            }
+            else if(obj instanceof Long)
+            {
+                buf.writeByte(0x05);
+                buf.writeLong((Long)obj);
+            }
+            else if(obj instanceof Boolean)
+            {
+                buf.writeByte(0x06);
+                buf.writeBoolean((Boolean)obj);
+            }
+            else
+            {
+                buf.writeByte(0x0F);
+                buf.writeInt((Integer)obj);
+            }
+        }
+    }
+
+    public void analyzePacket(ByteBuf buf, List<Object> data)
+    {
+        int size = buf.readInt();
+        if(data == null)
+        {
+            data = new ArrayList();
+        }
+        for(int i = 0; i < size; i++)
+        {
+            byte tag = buf.readByte();
+            if(tag == 0x00)
+            {
+                data.add(buf.readChar());
+            }
+            else if(tag == 0x01)
+            {
+                data.add(readString(buf));
+            }
+            else if(tag == 0x02)
+            {
+                data.add(buf.readFloat());
+            }
+            else if(tag == 0x03)
+            {
+                data.add(buf.readDouble());
+            }
+            else if(tag == 0x04)
+            {
+                data.add(buf.readByte());
+            }
+            else if(tag == 0x05)
+            {
+                data.add(buf.readLong());
+            }
+            else if(tag == 0x06)
+            {
+                data.add(buf.readBoolean());
+            }
+            else
+            {
+                data.add(buf.readInt());
+            }
+        }
+    }
+
+    public String readString(ByteBuf buf)
+    {
+        String str = null;
+        try
+        {
+            int destLength = buf.readInt();
+            byte[] destChars = new byte[destLength];
+            buf.readBytes(destChars);
+            str = new String(destChars, "UTF-8");
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return str;
+    }
+
+    public void writeString(ByteBuf buf, String str)
+    {
+        try
+        {
+            byte[] typeBytes = str.getBytes("UTF-8");
+            buf.writeInt(typeBytes.length);
+            buf.writeBytes(typeBytes);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
         }
     }
 

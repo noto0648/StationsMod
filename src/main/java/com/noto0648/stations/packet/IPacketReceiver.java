@@ -7,6 +7,5 @@ import java.util.List;
  */
 public interface IPacketReceiver
 {
-    public void receive(List<Object> data);
-
+    void receive(List<Object> data);
 }

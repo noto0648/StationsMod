@@ -1,12 +1,10 @@
 package com.noto0648.stations.client.gui.control;
 
-import com.noto0648.stations.StationsItems;
 import com.noto0648.stations.StationsMod;
 import com.noto0648.stations.client.gui.IGui;
 import com.noto0648.stations.nameplate.NamePlateBase;
 import com.noto0648.stations.nameplate.NamePlateManager;
 import com.noto0648.stations.tiles.TileEntityNamePlate;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.GlStateManager;
@@ -23,6 +21,9 @@ public class ControlNamePlateModelDrawer extends Control
 {
     private final BlockRendererDispatcher blockRenderer = Minecraft.getMinecraft().getBlockRendererDispatcher();
 
+    protected int xItemCount = 3;
+    protected int yItemCount = 2;
+
     private ControlVerticalScrollBar scrollBar;
 
     private int selected;
@@ -36,6 +37,11 @@ public class ControlNamePlateModelDrawer extends Control
     {
         super(gui);
         this.tile = te;
+        construct(gui);
+    }
+
+    protected void construct(IGui gui)
+    {
         items = new ArrayList<>();
         //items.add("DefaultTexture");
         for(String s : NamePlateManager.INSTANCE.getTextures())
@@ -71,13 +77,13 @@ public class ControlNamePlateModelDrawer extends Control
 
         scrollBar.draw(mouseX, mouseY);
         int onCursor = -1;
-        for(int i = scrollBar.getCurrentScroll() * 3; i < Math.min(items.size(), scrollBar.getCurrentScroll() * 3 + 6); i++)
+        for(int i = scrollBar.getCurrentScroll() * xItemCount; i < Math.min(items.size(), scrollBar.getCurrentScroll() * xItemCount + (xItemCount * yItemCount)); i++)
         {
-            int ci = i - scrollBar.getCurrentScroll() * 3;
-            int x1 = (width-12)/3*(ci%3) + locationX + 1;
-            int y1 = (height/2) * (ci/3) + locationY+ 1;
-            int x2 = (width-12)/3*((ci%3)+1)+locationX - 1;
-            int y2 = (height/2) * (ci/3) + height / 2 + locationY - 1;
+            int ci = i - scrollBar.getCurrentScroll() * xItemCount;
+            int x1 = (width - 12)/xItemCount*(ci % xItemCount) + locationX + 1;
+            int y1 = (height / yItemCount) * (ci / xItemCount) + locationY+ 1;
+            int x2 = (width - 12)/xItemCount*((ci % xItemCount)+1)+locationX - 1;
+            int y2 = (height / yItemCount) * (ci / xItemCount) + height / 2 + locationY - 1;
             if(selected == i)
             {
                 drawRect(x1, y1, x2, y2, 0x66AAAAFF);
@@ -99,11 +105,11 @@ public class ControlNamePlateModelDrawer extends Control
         GlStateManager.disableDepth();
         if(onCursor != -1)
         {
-            int oc = onCursor - scrollBar.getCurrentScroll() * 3;
-            int sx1 = (width-12)/3*(oc%3) + locationX + 1;
-            int sy1 = (height/2) * (oc/3) + locationY+ 1;
-            int sx2 = (width-12)/3*((oc%3)+1)+locationX - 1;
-            int sy2 = (height/2) * (oc/3) + height / 2 + locationY - 1;
+            int oc = onCursor - scrollBar.getCurrentScroll() * xItemCount;
+            int sx1 = (width - 12) / xItemCount * (oc % xItemCount) + locationX + 1;
+            int sy1 = (height / yItemCount) * (oc / xItemCount) + locationY+ 1;
+            int sx2 = (width - 12) / xItemCount * ((oc % xItemCount)+1)+locationX - 1;
+            int sy2 = (height / yItemCount) * (oc / xItemCount) + height / yItemCount + locationY - 1;
             GlStateManager.enableAlpha();
             drawRect(sx1, sy1, sx2, sy2, 0x66FFFFFF);
             GlStateManager.disableAlpha();
@@ -116,9 +122,8 @@ public class ControlNamePlateModelDrawer extends Control
         if(!isEnable || currentLabelMap == null)
             return;
 
-        final int modIdLength = StationsMod.MOD_ID.length() + 12;
-        final NamePlateBase renderPlate = NamePlateManager.INSTANCE.getNamePlateFromName(currentLabelMap);
-        final IBlockState state = StationsItems.blockNamePlate.getDefaultState();
+        //final int modIdLength = StationsMod.MOD_ID.length() + 12;
+        //final IBlockState state = StationsItems.blockNamePlate.getDefaultState();
 
         GlStateManager.pushMatrix();
         GlStateManager.translate((float)0, (float)0, 0.0F);
@@ -138,36 +143,9 @@ public class ControlNamePlateModelDrawer extends Control
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
 
-        for(int i = scrollBar.getCurrentScroll() * 3; i < Math.min(items.size(), scrollBar.getCurrentScroll() * 3 + 6); i++)
+        for(int i = scrollBar.getCurrentScroll() * xItemCount; i < Math.min(items.size(), scrollBar.getCurrentScroll() * xItemCount + (xItemCount * yItemCount)); i++)
         {
-            final String texture = items.get(i);
-            GlStateManager.pushMatrix();
-            GlStateManager.translate((float)((width-12) / 3) * (i % 3) + 10 + locationX + ((width-12)/24), (float)(height/2) * (i / 3 - scrollBar.getCurrentScroll()) + locationY + height/3, 100.0F + 250f);
-            GlStateManager.translate(8.0F, 8.0F, 0.0F);
-            GlStateManager.scale(1.0F, -1.0F, 1.0F);
-            GlStateManager.scale(48.0F, 48.0F, 48.0F);
-
-            GlStateManager.rotate(90,0,1,0);
-            final IBakedModel model = renderPlate.getModel(texture);
-
-            Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-            blockRenderer.getBlockModelRenderer().renderModelBrightnessColor(model, 1f, 1f, 1f, 1f);
-
-
-            GlStateManager.pushMatrix();
-            GlStateManager.translate(0.5f, 0.5f, 0.5f);
-            for(int j = 0; j < 2; j++)
-            {
-                GlStateManager.pushMatrix();
-                GL11.glRotatef(-180F * j + 90f, 0, 1, 0);
-                if(renderPlate != null && stringData != null)
-                {
-                    renderPlate.render(stringData, j == 0,0);
-                }
-                GlStateManager.popMatrix();
-            }
-            GlStateManager.popMatrix();
-            GlStateManager.popMatrix();
+            draw3dModel(i);
         }
         GlStateManager.popMatrix();
 
@@ -178,6 +156,38 @@ public class ControlNamePlateModelDrawer extends Control
 
     }
 
+    protected void draw3dModel(int i)
+    {
+        final NamePlateBase renderPlate = NamePlateManager.INSTANCE.getNamePlateFromName(currentLabelMap);
+        final String texture = items.get(i);
+        GlStateManager.pushMatrix();
+        GlStateManager.translate((float)((width-12) / xItemCount) * (i % xItemCount) + 10 + locationX + ((width-12)/24), (float)(height / yItemCount) * (i / xItemCount - scrollBar.getCurrentScroll()) + locationY + height/3, 100.0F + 250f);
+        GlStateManager.translate(8.0F, 8.0F, 0.0F);
+        GlStateManager.scale(1.0F, -1.0F, 1.0F);
+        GlStateManager.scale(48.0F, 48.0F, 48.0F);
+
+        GlStateManager.rotate(90,0,1,0);
+        final IBakedModel model = renderPlate.getModel(texture);
+
+        Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+        blockRenderer.getBlockModelRenderer().renderModelBrightnessColor(model, 1f, 1f, 1f, 1f);
+
+
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(0.5f, 0.5f, 0.5f);
+        for(int j = 0; j < 2; j++)
+        {
+            GlStateManager.pushMatrix();
+            GL11.glRotatef(-180F * j + 90f, 0, 1, 0);
+            if(renderPlate != null && stringData != null)
+            {
+                renderPlate.render(stringData, j == 0,0);
+            }
+            GlStateManager.popMatrix();
+        }
+        GlStateManager.popMatrix();
+        GlStateManager.popMatrix();
+    }
 
     @Override
     public void update()
@@ -196,7 +206,7 @@ public class ControlNamePlateModelDrawer extends Control
 
         if(button == 0 && locationX <= mouseX && locationY <= mouseY && locationX + width - 12 >= mouseX && locationY + height >= mouseY)
         {
-            int sel = ((mouseY - locationY) / (height / 2)) * 3 + ((mouseX - locationX) / ((width-12)/3)) + scrollBar.getCurrentScroll() * 3;
+            int sel = ((mouseY - locationY) / (height / yItemCount)) * xItemCount + ((mouseX - locationX) / ((width-12) / xItemCount)) + scrollBar.getCurrentScroll() * xItemCount;
             if(sel > -1 && sel < items.size())
             {
                 playClickSound();

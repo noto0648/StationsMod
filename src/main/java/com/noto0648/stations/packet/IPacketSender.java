@@ -9,7 +9,6 @@ import java.util.List;
  */
 public interface IPacketSender
 {
-    public TileEntity getTile();
-
-    public void setSendData(List<Object> list);
+    TileEntity getTile();
+    void setSendData(List<Object> list);
 }

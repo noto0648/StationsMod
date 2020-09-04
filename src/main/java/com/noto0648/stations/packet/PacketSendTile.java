@@ -1,5 +1,6 @@
 package com.noto0648.stations.packet;
 
+import com.noto0648.stations.common.Utils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -40,8 +41,9 @@ public class PacketSendTile implements IMessage
         posX = buf.readInt();
         posY = buf.readInt();
         posZ = buf.readInt();
-        int size = buf.readInt();
 
+        Utils.INSTANCE.analyzePacket(buf, data);
+/*
         data = new ArrayList(size);
         for(int i = 0; i < size; i++)
         {
@@ -79,6 +81,7 @@ public class PacketSendTile implements IMessage
                 data.add(buf.readInt());
             }
         }
+        */
     }
 
     @Override
@@ -87,83 +90,8 @@ public class PacketSendTile implements IMessage
         buf.writeInt(posX);
         buf.writeInt(posY);
         buf.writeInt(posZ);
-        buf.writeInt(data.size());
-
-        for(int i = 0; i < data.size(); i++)
-        {
-            Object obj = data.get(i);
-            if(obj instanceof Character)
-            {
-                buf.writeByte(0x00);
-                buf.writeChar((Character)obj);
-            }
-            else if(obj instanceof String)
-            {
-                buf.writeByte(0x01);
-                writeString(buf, (String)obj);
-            }
-            else if(obj instanceof Float)
-            {
-                buf.writeByte(0x02);
-                buf.writeFloat((Float) obj);
-            }
-            else if(obj instanceof Double)
-            {
-                buf.writeByte(0x03);
-                buf.writeDouble((Double)obj);
-            }
-            else if(obj instanceof Byte)
-            {
-                buf.writeByte(0x04);
-                buf.writeByte((Byte)obj);
-            }
-            else if(obj instanceof Long)
-            {
-                buf.writeByte(0x05);
-                buf.writeLong((Long)obj);
-            }
-            else if(obj instanceof Boolean)
-            {
-                buf.writeByte(0x06);
-                buf.writeBoolean((Boolean)obj);
-            }
-            else
-            {
-                buf.writeByte(0x0F);
-                buf.writeInt((Integer)obj);
-            }
-        }
-    }
-
-    public void writeString(ByteBuf buf, String str)
-    {
-        try
-        {
-            byte[] typeBytes = str.getBytes("UTF-8");
-            buf.writeInt(typeBytes.length);
-            buf.writeBytes(typeBytes);
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    private String readString(ByteBuf buf)
-    {
-        String str = null;
-        try
-        {
-            int destLength = buf.readInt();
-            byte[] destChars = new byte[destLength];
-            buf.readBytes(destChars);
-            str = new String(destChars, "UTF-8");
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-        return str;
+        //buf.writeInt(data.size());
+        Utils.INSTANCE.writePacket(buf, data);
     }
 
     public List<Object> getDataList()

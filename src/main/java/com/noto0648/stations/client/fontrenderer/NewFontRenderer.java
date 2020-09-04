@@ -134,17 +134,23 @@ public class NewFontRenderer
     @SideOnly(Side.CLIENT)
     public int drawString(int x, int y, String str, int color, boolean draw)
     {
-        return drawString(x, y, str, draw, true, color);
+        return drawString(x, y, str, draw, true, false, color);
     }
 
     @SideOnly(Side.CLIENT)
     public int drawString(int x, int y, String str, boolean draw)
     {
-        return drawString(x, y, str, draw, false, 0);
+        return drawString(x, y, str, draw, false, false, 0);
     }
 
     @SideOnly(Side.CLIENT)
-    public int drawString(int x, int y, String str, boolean draw, boolean useColor, int color)
+    public int drawStringVertical(int x, int y, String str, boolean draw)
+    {
+        return drawString(x, y, str, draw, true, false, 0);
+    }
+
+    @SideOnly(Side.CLIENT)
+    public int drawString(int x, int y, String str, boolean draw, boolean vertical, boolean useColor, int color)
     {
         if(str == null) return -1;
 
@@ -154,7 +160,7 @@ public class NewFontRenderer
         boolean surrogate = false;
         for(int i = 0; i < str.length(); i++)
         {
-            final char c = str.charAt(i);
+            final char c = vertical ? str.charAt(str.length() - 1 - i) : str.charAt(i);
             if(!surrogate && Character.isHighSurrogate(c))
             {
                 surrogate = true;
@@ -213,7 +219,7 @@ public class NewFontRenderer
                 bindCharTexture(key);
 
                 GL11.glPushMatrix();
-                GL11.glNormal3f(0f, 0f, 1f);
+                GL11.glNormal3f(0f, 0f, -1f);
                 GL11.glTranslatef(offsetX, offsetY, 0);
                 GL11.glScalef(fontScale, fontScale, 1f);
                 Tessellator tes = Tessellator.getInstance();
@@ -228,10 +234,17 @@ public class NewFontRenderer
                 tes.draw();
                 GL11.glPopMatrix();
             }
-            offsetX += (int)(fontPos.getWidth() * fontScale);
+            if(!vertical)
+            {
+                offsetX += (int)(fontPos.getWidth() * fontScale);
+            }
+            else
+            {
+                offsetY += 32;
+            }
             surrogate = false;
         }
-        return offsetX - x;
+        return vertical ? offsetY : offsetX - x;
     }
 
     @SideOnly(Side.CLIENT)

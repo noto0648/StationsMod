@@ -3,10 +3,12 @@ package com.noto0648.stations;
 import com.noto0648.stations.common.CreativeTabStations;
 import com.noto0648.stations.common.ServerProxy;
 import com.noto0648.stations.common.StationsGuiHandler;
+import com.noto0648.stations.entity.EntityVerticalNamePlate;
 import com.noto0648.stations.packet.*;
 import com.noto0648.stations.plugins.PluginRTM;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.Loader;
@@ -18,12 +20,13 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
 @Mod(modid = StationsMod.MOD_ID, name = StationsMod.NAME, version = StationsMod.VERSION)
 public class StationsMod
 {
-    public static final Boolean DEBUG_MODE = true;
+    public static final Boolean DEBUG_MODE = false;
     public static final String MOD_ID = "stations_mod";
     public static final String NAME = "Stations Mod";
     public static final String VERSION = "1.12.2-0.1.0";
@@ -67,8 +70,11 @@ public class StationsMod
 
         PACKET_DISPATCHER.registerMessage(PacketCaptionTile.class, PacketSendTile.class, 32, Side.SERVER);
         PACKET_DISPATCHER.registerMessage(PacketCaptionTile.class, (Class)PacketTileClient.class, 33, Side.CLIENT);
+        PACKET_DISPATCHER.registerMessage(PacketCaptionEntityUpdate.class, PacketEntityUpdate.class, 34, Side.SERVER);
 
         proxy.init();
+
+        EntityRegistry.registerModEntity(new ResourceLocation(StationsMod.MOD_ID, "3rd_name_plate"), EntityVerticalNamePlate.class, "3rd_name_plate", 0, this, 160, 1, false);
     }
 
     @Mod.EventHandler

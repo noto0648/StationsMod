@@ -8,6 +8,7 @@ import com.noto0648.stations.blocks.BlockPillar;
 import com.noto0648.stations.client.fontrenderer.NewFontRenderer;
 import com.noto0648.stations.client.render.*;
 import com.noto0648.stations.common.ServerProxy;
+import com.noto0648.stations.entity.EntityVerticalNamePlate;
 import com.noto0648.stations.nameplate.NamePlateManager;
 import com.noto0648.stations.tiles.*;
 import net.minecraft.block.state.IBlockState;
@@ -34,6 +35,7 @@ import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.client.model.obj.OBJModel;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -56,6 +58,7 @@ public class ClientProxy extends ServerProxy
     @Override
     public void preInit()
     {
+        RenderingRegistry.registerEntityRenderingHandler(EntityVerticalNamePlate.class, mng -> new RenderVerticalNamePlate(mng));
     }
 
 
@@ -70,6 +73,7 @@ public class ClientProxy extends ServerProxy
         ClientRegistry.registerTileEntity(TileEntityTicketGate.class, StationsMod.MOD_ID + ":ticket_gate", new TileEntityTicketGateRenderer());
 
         GameRegistry.registerTileEntity(TileEntityShutter.class, new ResourceLocation(StationsMod.MOD_ID, "shutter"));
+
     }
 
     @SubscribeEvent
@@ -107,6 +111,7 @@ public class ClientProxy extends ServerProxy
         ModelLoader.setCustomModelResourceLocation(StationsItems.itemTicketPunch, 0, new ModelResourceLocation(StationsMod.MOD_ID + ":ticket_punch", "inventory"));
 
         ModelLoader.setCustomModelResourceLocation(StationsItems.itemSlideDoor, 0, new ModelResourceLocation(StationsMod.MOD_ID + ":slide_door", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(StationsItems.itemVerticalNamePlate, 0, new ModelResourceLocation(StationsMod.MOD_ID + ":vertical_nameplate", "inventory"));
 
         //blocks
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(StationsItems.blockMaterial1), 0, new ModelResourceLocation(StationsMod.MOD_ID + ":whitebrick_platform", "inventory"));

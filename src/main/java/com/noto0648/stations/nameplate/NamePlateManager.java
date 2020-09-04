@@ -7,6 +7,7 @@ import com.noto0648.stations.common.ModLog;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.IResource;
@@ -43,6 +44,8 @@ public class NamePlateManager
 
     private List<String> textures;
     private Map<String, String> models;
+    private Map<String, TextureAtlasSprite> verticalNameplateTextures;
+    private List<String> verticalTextures;
 
     private int namePlateShader;
     private boolean initialized = false;
@@ -67,6 +70,7 @@ public class NamePlateManager
         NamePlateManager.INSTANCE.registerNamePlate(new NamePlateMeitetsu());
         NamePlateManager.INSTANCE.registerNamePlate(new NamePlateNagoyaSubway());
 
+        verticalNameplateTextures = new HashMap<>();
         scanJarMyself();
         sortNamePlates();
 
@@ -139,6 +143,14 @@ public class NamePlateManager
         {
             textureMap.registerSprite(new ResourceLocation(key));
         }
+
+        verticalNameplateTextures = new HashMap<>();
+        for(String key : verticalTextures)
+        {
+            verticalNameplateTextures.put(key, textureMap.registerSprite(new ResourceLocation(key)));
+            ModLog.getLog().info(key);
+        }
+        verticalTextures = null;
     }
 
     @SideOnly(Side.CLIENT)
@@ -224,6 +236,15 @@ public class NamePlateManager
                 final String resourceName = StationsMod.MOD_ID +":nameplates/" + f.getFileName().toString().replace(".png", "");
                 textures.add(resourceName);
                 //ModLog.getLog().info("Register Texture {}", resourceName);
+            });
+
+            verticalTextures = new ArrayList<>();
+            Files.walk(fs.getPath("/assets/" + StationsMod.MOD_ID + "/textures/vertical_nameplates"), 1).forEach(f ->
+            {
+                if(f == null || !f.toString().contains("png"))
+                    return;
+                final String resourceName = StationsMod.MOD_ID +":vertical_nameplates/" + f.getFileName().toString().replace(".png", "");
+                verticalTextures.add(resourceName);
             });
         }
         catch (Exception e)
@@ -382,5 +403,14 @@ public class NamePlateManager
     public int getNamePlateShader()
     {
         return namePlateShader;
+    }
+
+    public TextureAtlasSprite getVerticalTexture(String key)
+    {
+        final String newKey = StationsMod.MOD_ID + ":vertical_nameplates/" + key;
+        if(verticalNameplateTextures.containsKey(newKey))
+            return verticalNameplateTextures.get(newKey);
+
+        return verticalNameplateTextures.get(StationsMod.MOD_ID + ":vertical_nameplates/kokutetsu");
     }
 }
